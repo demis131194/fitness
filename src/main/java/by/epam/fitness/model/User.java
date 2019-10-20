@@ -7,12 +7,14 @@ public class User extends AbstractNamedEntity {
     private String lastName;
     private LocalDateTime dateTime;
     private UserRole userRole;
+    private boolean isActive;
 
     public User(Integer id, String name, String lastName, LocalDateTime dateTime, UserRole userRole) {
         super(id, name);
         this.lastName = lastName;
         this.dateTime = dateTime;
         this.userRole = userRole;
+        this.isActive = true;
     }
 
     public User(String name, String lastName, LocalDateTime dateTime, UserRole userRole) {
@@ -20,6 +22,7 @@ public class User extends AbstractNamedEntity {
         this.lastName = lastName;
         this.dateTime = dateTime;
         this.userRole = userRole;
+        this.isActive = true;
     }
 
     public String getLastName() {
@@ -44,5 +47,13 @@ public class User extends AbstractNamedEntity {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

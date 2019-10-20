@@ -10,8 +10,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User update(User user) {
-        return null;
+    public boolean update(User user) {
+        return false;
     }
 
     @Override

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface OrderDao {
     Order create(Order order);
-    Order update(Order order);
-    boolean delete(int id);
-    Order get(int id);
+    boolean update(Order order);
+    boolean delete(int orderId, int userId);
+    Order get(int orderId, int userId);
     List<Order> getAll(int userId);
 }

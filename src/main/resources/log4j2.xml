@@ -9,7 +9,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${pattern}"/>
         </Console>
-        <RollingFile name="rolling-file" fileName="${log-dir}/fitness.log" append="false"
+        <RollingFile name="rolling-file" fileName="${log-dir}/fitness.log" append="true"
                      filePattern="${log-dir}/log.%d{yyyy-MM-dd HH-mm-ss}.log" ignoreExceptions="false">
             <PatternLayout pattern="${pattern}"/>
             <Policies>
@@ -20,7 +20,7 @@
 
     </Appenders>
     <Loggers>
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="rolling-file"/>
         </Root>
