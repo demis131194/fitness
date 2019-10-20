@@ -15,17 +15,15 @@ public class Main {
 
     public static void main(String[] args) throws IOException, SQLException {
 
-        OrderDao orderDao = new OrderDaoImpl();
+        OrderDao orderDao = OrderDaoImpl.getInstance();
 //        Order order = new Order(1,
 //                LocalDate.of(2010, 10, 15),
 //                LocalDate.of(2010, 11, 15),
 //                250,
 //                "TEST-11111"
 //        );
-        List<Order> orders = orderDao.getAll(2);
-        Order order = orderDao.get(3, 1);
+        List<Order> orders = orderDao.getAll(1);
 
         System.out.println(orders);
-        System.out.println(order);
     }
 }

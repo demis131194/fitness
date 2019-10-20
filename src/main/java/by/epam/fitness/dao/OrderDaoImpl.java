@@ -9,6 +9,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class OrderDaoImpl implements OrderDao {
     private static Logger logger = LogManager.getLogger(OrderDaoImpl.class);
@@ -18,8 +20,27 @@ public class OrderDaoImpl implements OrderDao {
     private static final String GET_QUERY = "SELECT id, userId, startDate, endDate, price, pay, description FROM orders WHERE id = ? AND userId = ?";
     private static final String GET_ALL_QUERY = "SELECT id, userId, startDate, endDate, price, pay, description FROM orders WHERE userId = ?";
 
-    private ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static OrderDao orderDao;
+    private static Lock lock = new ReentrantLock();
+
+    private ConnectionPool connectionPool;
     private Connection connection;
+
+    private OrderDaoImpl() {
+        connectionPool = ConnectionPool.getInstance();
+    }
+
+    public static OrderDao getInstance() {
+        if (orderDao == null) {
+            lock.lock();
+            if (orderDao == null) {
+                orderDao = new OrderDaoImpl();
+                logger.debug("OrderDao created");
+            }
+            lock.unlock();
+        }
+        return orderDao;
+    }
 
     @Override
     public Order create(Order order) {

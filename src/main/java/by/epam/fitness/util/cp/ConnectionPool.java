@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -25,7 +26,7 @@ public class ConnectionPool {
         this.connections = new ArrayBlockingQueue<>(DEFAULT_NUMBER_OF_CONNECTION);
         Properties property = new Properties();
         try {
-            property.load(ConnectionPool.class.getClassLoader().getResourceAsStream("config/db.properties"));
+            property.load(ConnectionPool.class.getClassLoader().getResourceAsStream("config/db.properties"));         // FIXME: 20.10.2019 Create default property???
             Integer numberOfConnections = null;
             try {
                 numberOfConnections = Integer.parseInt(property.getProperty("number.of.connections"));
@@ -35,8 +36,11 @@ public class ConnectionPool {
                 logger.debug("Number of connections set default = {}", numberOfConnections);
             }
 
+            Driver driver = new com.mysql.cj.jdbc.Driver();
+            DriverManager.registerDriver(driver);
             for (int i = 0; i < numberOfConnections; i++) {
-                Connection connection = DriverManager.getConnection(property.getProperty("url"), property);
+//                Connection connection = DriverManager.getConnection(property.getProperty("url"), property);
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fitness?serverTimezone=UTC", "root", "root");
                 connections.offer(connection);
             }
 
