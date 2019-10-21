@@ -1,11 +1,11 @@
-package by.epam.fitness.util.cp;
+package by.epam.fitness.pool;
 
+import by.epam.fitness.util.PropertyLoader;
+import com.mysql.cj.jdbc.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -17,37 +17,35 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static final int DEFAULT_NUMBER_OF_CONNECTION = 5;
+    private static final String PROPERTY_PATH = "config/db.properties";
     private static Lock lock = new ReentrantLock();
     private static ConnectionPool INSTANCE;
 
-    private BlockingQueue<Connection> connections;
+    private BlockingQueue<ProxyConnection> connections;
 
     private ConnectionPool() {
         this.connections = new ArrayBlockingQueue<>(DEFAULT_NUMBER_OF_CONNECTION);
-        Properties property = new Properties();
+
         try {
-            property.load(ConnectionPool.class.getClassLoader().getResourceAsStream("config/db.properties"));         // FIXME: 20.10.2019 Create default property???
-            Integer numberOfConnections = null;
+            Properties property = PropertyLoader.loadProperty(PROPERTY_PATH);                   // FIXME: 21.10.2019 ss
+            Integer numberOfConnections;
             try {
                 numberOfConnections = Integer.parseInt(property.getProperty("number.of.connections"));
                 logger.debug("Number of connections in property = {}", numberOfConnections);
             } catch (NumberFormatException e) {
                 numberOfConnections = DEFAULT_NUMBER_OF_CONNECTION;
-                logger.debug("Number of connections set default = {}", numberOfConnections);
+                logger.debug("Incorrect number of connections, set default = {}", numberOfConnections);
             }
 
-            Driver driver = new com.mysql.cj.jdbc.Driver();
-            DriverManager.registerDriver(driver);
+            DriverManager.registerDriver(new Driver());
             for (int i = 0; i < numberOfConnections; i++) {
-//                Connection connection = DriverManager.getConnection(property.getProperty("url"), property);
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fitness?serverTimezone=UTC", "root", "root");
+                ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(property.getProperty("url"), property));
                 connections.offer(connection);
             }
 
-        } catch (IOException e) {
-            logger.error("Отсутствует вайл конфигурации базы данных", e);
-        } catch (SQLException e) {
-            logger.error("Неверный файл конфигурации.", e);
+        } catch (IOException | SQLException | NullPointerException e ) {
+            logger.error("Missing or incorrect db configuration file.", e);
+            throw new RuntimeException(e);
         }
 
     }
@@ -65,12 +63,17 @@ public class ConnectionPool {
         return INSTANCE;
     }
 
-
-    public Connection getConnection() throws InterruptedException {
-        return connections.take();
+    public ProxyConnection takeConnection() {
+        ProxyConnection connection = null;                          // FIXME: 21.10.2019 Fix
+        try {
+            connection = connections.take();
+        } catch (InterruptedException e) {
+            logger.warn("In ConnPoll takeConnection interrupted.");
+        }
+        return connection;
     }
 
-    public void closeConnection(Connection connection) {
+    public void releaseConnection(ProxyConnection connection) {
         connections.offer(connection);
     }
 }

@@ -17,4 +17,14 @@
         <url-pattern>/orders</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>controller</servlet-name>
+        <servlet-class>by.epam.fitness.controller.Controller</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
+
 </web-app>

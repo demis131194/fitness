@@ -7,5 +7,5 @@ public interface UserDao {
     User create(User user);
     boolean update(User user);
     boolean delete(int id);
-    User get(int id);
+    User findByNameAndLastName(String name, String lastName);
 }

@@ -1,5 +1,6 @@
 package by.epam.fitness.controller;
 
+import by.epam.fitness.constants.PagePaths;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.service.OrderService;
 import by.epam.fitness.service.OrderServiceImpl;
@@ -10,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 public class OrderServlet extends HttpServlet {
@@ -27,7 +26,7 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Order> orders = orderService.getAll(userId);
+        List<Order> orders = orderService.findAll(userId);
 //        List<Order> orders = Arrays.asList(
 //                new Order(1, 1, LocalDate.of(2001, 10, 15), LocalDate.of(2001, 11, 15), 200, "Text-1"),
 //                new Order(2, 1, LocalDate.of(2001, 11, 15), LocalDate.of(2001, 12, 15), 200, "Text-2")
@@ -35,7 +34,7 @@ public class OrderServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         req.setAttribute("orders", orders);
-        req.getRequestDispatcher("/orders.jsp").forward(req, resp);
+        req.getRequestDispatcher(PagePaths.ORDERS_PATH).forward(req, resp);
     }
 
     @Override

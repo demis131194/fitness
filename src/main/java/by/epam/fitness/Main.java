@@ -22,7 +22,7 @@ public class Main {
 //                250,
 //                "TEST-11111"
 //        );
-        List<Order> orders = orderDao.getAll(1);
+        List<Order> orders = orderDao.findAll(1);
 
         System.out.println(orders);
     }

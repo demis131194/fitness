@@ -8,6 +8,6 @@ public interface OrderDao {
     Order create(Order order);
     boolean update(Order order);
     boolean delete(int orderId, int userId);
-    Order get(int orderId, int userId);
-    List<Order> getAll(int userId);
+    Order find(int orderId, int userId);
+    List<Order> findAll(int userId);
 }

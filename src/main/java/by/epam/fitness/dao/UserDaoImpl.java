@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User get(int id) {
+    public User findByNameAndLastName(String name, String lastName) {
         return null;
     }
 }

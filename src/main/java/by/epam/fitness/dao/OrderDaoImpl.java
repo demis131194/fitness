@@ -1,7 +1,8 @@
 package by.epam.fitness.dao;
 
 import by.epam.fitness.model.Order;
-import by.epam.fitness.util.cp.ConnectionPool;
+import by.epam.fitness.pool.ConnectionPool;
+import by.epam.fitness.pool.ProxyConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,8 +10,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class OrderDaoImpl implements OrderDao {
     private static Logger logger = LogManager.getLogger(OrderDaoImpl.class);
@@ -21,23 +20,11 @@ public class OrderDaoImpl implements OrderDao {
     private static final String GET_ALL_QUERY = "SELECT id, userId, startDate, endDate, price, pay, description FROM orders WHERE userId = ?";
 
     private static OrderDao orderDao;
-    private static Lock lock = new ReentrantLock();
-
-    private ConnectionPool connectionPool;
-    private Connection connection;
-
-    private OrderDaoImpl() {
-        connectionPool = ConnectionPool.getInstance();
-    }
 
     public static OrderDao getInstance() {
         if (orderDao == null) {
-            lock.lock();
-            if (orderDao == null) {
-                orderDao = new OrderDaoImpl();
-                logger.debug("OrderDao created");
-            }
-            lock.unlock();
+            orderDao = new OrderDaoImpl();
+            logger.debug("OrderDao created");
         }
         return orderDao;
     }
@@ -45,8 +32,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order create(Order order) {
         Order createdOrder = null;
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
-            connection = connectionPool.getConnection();
             try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
                 connection.setAutoCommit(false);
                 statement.setInt(1, order.getUserId());
@@ -71,10 +58,8 @@ public class OrderDaoImpl implements OrderDao {
             } catch (SQLException e) {
                 logger.warn(e);
             }
-        } catch (InterruptedException e) {
-            logger.warn(e);
         } finally {
-            connectionPool.closeConnection(connection);
+            connection.release();
         }
         return createdOrder;
     }
@@ -82,8 +67,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean update(Order order) {
         boolean isUpdated = false;
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
-            connection = connectionPool.getConnection();
             try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
                 statement.setInt(1, order.getUserId());
                 statement.setDate(2, Date.valueOf(order.getStartDate()));
@@ -99,10 +84,8 @@ public class OrderDaoImpl implements OrderDao {
             } catch (SQLException e) {
                 logger.warn(e);
             }
-        } catch (InterruptedException e) {
-            logger.warn(e);
         } finally {
-            connectionPool.closeConnection(connection);
+            connection.release();
         }
         return isUpdated;
     }
@@ -110,8 +93,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean delete(int orderId, int userId) {
         boolean isDeleted = false;
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
-            connection = connectionPool.getConnection();
             try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
                 statement.setInt(1, orderId);
                 statement.setInt(2, userId);
@@ -126,19 +109,17 @@ public class OrderDaoImpl implements OrderDao {
             } catch (SQLException e) {
                 logger.warn(e);
             }
-        } catch (InterruptedException e) {
-            logger.warn(e);
         } finally {
-            connectionPool.closeConnection(connection);
+            connection.release();
         }
         return isDeleted;
     }
 
     @Override
-    public Order get(int orderId, int userId) {
+    public Order find(int orderId, int userId) {
         Order order = null;
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
-            connection = connectionPool.getConnection();
             try (PreparedStatement statement = connection.prepareStatement(GET_QUERY)) {
                 statement.setInt(1, orderId);
                 statement.setInt(2, userId);
@@ -158,19 +139,17 @@ public class OrderDaoImpl implements OrderDao {
             } catch (SQLException e) {
                 logger.warn(e);
             }
-        } catch (InterruptedException e) {
-            logger.warn(e);
         } finally {
-            connectionPool.closeConnection(connection);
+            connection.release();
         }
         return order;
     }
 
     @Override
-    public List<Order> getAll(int userId) {
+    public List<Order> findAll(int userId) {
         List<Order> orders = new ArrayList<>();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
-            connection = connectionPool.getConnection();
             try (PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY)) {
                 statement.setInt(1, userId);
 
@@ -191,10 +170,8 @@ public class OrderDaoImpl implements OrderDao {
             } catch (SQLException e) {
                 logger.warn(e);
             }
-        } catch (InterruptedException e) {
-            logger.warn(e);
         } finally {
-            connectionPool.closeConnection(connection);
+            connection.release();
         }
         return orders;
     }
