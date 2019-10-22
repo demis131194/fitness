@@ -29,12 +29,12 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
-        Command command = CommandOperations.valueOf(request.getParameter("command").toUpperCase()).getCommand();
-        try {
-            command.execute(request);
-        } catch (CommandException e) {
-            e.printStackTrace();
-        }
+//        Command command = CommandOperations.valueOf(request.getParameter("command").toUpperCase()).getCommand();
+//        try {
+//            command.execute(request);
+//        } catch (CommandException e) {
+//            e.printStackTrace();
+//        }
 
     }
 

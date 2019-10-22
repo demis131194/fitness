@@ -1,5 +1,6 @@
 package by.epam.fitness.dao;
 
+import by.epam.fitness.constants.TableColumn;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.User;
 import by.epam.fitness.model.UserRole;
@@ -200,13 +201,13 @@ public class UserDaoImpl implements UserDao {
 
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
         User user;
-        int id = resultSet.getInt("id");
-        String login = resultSet.getString("login");
-        String name = resultSet.getString("name");
-        String lastName = resultSet.getString("lastName");
-        LocalDate registerDate = resultSet.getDate("registerDate").toLocalDate();
-        LocalTime registerTime = resultSet.getTime("registerTime").toLocalTime();
-        UserRole role = UserRole.valueOf(resultSet.getString("role").toUpperCase());
+        int id = resultSet.getInt(TableColumn.USERS_ID);
+        String login = resultSet.getString(TableColumn.USERS_LOGIN);
+        String name = resultSet.getString(TableColumn.USERS_NAME);
+        String lastName = resultSet.getString(TableColumn.USERS_LAST_NAME);
+        LocalDate registerDate = resultSet.getDate(TableColumn.USERS_REGISTER_DATE).toLocalDate();
+        LocalTime registerTime = resultSet.getTime(TableColumn.USERS_REGISTER_TIME).toLocalTime();
+        UserRole role = UserRole.valueOf(resultSet.getString(TableColumn.USERS_ROLE).toUpperCase());
         user = new User(id, name, lastName, login, "********", LocalDateTime.of(registerDate, registerTime), role);    // FIXME: 22.10.2019 Password ??
         return user;
     }

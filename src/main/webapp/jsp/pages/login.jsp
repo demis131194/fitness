@@ -4,7 +4,9 @@
     <title>Login</title>
 </head>
 <body>
-<form name="loginForm" method="POST" action="${pageContext.request.contextPath}/controller">
+<h2><a href="${pageContext.request.contextPath}">HOME</a></h2>
+<hr/>
+<form name="loginForm" method="POST" action="${pageContext.request.contextPath}/test">
     <input type="hidden" name="command" value="login"/>
     Login:
     <br/>

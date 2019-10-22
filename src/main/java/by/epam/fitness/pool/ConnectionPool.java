@@ -26,8 +26,6 @@ public class ConnectionPool {
     private BlockingQueue<ProxyConnection> connections;
 
     private ConnectionPool() {
-        this.connections = new ArrayBlockingQueue<>(DEFAULT_NUMBER_OF_CONNECTION);
-
         try {
             Properties property = PropertyLoader.loadProperty(PROPERTY_PATH);                   // FIXME: 21.10.2019 ss
             try {
@@ -37,6 +35,8 @@ public class ConnectionPool {
                 numberOfConnections = DEFAULT_NUMBER_OF_CONNECTION;
                 logger.debug("Incorrect number of connections, set default = {}", numberOfConnections);
             }
+
+            this.connections = new ArrayBlockingQueue<>(numberOfConnections);
 
             DriverManager.registerDriver(new Driver());
             for (int i = 0; i < numberOfConnections; i++) {
