@@ -11,6 +11,7 @@ import by.epam.fitness.service.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginCommand implements Command {
@@ -19,7 +20,12 @@ public class LoginCommand implements Command {
     private static final String PARAM_NAME_LOGIN = "Login";
     private static final String PARAM_NAME_PASSWORD = "Password";
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("err");
+    private static final ResourceBundle bundle;
+
+    static {
+        Locale.setDefault(Locale.US);                           // FIXME: 22.10.2019 change locale after
+        bundle = ResourceBundle.getBundle("err");
+    }
 
     private UserService userService = UserServiceImpl.getInstance();
 
