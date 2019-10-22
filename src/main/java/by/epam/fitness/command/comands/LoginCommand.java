@@ -11,11 +11,15 @@ import by.epam.fitness.service.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ResourceBundle;
+
 public class LoginCommand implements Command {
     private static Logger logger = LogManager.getLogger(LoginCommand.class);
 
     private static final String PARAM_NAME_LOGIN = "Login";
     private static final String PARAM_NAME_PASSWORD = "Password";
+
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("err");
 
     private UserService userService = UserServiceImpl.getInstance();
 
@@ -34,7 +38,7 @@ public class LoginCommand implements Command {
                 requestContent.putSessionAttribute("user", user);
                 page = PagePaths.WELCOME_PATH;
             } else {
-                requestContent.putAttribute("errorLoginPassMessage", "Wrong login or password!");
+                requestContent.putAttribute("errorLoginPassMessage", bundle.getString("wrong.login.or.pass"));
                 page = PagePaths.LOGIN_PATH;
             }
 

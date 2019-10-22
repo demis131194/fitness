@@ -52,6 +52,8 @@ public class TestController extends HttpServlet {
 //            req.getSession(false).invalidate();
 //        }
 
+        content.putSessionAttribute("locale", "ru_RU");
+
         content.insertAttributes(req);
 
         req.getRequestDispatcher(page).forward(req, resp);
