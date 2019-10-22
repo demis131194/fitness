@@ -26,7 +26,12 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Order> orders = orderService.findAll(userId);
+        List<Order> orders = null;
+        try {
+            orders = orderService.findAll(userId);
+        } catch (by.epam.fitness.exception.ServiceException e) {
+            e.printStackTrace();
+        }
 //        List<Order> orders = Arrays.asList(
 //                new Order(1, 1, LocalDate.of(2001, 10, 15), LocalDate.of(2001, 11, 15), 200, "Text-1"),
 //                new Order(2, 1, LocalDate.of(2001, 11, 15), LocalDate.of(2001, 12, 15), 200, "Text-2")

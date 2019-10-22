@@ -21,6 +21,8 @@ public class ConnectionPool {
     private static Lock lock = new ReentrantLock();
     private static ConnectionPool INSTANCE;
 
+    private int numberOfConnections;
+
     private BlockingQueue<ProxyConnection> connections;
 
     private ConnectionPool() {
@@ -28,7 +30,6 @@ public class ConnectionPool {
 
         try {
             Properties property = PropertyLoader.loadProperty(PROPERTY_PATH);                   // FIXME: 21.10.2019 ss
-            Integer numberOfConnections;
             try {
                 numberOfConnections = Integer.parseInt(property.getProperty("number.of.connections"));
                 logger.debug("Number of connections in property = {}", numberOfConnections);
@@ -55,7 +56,7 @@ public class ConnectionPool {
             if (lock.tryLock()) {
                 if (INSTANCE == null) {
                     INSTANCE = new ConnectionPool();
-                    logger.info("Connection pool created, number of connections - {}", DEFAULT_NUMBER_OF_CONNECTION);
+                    logger.debug("Connection pool created, number of connections - {}", INSTANCE.numberOfConnections);
                 }
                 lock.unlock();
             }

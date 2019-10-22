@@ -1,13 +1,14 @@
 package by.epam.fitness.dao;
 
+import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.Order;
 
 import java.util.List;
 
 public interface OrderDao {
-    Order create(Order order);
-    boolean update(Order order);
-    boolean delete(int orderId, int userId);
-    Order find(int orderId, int userId);
-    List<Order> findAll(int userId);
+    Order create(Order order) throws DaoException;
+    boolean update(Order order) throws DaoException;
+    boolean delete(int orderId, int userId) throws DaoException;
+    Order find(int orderId, int userId) throws DaoException;
+    List<Order> findAll(int userId) throws DaoException;
 }

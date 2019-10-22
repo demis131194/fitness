@@ -1,5 +1,6 @@
 package by.epam.fitness.dao;
 
+import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.pool.ConnectionPool;
 import by.epam.fitness.pool.ProxyConnection;
@@ -16,8 +17,8 @@ public class OrderDaoImpl implements OrderDao {
     private static final String INSERT_QUERY = "INSERT INTO orders (userId, startDate, endDate, price, description) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE orders SET userId = ?, startDate = ?, endDate = ?, price = ?, description = ?, pay = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM orders WHERE id = ? AND userId = ?";
-    private static final String GET_QUERY = "SELECT id, userId, startDate, endDate, price, pay, description FROM orders WHERE id = ? AND userId = ?";
-    private static final String GET_ALL_QUERY = "SELECT id, userId, startDate, endDate, price, pay, description FROM orders WHERE userId = ?";
+    private static final String FIND_QUERY = "SELECT id, userId, startDate, endDate, price, pay, description FROM orders WHERE id = ? AND userId = ?";
+    private static final String FIND_ALL_QUERY = "SELECT id, userId, startDate, endDate, price, pay, description FROM orders WHERE userId = ?";
 
     private static OrderDao orderDao;
 
@@ -30,8 +31,8 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order create(Order order) {
-        Order createdOrder = null;
+    public Order create(Order order) throws DaoException {
+        Order createdOrder;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
             try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
@@ -53,20 +54,20 @@ public class OrderDaoImpl implements OrderDao {
                 connection.commit();
                 connection.setAutoCommit(true);
                 createdOrder = order;
-                logger.debug("Создан order = {}", order);
+                logger.debug("Order created = {}", order);
 
-            } catch (SQLException e) {
-                logger.warn(e);
+            } finally {
+                connection.release();
             }
-        } finally {
-            connection.release();
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
         return createdOrder;
     }
 
     @Override
-    public boolean update(Order order) {
-        boolean isUpdated = false;
+    public boolean update(Order order) throws DaoException {
+        boolean isUpdated;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
             try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
@@ -79,20 +80,20 @@ public class OrderDaoImpl implements OrderDao {
                 statement.setInt(7, order.getId());
 
                 isUpdated = statement.execute();
-                logger.debug("Обнавлен order, новый - {}", order);
+                logger.debug("Order updated, new order - {}", order);
 
-            } catch (SQLException e) {
-                logger.warn(e);
+            } finally {
+                connection.release();
             }
-        } finally {
-            connection.release();
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
         return isUpdated;
     }
 
     @Override
-    public boolean delete(int orderId, int userId) {
-        boolean isDeleted = false;
+    public boolean delete(int orderId, int userId) throws DaoException {
+        boolean isDeleted;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
             try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
@@ -101,26 +102,26 @@ public class OrderDaoImpl implements OrderDao {
                 isDeleted = statement.execute();
 
                 if (isDeleted) {
-                    logger.debug("Удален order, id - {}", orderId);
+                    logger.debug("Order deleted, id - {}", orderId);
                 } else {
-                    logger.debug(" НЕ удален order, id - {}", orderId);
+                    logger.debug("Unsuccessful order delete, id - {}", orderId);
                 }
 
-            } catch (SQLException e) {
-                logger.warn(e);
+            } finally {
+                connection.release();
             }
-        } finally {
-            connection.release();
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
         return isDeleted;
     }
 
     @Override
-    public Order find(int orderId, int userId) {
+    public Order find(int orderId, int userId) throws DaoException {
         Order order = null;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
-            try (PreparedStatement statement = connection.prepareStatement(GET_QUERY)) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_QUERY)) {
                 statement.setInt(1, orderId);
                 statement.setInt(2, userId);
 
@@ -133,24 +134,24 @@ public class OrderDaoImpl implements OrderDao {
                     boolean isPayed = resultSet.getBoolean("pay");
                     String description = resultSet.getString("description");
                     order = new Order(orderId, userId, startDate, endDate, price, isPayed, description);
-                    logger.debug("Get order - {}", order);
+                    logger.debug("Find order - {}", order);
                 }
 
-            } catch (SQLException e) {
-                logger.warn(e);
+            } finally {
+                connection.release();
             }
-        } finally {
-            connection.release();
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
         return order;
     }
 
     @Override
-    public List<Order> findAll(int userId) {
+    public List<Order> findAll(int userId) throws DaoException {
         List<Order> orders = new ArrayList<>();
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try {
-            try (PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY)) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
                 statement.setInt(1, userId);
 
                 ResultSet resultSet = statement.executeQuery();
@@ -165,13 +166,12 @@ public class OrderDaoImpl implements OrderDao {
                     Order order = new Order(id, userId, startDate, endDate, price, isPayed, description);
                     orders.add(order);
                 }
-
-                logger.debug("GetAll orders, userId = {} - {}", userId, orders);
-            } catch (SQLException e) {
-                logger.warn(e);
+                logger.debug("FindAll orders, userId = {} - {}", userId, orders);
+            } finally {
+                connection.release();
             }
-        } finally {
-            connection.release();
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
         return orders;
     }

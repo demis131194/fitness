@@ -1,29 +1,29 @@
 package by.epam.fitness;
 
-import by.epam.fitness.dao.OrderDao;
-import by.epam.fitness.dao.OrderDaoImpl;
-import by.epam.fitness.model.Order;
+import by.epam.fitness.dao.UserDao;
+import by.epam.fitness.dao.UserDaoImpl;
+import by.epam.fitness.exception.DaoException;
+import by.epam.fitness.exception.ServiceException;
+import by.epam.fitness.model.User;
+import by.epam.fitness.model.UserRole;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Main {
     private static Logger logger = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws DaoException, ServiceException {
 
-        OrderDao orderDao = OrderDaoImpl.getInstance();
-//        Order order = new Order(1,
-//                LocalDate.of(2010, 10, 15),
-//                LocalDate.of(2010, 11, 15),
-//                250,
-//                "TEST-11111"
-//        );
-        List<Order> orders = orderDao.findAll(1);
+        UserDao userDao = UserDaoImpl.getInstance();
 
-        System.out.println(orders);
+        User user = userDao.findByLogin("vova");
+        System.out.println(user);
+        System.out.println("--------");
+        User user1 = userDao.findByLoginAndPassword("vova", "vova");
+        System.out.println(user1);
+
     }
 }

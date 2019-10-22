@@ -7,26 +7,26 @@ public class User extends AbstractNamedEntity {
     private String login;
     private String password;
     private String lastName;
-    private LocalDateTime dateTime;
+    private LocalDateTime registerDateTime;
     private UserRole userRole;
     private boolean isActive;
 
-    public User(Integer id, String name, String login, String password, String lastName, LocalDateTime dateTime, UserRole userRole) {
+    public User(Integer id, String name, String lastName, String login, String password, LocalDateTime registerDateTime, UserRole userRole) {
         super(id, name);
+        this.lastName = lastName;
         this.login = login;
         this.password = password;
-        this.lastName = lastName;
-        this.dateTime = dateTime;
+        this.registerDateTime = registerDateTime;
         this.userRole = userRole;
         this.isActive = true;
     }
 
-    public User(String name, String login, String password, String lastName, LocalDateTime dateTime, UserRole userRole) {
+    public User(String login, String password, String name, String lastName, LocalDateTime registerDateTime, UserRole userRole) {
         super(null, name);
         this.login = login;
         this.password = password;
         this.lastName = lastName;
-        this.dateTime = dateTime;
+        this.registerDateTime = registerDateTime;
         this.userRole = userRole;
         this.isActive = true;
     }
@@ -55,12 +55,12 @@ public class User extends AbstractNamedEntity {
         this.lastName = lastName;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getRegisterDateTime() {
+        return registerDateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setRegisterDateTime(LocalDateTime registerDateTime) {
+        this.registerDateTime = registerDateTime;
     }
 
     public UserRole getUserRole() {
@@ -77,5 +77,20 @@ public class User extends AbstractNamedEntity {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("login='").append(login).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", registerDateTime=").append(registerDateTime);
+        sb.append(", userRole=").append(userRole);
+        sb.append(", isActive=").append(isActive);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", id=").append(id);
+        sb.append('}');
+        return sb.toString();
     }
 }
