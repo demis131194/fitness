@@ -1,10 +1,11 @@
-package by.epam.fitness.service;
+package by.epam.fitness.service.impl;
 
 import by.epam.fitness.dao.OrderDao;
-import by.epam.fitness.dao.OrderDaoImpl;
+import by.epam.fitness.dao.impl.OrderDaoImpl;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Order;
+import by.epam.fitness.service.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

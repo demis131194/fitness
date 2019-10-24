@@ -11,6 +11,9 @@ public class User extends AbstractNamedEntity {
     private UserRole userRole;
     private boolean isActive;
 
+    public User() {
+    }
+
     public User(Integer id, String name, String lastName, String login, String password, LocalDateTime registerDateTime, UserRole userRole) {
         super(id, name);
         this.lastName = lastName;

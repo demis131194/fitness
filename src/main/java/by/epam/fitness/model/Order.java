@@ -21,6 +21,9 @@ public class Order extends AbstractBaseEntity {
         this.description = description;
     }
 
+    public Order() {
+    }
+
     public Order(Integer id, int userId, LocalDate startDate, LocalDate endDate, int price, String description) {
         this(id, userId, startDate, endDate, price, false, description);
     }

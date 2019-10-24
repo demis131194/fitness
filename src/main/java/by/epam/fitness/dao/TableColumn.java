@@ -1,4 +1,4 @@
-package by.epam.fitness.constants;
+package by.epam.fitness.dao;
 
 public class TableColumn {
     public static final String USERS_ID = "id";

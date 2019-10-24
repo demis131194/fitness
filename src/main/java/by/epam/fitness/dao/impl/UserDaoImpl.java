@@ -1,6 +1,7 @@
-package by.epam.fitness.dao;
+package by.epam.fitness.dao.impl;
 
-import by.epam.fitness.constants.TableColumn;
+import by.epam.fitness.dao.TableColumn;
+import by.epam.fitness.dao.UserDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.User;
 import by.epam.fitness.model.UserRole;
@@ -11,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,32 +40,30 @@ public class UserDaoImpl implements UserDao {
     public User create(User user) throws DaoException {
         User createdUser;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
-        try {
-            try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-                statement.setString(1, user.getLogin());
-                statement.setString(2, user.getPassword());
-                statement.setString(3, user.getName());
-                statement.setString(4, user.getLastName());
-                statement.setDate(5, Date.valueOf(user.getRegisterDateTime().toLocalDate()));
-                statement.setTime(6, Time.valueOf(user.getRegisterDateTime().toLocalTime()));
-                statement.setString(7, user.getUserRole().name());
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getName());
+            statement.setString(4, user.getLastName());
+            statement.setDate(5, Date.valueOf(user.getRegisterDateTime().toLocalDate()));
+            statement.setTime(6, Time.valueOf(user.getRegisterDateTime().toLocalTime()));
+            statement.setString(7, user.getUserRole().name());
 
-                statement.execute();
+            statement.execute();
 
-                ResultSet resultSet = statement.getGeneratedKeys();
-                if (resultSet.next()) {
-                    int orderId = resultSet.getInt(1);
-                    user.setId(orderId);
-                }
-
-                createdUser = user;
-                logger.debug("User created - {}", user);
-
-            } finally {
-                connection.release();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                int orderId = resultSet.getInt(1);
+                user.setId(orderId);
             }
+
+            createdUser = user;
+            logger.debug("User created - {}", user);
+
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            connection.release();
         }
         return createdUser;
     }
@@ -74,24 +72,22 @@ public class UserDaoImpl implements UserDao {
     public boolean update(User user) throws DaoException {
         boolean isUpdated;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
-        try {
-            try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-                statement.setString(1, user.getLogin());
-                statement.setString(2, user.getPassword());
-                statement.setString(3, user.getName());
-                statement.setString(4, user.getLastName());
-                statement.setString(5, user.getUserRole().name());
-                statement.setInt(6, user.getId());
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getName());
+            statement.setString(4, user.getLastName());
+            statement.setString(5, user.getUserRole().name());
+            statement.setInt(6, user.getId());
 
-                isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == 1;
 
-                logger.debug("User updated, login - {}", user.getLogin());
+            logger.debug("User updated, login - {}", user.getLogin());
 
-            } finally {
-                connection.release();
-            }
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            connection.release();
         }
         return isUpdated;
     }
@@ -100,19 +96,17 @@ public class UserDaoImpl implements UserDao {
     public boolean delete(int id) throws DaoException {
         boolean isDeleted;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
-        try {
-            try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
-                statement.setInt(1, id);
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
+            statement.setInt(1, id);
 
-                isDeleted = statement.executeUpdate() == 1;
+            isDeleted = statement.executeUpdate() == 1;
 
-                logger.debug("User deleted, id - {}", id);
+            logger.debug("User deleted, id - {}", id);
 
-            } finally {
-                connection.release();
-            }
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            connection.release();
         }
         return isDeleted;
     }
@@ -133,21 +127,19 @@ public class UserDaoImpl implements UserDao {
     public User findByLogin(String userLogin) throws DaoException {
         User user = null;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
-        try {
-            try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_QUERY)) {
-                statement.setString(1, userLogin);
-                ResultSet resultSet = statement.executeQuery();
+        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_QUERY)) {
+            statement.setString(1, userLogin);
+            ResultSet resultSet = statement.executeQuery();
 
-                if (resultSet.first()) {
-                    user = getUserFromResultSet(resultSet);
-                }
-
-                logger.debug("FindByLogin, user - {}", user);
-            } finally {
-                connection.release();
+            if (resultSet.first()) {
+                user = getUserFromResultSet(resultSet);
             }
+
+            logger.debug("FindByLogin, user - {}", user);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            connection.release();
         }
         return user;
     }
@@ -156,23 +148,21 @@ public class UserDaoImpl implements UserDao {
     public User findByLoginAndPassword(String userLogin, String userPassword) throws DaoException {
         User user = null;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
-        try {
-            try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_AND_PASSWORD_QUERY)) {
-                statement.setString(1, userLogin);
-                statement.setString(2, userPassword);
+        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_AND_PASSWORD_QUERY)) {
+            statement.setString(1, userLogin);
+            statement.setString(2, userPassword);
 
-                ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
-                if (resultSet.first()) {
-                    user = getUserFromResultSet(resultSet);
-                }
-
-                logger.debug("FindByLogin, user - {}", user);
-            } finally {
-                connection.release();
+            if (resultSet.first()) {
+                user = getUserFromResultSet(resultSet);
             }
+
+            logger.debug("FindByLogin, user - {}", user);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            connection.release();
         }
         return user;
     }
@@ -180,35 +170,33 @@ public class UserDaoImpl implements UserDao {
     private List<User> findAllUsers(String query) throws DaoException {
         List<User> users = new ArrayList<>();
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
-        try {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
 
-                ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
-                while (resultSet.next()) {
-                    User user = getUserFromResultSet(resultSet);
-                    users.add(user);
-                }
-                logger.debug("FindAll users - {}", users);
-            } finally {
-                connection.release();
+            while (resultSet.next()) {
+                User user = getUserFromResultSet(resultSet);
+                users.add(user);
             }
+            logger.debug("FindAll users - {}", users);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            connection.release();
         }
         return users;
     }
 
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
-        User user;
-        int id = resultSet.getInt(TableColumn.USERS_ID);
-        String login = resultSet.getString(TableColumn.USERS_LOGIN);
-        String name = resultSet.getString(TableColumn.USERS_NAME);
-        String lastName = resultSet.getString(TableColumn.USERS_LAST_NAME);
+        User user = new User();
+        user.setId(resultSet.getInt(TableColumn.USERS_ID));
+        user.setLogin(resultSet.getString(TableColumn.USERS_LOGIN));
+        user.setName(resultSet.getString(TableColumn.USERS_NAME));
+        user.setLastName(resultSet.getString(TableColumn.USERS_LAST_NAME));
         LocalDate registerDate = resultSet.getDate(TableColumn.USERS_REGISTER_DATE).toLocalDate();
         LocalTime registerTime = resultSet.getTime(TableColumn.USERS_REGISTER_TIME).toLocalTime();
         UserRole role = UserRole.valueOf(resultSet.getString(TableColumn.USERS_ROLE).toUpperCase());
-        user = new User(id, name, lastName, login, "********", LocalDateTime.of(registerDate, registerTime), role);    // FIXME: 22.10.2019 Password ??
+//        user = new User(id, name, lastName, login, "********", LocalDateTime.of(registerDate, registerTime), role);    // FIXME: 22.10.2019 Password ??
         return user;
     }
 

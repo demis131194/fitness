@@ -1,14 +1,14 @@
-package by.epam.fitness.command.comands;
+package by.epam.fitness.command.impl;
 
 import by.epam.fitness.command.Command;
-import by.epam.fitness.constants.PagePaths;
+import by.epam.fitness.controller.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.model.User;
 import by.epam.fitness.service.OrderService;
-import by.epam.fitness.service.OrderServiceImpl;
+import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +35,6 @@ public class FindAllOrdersCommand implements Command {
             throw new CommandException(e);
         }
 
-        return PagePaths.ORDERS_PATH;
+        return PagePath.ORDERS_PATH;
     }
 }

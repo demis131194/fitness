@@ -3,7 +3,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <fmt:setLocale value="${sessionScope.get('locale')}"/>
-<fmt:setBundle basename="message" var="rb"/>
+<fmt:setBundle basename="bundle/message" var="rb"/>
+<fmt:setBundle basename="bundle/err" var="err_rb"/>
 <html>
 <head>
     <title><fmt:message key="login.title.login" bundle="${rb}"/></title>
@@ -23,7 +24,7 @@
     <br/>
     <input type="password" name="Password" value=""/>
     <br/>
-    ${errorLoginPassMessage}
+    <c:if test="${requestScope.wrongPassOrLogin}"><fmt:message key="wrong.login.or.pass" bundle="${err_rb}"/></c:if>
     <br/>
     ${wrongAction}
     <br/>

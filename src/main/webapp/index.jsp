@@ -3,7 +3,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <fmt:setLocale value="${sessionScope.get('locale')}"/>
-<fmt:setBundle basename="message" var="rb"/>
+<fmt:setBundle basename="bundle/message" var="rb"/>
 <c:set var="user" value="${sessionScope.get('user')}"/>
 
 <html>
@@ -21,7 +21,7 @@
     </c:if>
     <li><a href="test?command=Find_All_Orders"><fmt:message key="index.orders" bundle="${rb}"/></a></li>
     <c:if test="${user!=null}" >
-        <li><a href="${pageContext.request.contextPath}/test?command=Logout"><fmt:message key="index.logout" bundle="${rb}"/></a></li>
+        <li><a href="test?command=Logout"><fmt:message key="index.logout" bundle="${rb}"/></a></li>
     </c:if>
 </ul>
 </body>

@@ -1,7 +1,7 @@
-package by.epam.fitness.command.comands;
+package by.epam.fitness.command.impl;
 
 import by.epam.fitness.command.Command;
-import by.epam.fitness.constants.PagePaths;
+import by.epam.fitness.controller.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 
@@ -9,9 +9,8 @@ public class LogoutCommand implements Command {
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {
 
-        requestContent.putSessionAttribute("user", null);
-        requestContent.putSessionAttribute("role", null);
+        requestContent.invalidateSession();
 
-        return PagePaths.INDEX_PATH;
+        return PagePath.INDEX_PATH;
     }
 }

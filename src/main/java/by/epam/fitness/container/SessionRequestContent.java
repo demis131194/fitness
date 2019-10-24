@@ -9,17 +9,15 @@ import java.util.Objects;
 
 public class SessionRequestContent {
     private HashMap<String, Object> requestAttributes = new HashMap<>();
-//    private HashMap<String, String[]> requestParameters;                              // FIXME: 22.10.2019 ???????????????????????
-    private HashMap<String, String> requestParameters = new HashMap<>();
+    private HashMap<String, String[]> requestParameters;
     private HashMap<String, Object> sessionAttributes = new HashMap<>();
+    private boolean invalidateSession;
 
     public SessionRequestContent(HttpServletRequest request) {
         Enumeration<String> attributeNames = request.getAttributeNames();
         Collections.list(attributeNames).forEach(attr -> requestAttributes.put(attr, request.getAttribute(attr)));
-//        requestParameters = new HashMap<>(request.getParameterMap());
-//        requestAttributes.putAll(request.getParameterMap());                            // FIXME: 22.10.2019 putAll
-        Enumeration<String> parameterNames = request.getParameterNames();
-        Collections.list(parameterNames).forEach(param -> requestParameters.put(param, request.getParameter(param)));
+
+        requestParameters = new HashMap<>(request.getParameterMap());                   // FIXME: 22.10.2019 putAll??
 
         HttpSession session = request.getSession(false);
         if (Objects.nonNull(session)) {
@@ -28,10 +26,6 @@ public class SessionRequestContent {
         }
     }
 
-//    public void extractValues(HttpServletRequest request) {
-//
-//    }
-
     public void insertAttributes(HttpServletRequest request) {                          // FIXME: 22.10.2019 SetParameters ???
         requestAttributes.forEach(request::setAttribute);
 
@@ -39,9 +33,13 @@ public class SessionRequestContent {
         if (Objects.nonNull(session)) {
             sessionAttributes.forEach(session::setAttribute);
         }
+
+        if (invalidateSession) {
+            request.getSession().invalidate();
+        }
     }
 
-    public Object geAttributeByName(String attributeName) {
+    public Object getAttributeByName(String attributeName) {
         return requestAttributes.get(attributeName);
     }
 
@@ -49,16 +47,13 @@ public class SessionRequestContent {
         return requestAttributes.put(attributeName, object);
     }
 
-//    public String[] getRequestParametersByName(String parameterName) {                          // FIXME: 22.10.2019 need setter  ???
-//        return requestParameters.get(parameterName);
-//    }
-
-    public String getParameterByName(String parameterName) {
+    public String[] getRequestParametersByName(String parameterName) {                          // FIXME: 22.10.2019 need setter  ???
         return requestParameters.get(parameterName);
     }
 
-    public String putParameter(String parameterName, String parameterValue) {
-        return requestParameters.put(parameterName, parameterValue);
+    public String getParameterByName(String parameterName) {
+        String[] parameters = requestParameters.get(parameterName);
+        return parameters.length != 0 ? parameters[0] : null;                   // FIXME: 24.10.2019 null ???
     }
 
     public Object getSessionAttributeByName(String sessionAttributeName) {
@@ -67,5 +62,9 @@ public class SessionRequestContent {
 
     public Object putSessionAttribute(String sessionAttributeName, Object object) {
         return sessionAttributes.put(sessionAttributeName, object);
+    }
+
+    public void invalidateSession() {
+        invalidateSession = true;
     }
 }

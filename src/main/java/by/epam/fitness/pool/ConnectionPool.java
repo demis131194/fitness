@@ -5,7 +5,6 @@ import com.mysql.cj.jdbc.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -17,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static final int DEFAULT_NUMBER_OF_CONNECTION = 5;
-    private static final String PROPERTY_PATH = "config/db.properties";
+    private static final String PROPERTY_PATH = "db/mysql.properties";
     private static Lock lock = new ReentrantLock();
     private static ConnectionPool INSTANCE;
 
@@ -27,7 +26,7 @@ public class ConnectionPool {
 
     private ConnectionPool() {
         try {
-            Properties property = PropertyLoader.loadProperty(PROPERTY_PATH);                   // FIXME: 21.10.2019 ss
+            Properties property = PropertyLoader.loadProperty(PROPERTY_PATH);
             try {
                 numberOfConnections = Integer.parseInt(property.getProperty("number.of.connections"));
                 logger.debug("Number of connections in property = {}", numberOfConnections);
@@ -44,7 +43,7 @@ public class ConnectionPool {
                 connections.offer(connection);
             }
 
-        } catch (IOException | SQLException | NullPointerException e ) {
+        } catch (SQLException e ) {
             logger.error("Missing or incorrect db configuration file.", e);
             throw new RuntimeException(e);
         }

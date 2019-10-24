@@ -1,11 +1,11 @@
 package by.epam.fitness.controller;
 
 import by.epam.fitness.command.Command;
-import by.epam.fitness.command.CommandOperations;
+import by.epam.fitness.command.CommandOperation;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.service.UserService;
-import by.epam.fitness.service.UserServiceImpl;
+import by.epam.fitness.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/test")
-public class TestController extends HttpServlet {
+public class MainController extends HttpServlet {
 
     UserService userService;
 
@@ -38,7 +38,7 @@ public class TestController extends HttpServlet {
 
     private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SessionRequestContent content = new SessionRequestContent(req);
-        Command command = CommandOperations.valueOf(req.getParameter("command").toUpperCase()).getCommand();
+        Command command = CommandOperation.valueOf(req.getParameter("command").toUpperCase()).getCommand();
         String page = null;
         try {
             page = command.execute(content);
