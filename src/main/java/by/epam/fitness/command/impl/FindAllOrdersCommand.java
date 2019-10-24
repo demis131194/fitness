@@ -22,10 +22,9 @@ public class FindAllOrdersCommand implements Command {
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {
         try {
-            Object obj = requestContent.getSessionAttributeByName("user");
-            if (obj != null && obj.getClass() == User.class) {
-                User user = (User) obj;
-                int userId = user.getId();
+            Object obj = requestContent.getSessionAttributeByName("userId");
+            if (obj != null && obj.getClass() == Integer.class) {
+                int userId = (Integer) obj;
 
                 List<Order> orders = orderService.findAll(userId);
 

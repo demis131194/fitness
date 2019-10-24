@@ -7,7 +7,6 @@ public class TableColumn {
     public static final String USERS_NAME = "name";
     public static final String USERS_LAST_NAME = "lastName";
     public static final String USERS_REGISTER_DATE = "registerDate";
-    public static final String USERS_REGISTER_TIME = "registerTime";
     public static final String USERS_ROLE = "role";
     public static final String USERS_ACTIVE = "active";
 

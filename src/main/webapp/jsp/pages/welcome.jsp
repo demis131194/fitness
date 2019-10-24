@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<fmt:setLocale value="${sessionScope.get('locale')}"/>
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
 
 <html>
@@ -15,9 +15,15 @@
 <hr/>
 <h3><fmt:message key="welcome.lable.walcome" bundle="${rb}"/></h3>
 <hr/>
-${user.name}<fmt:message key="welcome.message.hello" bundle="${rb}"/>
+${sessionScope.userName}<fmt:message key="welcome.message.hello" bundle="${rb}"/>
 <br/>
-<fmt:message key="welcome.message.role" bundle="${rb}"/>${sessionScope.get("role")}
+<fmt:message key="welcome.message.role" bundle="${rb}"/>${sessionScope.get("userRole")}
+<br/>
+LastName: ${sessionScope.userLastName}
+<br/>
+Login: ${sessionScope.userLogin}
+<br/>
+UserRegisterDate: ${sessionScope.userRegisterDate}
 <hr/>
 </body>
 </html>

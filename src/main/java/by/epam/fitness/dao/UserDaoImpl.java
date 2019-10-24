@@ -1,7 +1,5 @@
-package by.epam.fitness.dao.impl;
+package by.epam.fitness.dao;
 
-import by.epam.fitness.dao.TableColumn;
-import by.epam.fitness.dao.UserDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.User;
 import by.epam.fitness.model.UserRole;
@@ -11,20 +9,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     private static Logger logger = LogManager.getLogger(UserDaoImpl.class);
-    private static final String INSERT_QUERY = "INSERT INTO users (login, password, name, lastName, registerDate, registerTime, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_QUERY = "INSERT INTO users (login, password, name, lastName, registerDate, role) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE users SET login = ?, password = ?, name = ?, lastName = ?, role = ? WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE users SET active = 0 WHERE id = ?";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, login, name, lastName, registerDate, registerTime, role FROM users WHERE active = 1";
-    private static final String FIND_ALL_QUERY = "SELECT id, login, name, lastName, registerDate, registerTime, role FROM users";
-    private static final String FIND_BY_LOGIN_QUERY = "SELECT id, login, name, lastName, registerDate, registerTime, role FROM users WHERE login = ? AND active = 1";
-    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, registerTime, role FROM users WHERE login = ? AND password = ? AND active = 1";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, login, name, lastName, registerDate, role FROM users WHERE active = 1";
+    private static final String FIND_ALL_QUERY = "SELECT id, login, name, lastName, registerDate, role FROM users";
+    private static final String FIND_BY_LOGIN_QUERY = "SELECT id, login, name, lastName, registerDate, role FROM users WHERE login = ? AND active = true";
+    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, role FROM users WHERE login = ? AND password = ? AND active = true";
 
     private static UserDao userDao;
 
@@ -45,9 +41,8 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getName());
             statement.setString(4, user.getLastName());
-            statement.setDate(5, Date.valueOf(user.getRegisterDateTime().toLocalDate()));
-            statement.setTime(6, Time.valueOf(user.getRegisterDateTime().toLocalTime()));
-            statement.setString(7, user.getUserRole().name());
+            statement.setTimestamp(5, Timestamp.valueOf(user.getRegisterDateTime()));
+            statement.setString(6, user.getUserRole().name());
 
             statement.execute();
 
@@ -193,9 +188,8 @@ public class UserDaoImpl implements UserDao {
         user.setLogin(resultSet.getString(TableColumn.USERS_LOGIN));
         user.setName(resultSet.getString(TableColumn.USERS_NAME));
         user.setLastName(resultSet.getString(TableColumn.USERS_LAST_NAME));
-        LocalDate registerDate = resultSet.getDate(TableColumn.USERS_REGISTER_DATE).toLocalDate();
-        LocalTime registerTime = resultSet.getTime(TableColumn.USERS_REGISTER_TIME).toLocalTime();
-        UserRole role = UserRole.valueOf(resultSet.getString(TableColumn.USERS_ROLE).toUpperCase());
+        user.setRegisterDateTime(resultSet.getTimestamp(TableColumn.USERS_REGISTER_DATE).toLocalDateTime());
+        user.setUserRole(UserRole.valueOf(resultSet.getString(TableColumn.USERS_ROLE).toUpperCase()));
 //        user = new User(id, name, lastName, login, "********", LocalDateTime.of(registerDate, registerTime), role);    // FIXME: 22.10.2019 Password ??
         return user;
     }

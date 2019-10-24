@@ -38,6 +38,7 @@ public class ConnectionPool {
             this.connections = new ArrayBlockingQueue<>(numberOfConnections);
 
             DriverManager.registerDriver(new Driver());
+//            Class.forName("com.mysql.jdbc.Driver");                                       // FIXME: 24.10.2019 Dynamic load Driver
             for (int i = 0; i < numberOfConnections; i++) {
                 ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(property.getProperty("url"), property));
                 connections.offer(connection);

@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<fmt:setLocale value="${sessionScope.get('locale')}"/>
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <fmt:setBundle basename="bundle/err" var="err_rb"/>
 <html>
@@ -14,7 +14,7 @@
 <a href="${pageContext.request.contextPath}"><fmt:message key="project.home" bundle="${rb}"/></a>
 <br/>
 <br/>
-<form name="loginForm" method="POST" action="${pageContext.request.contextPath}/test">
+<form name="loginForm" method="POST" action="${pageContext.request.contextPath}/controller">
     <input type="hidden" name="command" value="login"/>
     <fmt:message key="login.login" bundle="${rb}"/>
     <br/>

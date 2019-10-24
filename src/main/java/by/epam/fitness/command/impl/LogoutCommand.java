@@ -11,6 +11,6 @@ public class LogoutCommand implements Command {
 
         requestContent.invalidateSession();
 
-        return PagePath.INDEX_PATH;
+        return PagePath.MAIN_PATH;
     }
 }

@@ -1,6 +1,5 @@
-package by.epam.fitness.dao.impl;
+package by.epam.fitness.dao;
 
-import by.epam.fitness.dao.OrderDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.pool.ConnectionPool;

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/test")
+@WebServlet("/controller")
 public class MainController extends HttpServlet {
 
     UserService userService;
@@ -46,13 +46,7 @@ public class MainController extends HttpServlet {
             e.printStackTrace();
         }
 
-//        if (content.getSessionAttributeByName("user") != null) {                    // FIXME: 22.10.2019 How close session????
-//            content.insertAttributes(req);
-//        } else {
-//            req.getSession(false).invalidate();
-//        }
-
-        content.putSessionAttribute("locale", "en_EN");
+//        content.putSessionAttribute("locale", "en_EN");
 
         content.insertAttributes(req);
 

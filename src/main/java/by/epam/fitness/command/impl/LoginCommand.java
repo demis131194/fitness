@@ -11,6 +11,8 @@ import by.epam.fitness.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.format.DateTimeFormatter;
+
 public class LoginCommand implements Command {
     private static Logger logger = LogManager.getLogger(LoginCommand.class);
 
@@ -30,8 +32,13 @@ public class LoginCommand implements Command {
             user = userService.findByLoginAndPassword(login, password);
 
             if (user != null) {
-                requestContent.putSessionAttribute("role", user.getUserRole().name());
-                requestContent.putSessionAttribute("user", user);
+                requestContent.putSessionAttribute("authorization", true);
+                requestContent.putSessionAttribute("userId", user.getId());
+                requestContent.putSessionAttribute("userRole", user.getUserRole().name());
+                requestContent.putSessionAttribute("userName", user.getName());
+                requestContent.putSessionAttribute("userLastName", user.getLastName());
+                requestContent.putSessionAttribute("userLogin", user.getLogin());
+                requestContent.putSessionAttribute("userRegisterDate", user.getRegisterDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                 page = PagePath.WELCOME_PATH;
             } else {
                 page = PagePath.LOGIN_PATH;

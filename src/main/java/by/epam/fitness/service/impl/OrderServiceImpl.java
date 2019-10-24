@@ -1,7 +1,7 @@
 package by.epam.fitness.service.impl;
 
 import by.epam.fitness.dao.OrderDao;
-import by.epam.fitness.dao.impl.OrderDaoImpl;
+import by.epam.fitness.dao.OrderDaoImpl;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Order;
