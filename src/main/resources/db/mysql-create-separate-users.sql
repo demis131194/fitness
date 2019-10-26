@@ -11,6 +11,8 @@ DROP TABLE IF EXISTS clients;
 DROP TABLE IF EXISTS trainers;
 DROP TABLE IF EXISTS admins;
 
+
+
 CREATE TABLE admins
 (
     id		 	 INT 							  UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -52,7 +54,7 @@ CREATE TABLE clients
     discount     INT                              UNSIGNED NOT NULL DEFAULT 0 CHECK (discount >=0 AND discount <=100),
     phone        VARCHAR(255)                     ,
     PRIMARY KEY (id),
-    UNIQUE KEY login_UNIQUE (login),
+    UNIQUE KEY `login_UNIQUE` (`login`),
     FOREIGN KEY (trainerId) REFERENCES trainers (id)
 );
 
@@ -96,3 +98,14 @@ CREATE TABLE comments
     FOREIGN KEY (clientId) REFERENCES clients (id),
     FOREIGN KEY (trainerId) REFERENCES trainers (id)
 );
+
+INSERT INTO admins(login, password, name, lastName)
+VALUES ('denis', 'denis', 'Денис', 'Кацук');
+
+INSERT INTO trainers(login, password, name, lastName, phone)
+VALUES ('trainer-1', 'trainer', 'trainer-1', 'trainer-1_Fam', '222-33-22'),
+       ('trainer-2', 'trainer', 'trainer-2', 'trainer-2_Fam', '222-44-77');
+
+INSERT INTO clients(login, password, name, lastName, trainerId, phone)
+VALUES ('vasya', 'vasya', 'Vasya', 'Vasya_fam', 1, '222-33-22'),
+       ('dima', 'dima', 'Dima', 'Dima_fam', 1, null);
