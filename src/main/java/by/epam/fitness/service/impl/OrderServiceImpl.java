@@ -65,8 +65,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order find(int orderId, int userId) throws ServiceException {
-        logger.trace("In service method get.");
+    public Order findActive(int orderId, int userId) throws ServiceException {
+        logger.trace("In service method findActive.");
         Order order;
         try {
             order = orderDao.findActive(orderId, userId);
@@ -77,11 +77,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAll(int userId) throws ServiceException {
-        logger.trace("In service method getAll.");
+    public List<Order> findAllActive(int userId) throws ServiceException {
+        logger.trace("In service method findAllActive.");
         List<Order> orders;
         try {
             orders = orderDao.findAllActive(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAll() throws ServiceException {
+        logger.trace("In service method findAll.");
+        List<Order> orders;
+        try {
+            orders = orderDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

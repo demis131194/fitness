@@ -6,7 +6,6 @@ import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Order;
-import by.epam.fitness.model.User;
 import by.epam.fitness.service.OrderService;
 import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +25,7 @@ public class FindAllOrdersCommand implements Command {
             if (obj != null && obj.getClass() == Integer.class) {
                 int userId = (Integer) obj;
 
-                List<Order> orders = orderService.findAll(userId);
+                List<Order> orders = orderService.findAllActive(userId);
 
                 requestContent.putAttribute("orders", orders);
             }

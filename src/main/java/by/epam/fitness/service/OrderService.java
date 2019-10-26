@@ -10,6 +10,7 @@ public interface OrderService {
     Order create(Order order) throws ServiceException;
     boolean update(Order order) throws ServiceException;
     boolean delete(int orderId, int userId) throws ServiceException;
-    Order find(int orderId, int userId) throws ServiceException;
-    List<Order> findAll(int userId) throws ServiceException;
+    Order findActive(int orderId, int userId) throws ServiceException;
+    List<Order> findAllActive(int userId) throws ServiceException;
+    List<Order> findAll() throws ServiceException;
 }
