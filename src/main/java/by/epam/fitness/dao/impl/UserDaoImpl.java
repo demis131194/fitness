@@ -1,5 +1,7 @@
-package by.epam.fitness.dao;
+package by.epam.fitness.dao.impl;
 
+import by.epam.fitness.dao.TableColumn;
+import by.epam.fitness.dao.UserDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.User;
 import by.epam.fitness.model.UserRole;

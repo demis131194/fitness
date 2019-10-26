@@ -24,5 +24,32 @@
         <li><a href="${pageContext.request.contextPath}/controller?command=Logout"><fmt:message key="index.logout" bundle="${rb}"/></a></li>
     </c:if>
 </ul>
+<hr/>
+<hr/>
+<hr/>
+${pageContext.request.contextPath}
+<hr/>
+${cookie}
+<hr/>
+<c:forEach var="key" items="${header.keySet()}">
+    -->${key} : ${header.get(key)}
+    <br/>
+</c:forEach>
+
+<hr/>
+${requestScope}
+<hr/>
+ID сессии : ${pageContext.request.session.id}<br/>
+<hr/>
+<c:forEach var="skey" items="${sessionScope.keySet()}">
+    -->${skey} : ${sessionScope.get(skey)}
+    <br/>
+</c:forEach>
+<hr/>
+Время создания сессии в мсек : ${pageContext.request.session.creationTime}<br/>
+<hr/>
+Время последнего доступа к сессии : ${pageContext.request.session.lastAccessedTime}<br/>
+<hr/>
+Имя сервлета : ${pageContext.servletConfig.servletName}
 </body>
 </html>

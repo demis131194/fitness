@@ -14,11 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @WebServlet("/controller")
 public class MainController extends HttpServlet {
 
-    UserService userService;
+    private UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -45,8 +46,6 @@ public class MainController extends HttpServlet {
         } catch (CommandException e) {
             e.printStackTrace();
         }
-
-//        content.putSessionAttribute("locale", "en_EN");
 
         content.insertAttributes(req);
 
