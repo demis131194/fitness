@@ -16,13 +16,13 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     private static Logger logger = LogManager.getLogger(UserDaoImpl.class);
-    private static final String INSERT_QUERY = "INSERT INTO users (login, password, name, lastName, registerDate, role) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE users SET login = ?, password = ?, name = ?, lastName = ?, role = ? WHERE id = ?";
-    private static final String DELETE_QUERY = "UPDATE users SET active = 0 WHERE id = ?";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, login, name, lastName, registerDate, role FROM users WHERE active = 1";
-    private static final String FIND_ALL_QUERY = "SELECT id, login, name, lastName, registerDate, role FROM users";
-    private static final String FIND_BY_LOGIN_QUERY = "SELECT id, login, name, lastName, registerDate, role FROM users WHERE login = ? AND active = true";
-    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, role FROM users WHERE login = ? AND password = ? AND active = true";
+    private static final String INSERT_QUERY = "INSERT INTO users (login, password, name, lastName, trainerId, role, discount, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE users SET password = ?, name = ?, lastName = ?, trainerId = ?, discount = ?, phone = ? WHERE id = ?";
+    private static final String DELETE_QUERY = "UPDATE users SET active = false WHERE id = ?";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE active = true";
+    private static final String FIND_ALL_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users";
+    private static final String FIND_BY_LOGIN_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE login = ? AND active = true";
+    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE login = ? AND password = ? AND active = true";
 
     private static UserDao userDao;
 
@@ -43,9 +43,10 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getName());
             statement.setString(4, user.getLastName());
-            statement.setTimestamp(5, Timestamp.valueOf(user.getRegisterDateTime()));
+            statement.setInt(5, user.getTrainerId());
             statement.setString(6, user.getUserRole().name());
-
+            statement.setInt(7, user.getDiscount());
+            statement.setString(7, user.getPhone());
             statement.execute();
 
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -70,12 +71,13 @@ public class UserDaoImpl implements UserDao {
         boolean isUpdated;
         ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getName());
-            statement.setString(4, user.getLastName());
-            statement.setString(5, user.getUserRole().name());
-            statement.setInt(6, user.getId());
+            statement.setString(1, user.getPassword());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getLastName());
+            statement.setInt(4, user.getTrainerId());
+            statement.setInt(5, user.getDiscount());
+            statement.setString(6, user.getPhone());
+            statement.setString(7, user.getPhone());
 
             isUpdated = statement.executeUpdate() == 1;
 
@@ -110,14 +112,45 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAllActive() throws DaoException {
-        List<User> users = findAllUsers(FIND_ALL_ACTIVE_QUERY);
-        return users;
+        List<User> result = new ArrayList<>();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.first()) {
+                User user = getUserFromResultSet(resultSet);
+                result.add(user);
+            }
+
+            logger.debug("FindAllActive, user - {}", result);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            connection.release();
+        }
+        return result;
     }
 
     @Override
     public List<User> findAll() throws DaoException {
-        List<User> users = findAllUsers(FIND_ALL_QUERY);
-        return users;
+        List<User> result = new ArrayList<>();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.first()) {
+                User user = getUserFromResultSet(resultSet);
+                result.add(user);
+            }
+
+            logger.debug("FindAll, users - {}", result);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            connection.release();
+        }
+        return result;
     }
 
     @Override
@@ -164,26 +197,6 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    private List<User> findAllUsers(String query) throws DaoException {
-        List<User> users = new ArrayList<>();
-        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                User user = getUserFromResultSet(resultSet);
-                users.add(user);
-            }
-            logger.debug("FindAll users - {}", users);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            connection.release();
-        }
-        return users;
-    }
-
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt(TableColumn.USERS_ID));
@@ -191,7 +204,11 @@ public class UserDaoImpl implements UserDao {
         user.setName(resultSet.getString(TableColumn.USERS_NAME));
         user.setLastName(resultSet.getString(TableColumn.USERS_LAST_NAME));
         user.setRegisterDateTime(resultSet.getTimestamp(TableColumn.USERS_REGISTER_DATE).toLocalDateTime());
+        user.setTrainerId(resultSet.getInt(TableColumn.USERS_TRAINER_ID));
         user.setUserRole(UserRole.valueOf(resultSet.getString(TableColumn.USERS_ROLE).toUpperCase()));
+        user.setActive(resultSet.getBoolean(TableColumn.USERS_ACTIVE));
+        user.setDiscount(resultSet.getInt(TableColumn.USERS_DISCOUNT));
+        user.setPhone(resultSet.getString(TableColumn.USERS_PHONE));
 //        user = new User(id, name, lastName, login, "********", LocalDateTime.of(registerDate, registerTime), role);    // FIXME: 22.10.2019 Password ??
         return user;
     }

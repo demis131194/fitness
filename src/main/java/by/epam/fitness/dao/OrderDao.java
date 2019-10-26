@@ -9,6 +9,7 @@ public interface OrderDao {
     Order create(Order order) throws DaoException;
     boolean update(Order order) throws DaoException;
     boolean delete(int orderId, int userId) throws DaoException;
-    Order find(int orderId, int userId) throws DaoException;
-    List<Order> findAll(int userId) throws DaoException;
+    Order findActive(int orderId, int userId) throws DaoException;
+    List<Order> findAllActive(int userId) throws DaoException;
+    List<Order> findAll() throws DaoException;
 }
