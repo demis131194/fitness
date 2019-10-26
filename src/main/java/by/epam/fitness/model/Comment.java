@@ -3,13 +3,11 @@ package by.epam.fitness.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Order extends AbstractBaseEntity {
-
+public class Comment extends AbstractBaseEntity {
     private Integer userId;
     private Integer trainerId;
     private LocalDateTime registerDate;
-    private String description;
-    private boolean active = true;
+    private String comment;
 
     public Integer getUserId() {
         return userId;
@@ -35,44 +33,37 @@ public class Order extends AbstractBaseEntity {
         this.registerDate = registerDate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getComment() {
+        return comment;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(userId, order.userId) &&
-                Objects.equals(trainerId, order.trainerId) &&
-                Objects.equals(registerDate, order.registerDate) &&
-                Objects.equals(description, order.description);
+        Comment comment1 = (Comment) o;
+        return Objects.equals(userId, comment1.userId) &&
+                Objects.equals(trainerId, comment1.trainerId) &&
+                Objects.equals(registerDate, comment1.registerDate) &&
+                Objects.equals(comment, comment1.comment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, trainerId, registerDate, description);
+        return Objects.hash(userId, trainerId, registerDate, comment);
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Order{");
+        final StringBuilder sb = new StringBuilder("Comment{");
         sb.append("userId=").append(userId);
         sb.append(", trainerId=").append(trainerId);
-        sb.append(", description='").append(description).append('\'');
+        sb.append(", registerDate=").append(registerDate);
+        sb.append(", comment='").append(comment).append('\'');
         sb.append(", id=").append(id);
         sb.append('}');
         return sb.toString();
