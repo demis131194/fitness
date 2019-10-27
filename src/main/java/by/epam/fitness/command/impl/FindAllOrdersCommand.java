@@ -11,10 +11,11 @@ import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FindAllOrdersForClientCommand implements Command {
-    private static Logger logger = LogManager.getLogger(FindAllOrdersForClientCommand.class);
+public class FindAllOrdersCommand implements Command {
+    private static Logger logger = LogManager.getLogger(FindAllOrdersCommand.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();
 
@@ -25,7 +26,23 @@ public class FindAllOrdersForClientCommand implements Command {
             if (obj != null && obj.getClass() == Integer.class) {
                 int userId = (Integer) obj;
 
-                List<Order> orders = orderService.findAllActive(userId, null);
+                String role = (String) requestContent.getSessionAttributeByName("userRole");
+
+                List<Order> orders;
+
+                switch (role) {
+                    case "ADMIN":
+                        orders = orderService.findAll();
+                        break;
+                    case "CLIENT":
+                        orders = orderService.findAllActiveByClient(userId);
+                        break;
+                    case "TRAINER":
+                        orders = orderService.findAllActiveByTrainer(userId);
+                        break;
+                    default:
+                        orders = new ArrayList<>();
+                }
 
                 requestContent.putAttribute("orders", orders);
             }

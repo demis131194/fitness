@@ -23,7 +23,7 @@ public class UserDaoImpl implements UserDao {
     private static final String FIND_ALL_ACTIVE_WITH_TRAINER_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE active = true AND trainerId = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users";
     private static final String FIND_BY_LOGIN_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE login = ? AND active = true";
-    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE login = ? AND password = ? AND active = true";
+    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, active, discount, phone FROM users WHERE login = ? AND password = ? AND active = true";
 
     private static UserDao userDao;
 
@@ -41,8 +41,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User create(User user) throws DaoException {
         User createdUser;
-        Connection
- connection = ConnectionPool.getInstance().takeConnection();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
@@ -79,8 +78,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean update(User user) throws DaoException {
         boolean isUpdated;
-        Connection
- connection = ConnectionPool.getInstance().takeConnection();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, user.getPassword());
             statement.setString(2, user.getName());
@@ -110,8 +108,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean delete(int id) throws DaoException {
         boolean isDeleted;
-        Connection
- connection = ConnectionPool.getInstance().takeConnection();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, id);
 
@@ -189,8 +186,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findAll() throws DaoException {
         List<User> result = new ArrayList<>();
-        Connection
- connection = ConnectionPool.getInstance().takeConnection();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
             ResultSet resultSet = statement.executeQuery();
 
@@ -216,8 +212,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByLogin(String userLogin) throws DaoException {
         User user = null;
-        Connection
- connection = ConnectionPool.getInstance().takeConnection();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_QUERY)) {
             statement.setString(1, userLogin);
             ResultSet resultSet = statement.executeQuery();
@@ -243,8 +238,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByLoginAndPassword(String userLogin, String userPassword) throws DaoException {
         User user = null;
-        Connection
- connection = ConnectionPool.getInstance().takeConnection();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_AND_PASSWORD_QUERY)) {
             statement.setString(1, userLogin);
             statement.setString(2, userPassword);

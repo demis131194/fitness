@@ -4,6 +4,13 @@
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
+
+<fmt:message key="orders.order.id" bundle="${rb}" var="orderId"/>
+<fmt:message key="orders.user.id" bundle="${rb}" var="userId"/>
+<fmt:message key="orders.trainer.id" bundle="${rb}" var="trainerId"/>
+<fmt:message key="orders.register.date" bundle="${rb}" var="registerDate"/>
+<fmt:message key="orders.description" bundle="${rb}" var="description"/>
+
 <html>
 <head>
     <title><fmt:message key="orders.title" bundle="${rb}"/></title>
@@ -17,22 +24,20 @@
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
-            <th><fmt:message key="orders.order.id" bundle="${rb}"/></th>
-            <th><fmt:message key="orders.startDate" bundle="${rb}"/></th>
-            <th><fmt:message key="orders.endDate" bundle="${rb}"/></th>
-            <th><fmt:message key="orders.price" bundle="${rb}"/></th>
-            <th><fmt:message key="orders.isPayed" bundle="${rb}"/></th>
-            <th><fmt:message key="orders.description" bundle="${rb}"/></th>
+            <th>${orderId}</th>
+            <th>${userId}</th>
+            <th>${trainerId}</th>
+            <th>${registerDate}</th>
+            <th>${description}</th>
         </tr>
         </thead>
         <c:forEach items="${requestScope.orders}" var="order">
             <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
-            <tr>
+            <tr bgcolor="${order.active ? "green": "red"}">
                 <td>${order.id}</td>
-                <td>${order.startDate}</td>
-                <td>${order.endDate}</td>
-                <td>${order.price}</td>
-                <td>${order.payed}</td>
+                <td>${order.userId}</td>
+                <td>${order.trainerId}</td>
+                <td>${order.registerDate}</td>
                 <td>${order.description}</td>
             </tr>
         </c:forEach>

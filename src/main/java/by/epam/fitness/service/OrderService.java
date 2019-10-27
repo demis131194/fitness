@@ -11,6 +11,7 @@ public interface OrderService {
     boolean update(Order order) throws ServiceException;
     boolean delete(int orderId, int userId) throws ServiceException;
     Order findActive(int orderId, Integer userId, Integer trainerId) throws ServiceException;
-    List<Order> findAllActive(Integer userId, Integer trainerId) throws ServiceException;
+    List<Order> findAllActiveByTrainer(int trainerId) throws ServiceException;
+    List<Order> findAllActiveByClient(int clientId) throws ServiceException;
     List<Order> findAll() throws ServiceException;
 }

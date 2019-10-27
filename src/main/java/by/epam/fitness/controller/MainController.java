@@ -44,7 +44,8 @@ public class MainController extends HttpServlet {
         try {
             page = command.execute(content);
         } catch (CommandException e) {
-            e.printStackTrace();
+            req.setAttribute("error", e);
+            req.getRequestDispatcher(PagePath.ERROR_PATH).forward(req, resp);
         }
 
         content.insertAttributes(req);

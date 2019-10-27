@@ -5,6 +5,8 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <c:set var="authorization" value="${sessionScope.authorization}"/>
+<fmt:message key="index.welcome" bundle="${rb}" var="welcome"/>
+<fmt:message key="index.login" bundle="${rb}" var="login"/>
 
 <html>
 <head>
@@ -14,10 +16,10 @@
 <c:import url="/jsp/fragment/header.jsp"/>
 <ul>
     <c:if test="${authorization==true}" >
-        <li><a href="${pageContext.request.contextPath}/jsp/pages/welcome.jsp"><fmt:message key="index.welcome" bundle="${rb}"/></a></li>
+        <li><a href="${pageContext.request.contextPath}/jsp/pages/welcome.jsp">${welcome}</a></li>
     </c:if>
     <c:if test="${authorization!=true}" >
-        <li><a href="${pageContext.request.contextPath}/jsp/pages/login.jsp"><fmt:message key="index.login" bundle="${rb}"/></a></li>
+        <li><a href="${pageContext.request.contextPath}/jsp/pages/login.jsp">${login}</a></li>
     </c:if>
     <li><a href="${pageContext.request.contextPath}/controller?command=Find_All_Orders"><fmt:message key="index.orders" bundle="${rb}"/></a></li>
     <c:if test="${authorization==true}" >

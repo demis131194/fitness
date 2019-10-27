@@ -17,8 +17,9 @@ public class OrderDaoImpl implements OrderDao {
     private static final String INSERT_QUERY = "INSERT INTO orders (userId, trainerId, description) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE orders SET userId = ?, trainerId = ?, trainerId = ? WHERE id = ? OR trainerId = ?";
     private static final String DELETE_QUERY = "UPDATE orders SET active = false WHERE id = ? AND userId = ?";
-    private static final String FIND_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE id = ? AND (userId = ? OR trainerId = ?) AND active = true";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE (userId = ? OR trainerId = ?) AND active = true";
+    private static final String FIND_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE id = ? AND active = true";
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE trainerId = ? AND active = true";
+    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE userId = ? AND active = true";
     private static final String FIND_ALL_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders";
 
     private static OrderDao orderDao;
@@ -124,13 +125,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order findActive(int orderId, Integer userId, Integer trainerId) throws DaoException {
+    public Order findActive(int orderId) throws DaoException {
         Order order = null;
         Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_ACTIVE_QUERY)) {
             statement.setInt(1, orderId);
-            statement.setInt(2, userId);
-            statement.setInt(3, trainerId);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -153,12 +152,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllActive(Integer userId, Integer trainerId) throws DaoException {
+    public List<Order> findAllActiveByTrainer(int trainerId) throws DaoException {
         List<Order> orders = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
-            statement.setInt(1, userId);
-            statement.setInt(2, trainerId);
+        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
+            statement.setInt(1, trainerId);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -166,7 +164,34 @@ public class OrderDaoImpl implements OrderDao {
                 Order order = getOrderFromResultSet(resultSet);
                 orders.add(order);
             }
-            logger.debug("FindAllActive orders, userId = {} - {}", userId, orders);
+            logger.debug("FindAllActiveByTrainer orders, trainerId = {} - {}", trainerId, orders);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllActiveByClient(int clientId) throws DaoException {
+        List<Order> orders = new ArrayList<>();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_CLIENT_QUERY)) {
+            statement.setInt(1, clientId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Order order = getOrderFromResultSet(resultSet);
+                orders.add(order);
+            }
+            logger.debug("FindAllActiveByClient orders, clientId = {} - {}", clientId, orders);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
