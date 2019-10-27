@@ -31,6 +31,13 @@ public class TableColumn {
     public static final String ASSIGNMENTS_PRICE = "price";
     public static final String ASSIGNMENTS_ACCEPT = "accept";
 
+    public static final String COMMENT_ID = "id";
+    public static final String COMMENT_USER_ID = "userId";
+    public static final String COMMENT_TRAINER_ID = "trainerId";
+    public static final String COMMENT_REGISTER_DATE = "registerDate";
+    public static final String COMMENT_COMMENT = "comment";
+    public static final String COMMENT_ACTIVE = "active";
+
 
 
 

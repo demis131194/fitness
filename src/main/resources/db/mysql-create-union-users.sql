@@ -62,6 +62,7 @@ CREATE TABLE comments
     trainerId	 	INT 	    NOT NULL,
     registerDate    TIMESTAMP   NOT NULL DEFAULT now(),
     comment         TEXT        NOT NULL,
+    active          BOOLEAN     NOT NULL DEFAULT true,
     PRIMARY KEY (id),
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (trainerId) REFERENCES users (id)

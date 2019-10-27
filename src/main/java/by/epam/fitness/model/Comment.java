@@ -8,6 +8,7 @@ public class Comment extends AbstractBaseEntity {
     private Integer trainerId;
     private LocalDateTime registerDate;
     private String comment;
+    private boolean active;
 
     public Integer getUserId() {
         return userId;
@@ -41,6 +42,14 @@ public class Comment extends AbstractBaseEntity {
         this.comment = comment;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,6 +73,7 @@ public class Comment extends AbstractBaseEntity {
         sb.append(", trainerId=").append(trainerId);
         sb.append(", registerDate=").append(registerDate);
         sb.append(", comment='").append(comment).append('\'');
+        sb.append(", active=").append(active);
         sb.append(", id=").append(id);
         sb.append('}');
         return sb.toString();
