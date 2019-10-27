@@ -6,7 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.User;
 import by.epam.fitness.model.UserRole;
 import by.epam.fitness.pool.ConnectionPool;
-import by.epam.fitness.pool.ProxyConnection;
+;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,7 +37,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User create(User user) throws DaoException {
         User createdUser;
-        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        Connection
+ connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
@@ -61,7 +62,12 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            connection.release();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
         }
         return createdUser;
     }
@@ -69,7 +75,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean update(User user) throws DaoException {
         boolean isUpdated;
-        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        Connection
+ connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, user.getPassword());
             statement.setString(2, user.getName());
@@ -86,7 +93,12 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            connection.release();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
         }
         return isUpdated;
     }
@@ -94,7 +106,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean delete(int id) throws DaoException {
         boolean isDeleted;
-        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        Connection
+ connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, id);
 
@@ -105,7 +118,12 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            connection.release();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
         }
         return isDeleted;
     }
@@ -113,7 +131,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findAllActive() throws DaoException {
         List<User> result = new ArrayList<>();
-        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        Connection
+ connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
 
             ResultSet resultSet = statement.executeQuery();
@@ -127,7 +146,12 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            connection.release();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
         }
         return result;
     }
@@ -135,7 +159,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findAll() throws DaoException {
         List<User> result = new ArrayList<>();
-        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        Connection
+ connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
             ResultSet resultSet = statement.executeQuery();
 
@@ -148,7 +173,12 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            connection.release();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
         }
         return result;
     }
@@ -156,7 +186,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByLogin(String userLogin) throws DaoException {
         User user = null;
-        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        Connection
+ connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_QUERY)) {
             statement.setString(1, userLogin);
             ResultSet resultSet = statement.executeQuery();
@@ -169,7 +200,12 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            connection.release();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
         }
         return user;
     }
@@ -177,7 +213,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByLoginAndPassword(String userLogin, String userPassword) throws DaoException {
         User user = null;
-        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        Connection
+ connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_AND_PASSWORD_QUERY)) {
             statement.setString(1, userLogin);
             statement.setString(2, userPassword);
@@ -192,7 +229,12 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            connection.release();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
         }
         return user;
     }

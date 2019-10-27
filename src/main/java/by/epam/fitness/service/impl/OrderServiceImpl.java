@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
         logger.trace("In service method findActive.");
         Order order;
         try {
-            order = orderDao.findActive(orderId, userId);
+            order = orderDao.findActive(orderId, userId, );
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
         logger.trace("In service method findAllActive.");
         List<Order> orders;
         try {
-            orders = orderDao.findAllActive(userId);
+            orders = orderDao.findAllActive(userId, );
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

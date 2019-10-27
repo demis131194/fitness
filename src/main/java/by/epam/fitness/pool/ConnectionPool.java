@@ -5,8 +5,11 @@ import com.mysql.cj.jdbc.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -22,7 +25,9 @@ public class ConnectionPool {
 
     private int numberOfConnections;
 
-    private BlockingQueue<ProxyConnection> connections;
+    private BlockingQueue<ProxyConnection> awaitingConnections;
+    private List<ProxyConnection>  occupiedConnections = new ArrayList<>();
+
 
     private ConnectionPool() {
         try {
@@ -35,13 +40,12 @@ public class ConnectionPool {
                 logger.debug("Incorrect number of connections, set default = {}", numberOfConnections);
             }
 
-            this.connections = new ArrayBlockingQueue<>(numberOfConnections);
+            this.awaitingConnections = new ArrayBlockingQueue<>(numberOfConnections);
 
             DriverManager.registerDriver(new Driver());
-//            Class.forName("com.mysql.jdbc.Driver");                                       // FIXME: 24.10.2019 Dynamic load Driver
             for (int i = 0; i < numberOfConnections; i++) {
                 ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(property.getProperty("url"), property));
-                connections.offer(connection);
+                awaitingConnections.offer(connection);
             }
 
         } catch (SQLException e ) {
@@ -64,17 +68,40 @@ public class ConnectionPool {
         return INSTANCE;
     }
 
-    public ProxyConnection takeConnection() {
+    public Connection takeConnection() {
         ProxyConnection connection = null;                          // FIXME: 21.10.2019 Fix
         try {
-            connection = connections.take();
+            connection = awaitingConnections.take();
+            occupiedConnections.add(connection);
         } catch (InterruptedException e) {
             logger.warn("In ConnPoll takeConnection interrupted.");
         }
         return connection;
     }
 
-    public void releaseConnection(ProxyConnection connection) {
-        connections.offer(connection);
+    void releaseConnection(ProxyConnection connection) {
+        awaitingConnections.offer(connection);
     }
+
+    public void closeAllConnections() {
+        while (!awaitingConnections.isEmpty() && !occupiedConnections.isEmpty()) {
+            occupiedConnections.forEach(proxyConnection -> {
+                try {
+                    proxyConnection.reallyClose();
+                } catch (SQLException e) {
+                    logger.warn(e);
+                }
+            });
+
+            awaitingConnections.forEach(proxyConnection -> {
+                try {
+                    proxyConnection.reallyClose();
+                } catch (SQLException e) {
+                    logger.warn(e);
+                }
+            });
+        }
+
+    }
+
 }

@@ -20,6 +20,19 @@ public class TableColumn {
     public static final String ORDERS_DESCRIPTION = "description";
     public static final String ORDERS_ACTIVE = "active";
 
+    public static final String ASSIGNMENTS_ID = "id";
+    public static final String ASSIGNMENTS_ORDER_ID = "orderId";
+    public static final String ASSIGNMENTS_REGISTER_DATE = "registerDate";
+    public static final String ASSIGNMENTS_EXERCISES = "exercises";
+    public static final String ASSIGNMENTS_NUTRITION = "nutrition";
+    public static final String ASSIGNMENTS_START_DATE = "startDate";
+    public static final String ASSIGNMENTS_END_DATE = "endDate";
+    public static final String ASSIGNMENTS_ACTIVE = "active";
+    public static final String ASSIGNMENTS_PRICE = "price";
+    public static final String ASSIGNMENTS_ACCEPT = "accept";
+
+
+
 
 
     private TableColumn(){}

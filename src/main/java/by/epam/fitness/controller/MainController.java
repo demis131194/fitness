@@ -4,6 +4,7 @@ import by.epam.fitness.command.Command;
 import by.epam.fitness.command.CommandOperation;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
+import by.epam.fitness.pool.ConnectionPool;
 import by.epam.fitness.service.UserService;
 import by.epam.fitness.service.impl.UserServiceImpl;
 
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @WebServlet("/controller")
 public class MainController extends HttpServlet {
@@ -50,5 +50,11 @@ public class MainController extends HttpServlet {
         content.insertAttributes(req);
 
         req.getRequestDispatcher(page).forward(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        ConnectionPool.getInstance().closeAllConnections();
     }
 }
