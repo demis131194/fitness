@@ -22,6 +22,19 @@ public class CommentDaoImpl implements CommentDao {
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments WHERE active = true";
     private static final String FIND_ALL_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments";
 
+    private static CommentDao commentDao;
+
+    private CommentDaoImpl() {
+    }
+
+    public static CommentDao getInstance() {
+        if (commentDao == null) {
+            commentDao = new CommentDaoImpl();
+            logger.debug("CommentDao created");
+        }
+        return commentDao;
+    }
+
     @Override
     public Comment create(Comment comment) throws DaoException {
         Comment createdComment;

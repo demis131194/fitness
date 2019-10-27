@@ -23,6 +23,9 @@ public class OrderDaoImpl implements OrderDao {
 
     private static OrderDao orderDao;
 
+    private OrderDaoImpl() {
+    }
+
     public static OrderDao getInstance() {
         if (orderDao == null) {
             orderDao = new OrderDaoImpl();

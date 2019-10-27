@@ -22,6 +22,19 @@ public class AssignmentDaoImpl implements AssignmentDao {
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, orderId, registerDate, exercises, nutrition, startDate, endDate, price, accept FROM assignments WHERE active = true";
     private static final String FIND_ALL_QUERY = "SELECT id, orderId, registerDate, exercises, nutrition, startDate, endDate, price, accept FROM assignments";
 
+    private static AssignmentDao assignmentDao;
+
+    private AssignmentDaoImpl() {
+    }
+
+    public static AssignmentDao getInstance() {
+        if (assignmentDao == null) {
+            assignmentDao = new AssignmentDaoImpl();
+            logger.debug("AssignmentDao created");
+        }
+        return assignmentDao;
+    }
+
     @Override
     public Assignment create(Assignment assignment) throws DaoException {
         Assignment createdAssignment;
