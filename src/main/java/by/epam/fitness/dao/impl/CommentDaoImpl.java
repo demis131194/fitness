@@ -20,6 +20,7 @@ public class CommentDaoImpl implements CommentDao {
     private static final String DELETE_QUERY = "UPDATE comments SET active = false WHERE id = ?";
     private static final String FIND_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments WHERE id = ? AND active = true";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments WHERE active = true";
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments WHERE trainerId = ? AND active = true";
     private static final String FIND_ALL_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments";
 
     private static CommentDao commentDao;
@@ -160,6 +161,32 @@ public class CommentDaoImpl implements CommentDao {
                 comments.add(assignment);
             }
             logger.debug("FindAllActive comments - {}", comments);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
+        }
+        return comments;
+    }
+
+    @Override
+    public List<Comment> findAllActiveByTrainer(int trainerId) throws DaoException {
+        List<Comment> comments = new ArrayList<>();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
+            statement.setInt(1, trainerId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Comment assignment = getCommentFromResultSet(resultSet);
+                comments.add(assignment);
+            }
+            logger.debug("FindAllActiveByTrainer comments - {}", comments);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {

@@ -7,6 +7,8 @@ import java.util.Objects;
 public class Assignment extends AbstractBaseEntity {
 
     private Integer orderId;
+    private Integer userId;
+    private Integer trainerId;
     private LocalDateTime registerDate;
     private String exercises;
     private String nutrition;
@@ -88,23 +90,43 @@ public class Assignment extends AbstractBaseEntity {
         this.accept = accept;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getTrainerId() {
+        return trainerId;
+    }
+
+    public void setTrainerId(Integer trainerId) {
+        this.trainerId = trainerId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Assignment that = (Assignment) o;
-        return Objects.equals(orderId, that.orderId) &&
+        return active == that.active &&
+                Objects.equals(orderId, that.orderId) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(trainerId, that.trainerId) &&
                 Objects.equals(registerDate, that.registerDate) &&
                 Objects.equals(exercises, that.exercises) &&
                 Objects.equals(nutrition, that.nutrition) &&
                 Objects.equals(startDate, that.startDate) &&
                 Objects.equals(endDate, that.endDate) &&
-                Objects.equals(price, that.price);
+                Objects.equals(price, that.price) &&
+                Objects.equals(accept, that.accept);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, registerDate, exercises, nutrition, startDate, endDate, price);
+        return Objects.hash(orderId, userId, trainerId, registerDate, exercises, nutrition, startDate, endDate, active, price, accept);
     }
 
     @Override

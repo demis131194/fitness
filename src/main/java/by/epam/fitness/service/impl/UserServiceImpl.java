@@ -74,6 +74,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAllActiveWithTrainer(int trainerId) throws ServiceException {
+        List<User> activeUsers;
+        try {
+            activeUsers = userDao.findAllActiveWithTrainer(trainerId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return activeUsers;
+    }
+
+    @Override
     public List<User> findAll() throws ServiceException {
         List<User> allUsers;
         try {

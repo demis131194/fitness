@@ -11,6 +11,7 @@ public interface UserService {
     boolean update(User user) throws ServiceException;
     boolean delete(int id) throws ServiceException;
     List<User> findAllActive() throws ServiceException;
+    List<User> findAllActiveWithTrainer(int trainerId) throws ServiceException;
     List<User> findAll() throws ServiceException;
     User findByLogin(String userLogin) throws ServiceException;
     User findByLoginAndPassword(String userLogin, String userPassword) throws ServiceException;

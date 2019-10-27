@@ -13,8 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class FindAllOrdersCommand implements Command {
-    private static Logger logger = LogManager.getLogger(FindAllOrdersCommand.class);
+public class FindAllOrdersForClientCommand implements Command {
+    private static Logger logger = LogManager.getLogger(FindAllOrdersForClientCommand.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();
 
@@ -25,7 +25,7 @@ public class FindAllOrdersCommand implements Command {
             if (obj != null && obj.getClass() == Integer.class) {
                 int userId = (Integer) obj;
 
-                List<Order> orders = orderService.findAllActive(userId);
+                List<Order> orders = orderService.findAllActive(userId, null);
 
                 requestContent.putAttribute("orders", orders);
             }

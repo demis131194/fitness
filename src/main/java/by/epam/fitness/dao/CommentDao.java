@@ -11,5 +11,6 @@ public interface CommentDao {
     boolean delete(int commentId) throws DaoException;
     Comment findActive(int commentId) throws DaoException;
     List<Comment> findAllActive() throws DaoException;
+    List<Comment> findAllActiveByTrainer(int trainerId) throws DaoException;
     List<Comment> findAll() throws DaoException;
 }

@@ -10,6 +10,6 @@ public interface AssignmentDao {
     boolean update(Assignment order) throws DaoException;
     boolean delete(int assignmentId) throws DaoException;
     Assignment findActive(int assignmentId) throws DaoException;
-    List<Assignment> findAllActive() throws DaoException;
+    List<Assignment> findAllActive(Integer userId, Integer trainerId) throws DaoException;
     List<Assignment> findAll() throws DaoException;
 }

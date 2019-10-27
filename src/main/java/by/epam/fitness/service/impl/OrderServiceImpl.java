@@ -34,7 +34,6 @@ public class OrderServiceImpl implements OrderService {
         try {
             createdOder = orderDao.create(order);
         } catch (DaoException e) {
-            logger.debug("Before service exception");
             throw new ServiceException(e);
         }
         return createdOder;
@@ -65,11 +64,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order findActive(int orderId, int userId) throws ServiceException {
+    public Order findActive(int orderId, Integer userId, Integer trainerId) throws ServiceException {
         logger.trace("In service method findActive.");
         Order order;
         try {
-            order = orderDao.findActive(orderId, userId, );
+            order = orderDao.findActive(orderId, userId, trainerId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -77,11 +76,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAllActive(int userId) throws ServiceException {
+    public List<Order> findAllActive(Integer userId, Integer trainerId) throws ServiceException {
         logger.trace("In service method findAllActive.");
         List<Order> orders;
         try {
-            orders = orderDao.findAllActive(userId, );
+            orders = orderDao.findAllActive(userId, trainerId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

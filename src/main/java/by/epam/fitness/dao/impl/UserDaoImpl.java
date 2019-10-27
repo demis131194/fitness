@@ -20,6 +20,7 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE_QUERY = "UPDATE users SET password = ?, name = ?, lastName = ?, trainerId = ?, discount = ?, phone = ? WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE users SET active = false WHERE id = ?";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE active = true";
+    private static final String FIND_ALL_ACTIVE_WITH_TRAINER_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE active = true AND trainerId = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users";
     private static final String FIND_BY_LOGIN_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE login = ? AND active = true";
     private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE login = ? AND password = ? AND active = true";
@@ -134,10 +135,36 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findAllActive() throws DaoException {
         List<User> result = new ArrayList<>();
-        Connection
- connection = ConnectionPool.getInstance().takeConnection();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
 
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.first()) {
+                User user = getUserFromResultSet(resultSet);
+                result.add(user);
+            }
+
+            logger.debug("FindAllActive, user - {}", result);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warn(e);
+            }
+
+        }
+        return result;
+    }
+
+    @Override
+    public List<User> findAllActiveWithTrainer(int trainerId) throws DaoException {
+        List<User> result = new ArrayList<>();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_WITH_TRAINER_QUERY)) {
+            statement.setInt(1, trainerId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.first()) {

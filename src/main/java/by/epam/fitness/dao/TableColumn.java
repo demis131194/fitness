@@ -22,6 +22,8 @@ public class TableColumn {
 
     public static final String ASSIGNMENTS_ID = "id";
     public static final String ASSIGNMENTS_ORDER_ID = "orderId";
+    public static final String ASSIGNMENTS_USER_ID = "userId";
+    public static final String ASSIGNMENTS_TRAINER_ID = "trainerId";
     public static final String ASSIGNMENTS_REGISTER_DATE = "registerDate";
     public static final String ASSIGNMENTS_EXERCISES = "exercises";
     public static final String ASSIGNMENTS_NUTRITION = "nutrition";
@@ -37,9 +39,6 @@ public class TableColumn {
     public static final String COMMENT_REGISTER_DATE = "registerDate";
     public static final String COMMENT_COMMENT = "comment";
     public static final String COMMENT_ACTIVE = "active";
-
-
-
 
 
     private TableColumn(){}

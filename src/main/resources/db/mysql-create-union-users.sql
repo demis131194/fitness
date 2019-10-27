@@ -43,6 +43,8 @@ CREATE TABLE assignments
 (
     id		 	    INT 	    NOT NULL AUTO_INCREMENT,
     orderId	 	    INT 	    NOT NULL,
+    userId	 	    INT 	    NOT NULL,
+    trainerId	 	INT 	    NOT NULL,
     registerDate    TIMESTAMP   NOT NULL DEFAULT now(),
     exercises       TEXT 	    NOT NULL,
     nutrition       TEXT 	    NOT NULL,
@@ -83,11 +85,11 @@ VALUES (4, 2, 'training-1'),
        (6, 3, 'training-3'),
        (7, 3, 'training-4');
 
-INSERT INTO assignments(orderId, exercises, nutrition, startDate, endDate, price)
-VALUES (1, 'exercises-2', 'nutrition-1', '2019-09-01', '2019-10-01', 200),
-       (2, 'exercises-2', 'nutrition-2', '2019-09-01', '2019-10-01', 200),
-       (3, 'exercises-2', 'nutrition-3', '2019-09-01', '2019-10-01', 200),
-       (4, 'exercises-2', 'nutrition-4', '2019-09-01', '2019-10-01', 200);
+INSERT INTO assignments(orderId, userId, trainerId, exercises, nutrition, startDate, endDate, price)
+VALUES (1, 4, 2, 'exercises-2', 'nutrition-1', '2019-09-01', '2019-10-01', 200),
+       (2, 5, 2, 'exercises-2', 'nutrition-2', '2019-09-01', '2019-10-01', 200),
+       (3, 6, 3, 'exercises-2', 'nutrition-3', '2019-09-01', '2019-10-01', 200),
+       (4, 7, 3, 'exercises-2', 'nutrition-4', '2019-09-01', '2019-10-01', 200);
 
 INSERT INTO comments(userId, trainerId, comment)
 VALUES (4,2,'Comment-1'),
