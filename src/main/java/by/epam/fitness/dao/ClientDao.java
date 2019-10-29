@@ -9,10 +9,11 @@ public interface ClientDao {
 
     Client create(Client client) throws DaoException;
     boolean update(Client client) throws DaoException;
-    boolean delete(int id) throws DaoException;
+    boolean delete(int clientId) throws DaoException;
+    Client find(int clientId) throws DaoException;
     List<Client> findAllActive() throws DaoException;
-    List<Client> findAllActiveWithTrainer(int trainerId) throws DaoException;
+    List<Client> findAllActiveByTrainerId(int trainerId) throws DaoException;
     List<Client> findAll() throws DaoException;
-    Client findByLogin(String userLogin) throws DaoException;
-    Client findByLoginAndPassword(String userLogin, String userPassword) throws DaoException;
+    List<Client> findAllActiveByName(String name) throws DaoException;
+    List<Client> findAllActiveByLastName(String lastName) throws DaoException;
 }

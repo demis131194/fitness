@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     public List<Client> findAllActiveWithTrainer(int trainerId) throws ServiceException {
         List<Client> activeClients;
         try {
-            activeClients = clientDao.findAllActiveWithTrainer(trainerId);
+            activeClients = clientDao.findAllActiveByTrainerId(trainerId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

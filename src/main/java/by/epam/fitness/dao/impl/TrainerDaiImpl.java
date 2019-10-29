@@ -14,10 +14,12 @@ import java.util.List;
 
 public class TrainerDaiImpl implements TrainerDao {
     private static Logger logger = LogManager.getLogger(TrainerDaiImpl.class);
+
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
     private static final String INSERT_TRAINER_QUERY = "INSERT INTO trainers (trainerId, name, lastName, phone) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE trainers SET name = ?, lastName = ?, phone = ? WHERE trainerId = ?";
-    private static final String DELETE_QUERY = "UPDATE trainers SET active = false WHERE trainerId = ?";
+    private static final String DELETE_TRAINERS_QUERY = "UPDATE trainers SET active = false WHERE trainerId = ?";
+    private static final String DELETE_USERS_QUERY = "UPDATE users SET active = false WHERE id = ?";
     private static final String FIND_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE trainerId = ?";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE active = true";
     private static final String FIND_ALL_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers";
@@ -97,14 +99,23 @@ public class TrainerDaiImpl implements TrainerDao {
     public boolean delete(int trainerId) throws DaoException {
         boolean isDeleted;
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
-            statement.setInt(1, trainerId);
-            isDeleted = statement.execute();
+             PreparedStatement clientsStatement = connection.prepareStatement(DELETE_TRAINERS_QUERY);
+             PreparedStatement usersStatement = connection.prepareStatement(DELETE_USERS_QUERY)) {
+            try {
+                connection.setAutoCommit(false);
+                clientsStatement.setInt(1, trainerId);
+                usersStatement.setInt(1, trainerId);
+                isDeleted = clientsStatement.execute() & usersStatement.execute();
 
-            if (isDeleted) {
-                logger.debug("Trainer deleted, id - {}", trainerId);
-            } else {
-                logger.debug("Unsuccessful trainer delete, id - {}", trainerId);
+                if (isDeleted) {
+                    logger.debug("Trainer deleted, id - {}", trainerId);
+                    connection.commit();
+                } else {
+                    logger.debug("Unsuccessful trainer delete, id - {}", trainerId);
+                    connection.rollback();
+                }
+            } finally {
+                connection.setAutoCommit(true);
             }
 
         } catch (SQLException e) {

@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDao {
     private static Logger logger = LogManager.getLogger(TrainerDaiImpl.class);
-    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, role FROM users WHERE login = ? AND password = ?";
+    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, role FROM users WHERE login = ? AND password = ? AND active = true";
     private static final String UPDATE_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE id = ?";
 
     private static UserDao userDao;

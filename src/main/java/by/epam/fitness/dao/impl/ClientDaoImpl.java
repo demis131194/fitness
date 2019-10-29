@@ -6,6 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.pool.ConnectionPool;
 ;
+import com.mysql.cj.MysqlType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,14 +16,18 @@ import java.util.List;
 
 public class ClientDaoImpl implements ClientDao {
     private static Logger logger = LogManager.getLogger(ClientDaoImpl.class);
-    private static final String UPDATE_QUERY = "UPDATE users SET password = ?, name = ?, lastName = ?, trainerId = ?, discount = ?, phone = ? WHERE id = ?";
-    private static final String DELETE_QUERY = "UPDATE users SET active = false WHERE id = ?";
-    private static final String INSERT_QUERY = "INSERT INTO users (login, password, name, lastName, trainerId, role, discount, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE active = true";
-    private static final String FIND_ALL_ACTIVE_WITH_TRAINER_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE active = true AND trainerId = ?";
-    private static final String FIND_ALL_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users";
-    private static final String FIND_BY_LOGIN_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE login = ? AND active = true";
-    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, active, discount, phone FROM users WHERE login = ? AND password = ? AND active = true";
+
+    private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
+    private static final String INSERT_CLIENTS_QUERY = "INSERT INTO clients (clientId, name, lastName, phone) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE clients SET name = ?, lastName = ?, hisTrainerId = ?, phone = ? WHERE clientId = ?";
+    private static final String DELETE_CLIENTS_QUERY = "UPDATE clients SET active = false WHERE clientId = ?";
+    private static final String DELETE_USERS_QUERY = "UPDATE users SET active = false WHERE id = ?";
+    private static final String FIND_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE clientId = ?";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE active = true";
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_ID_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE active = true AND hisTrainerId = ?";
+    private static final String FIND_ALL_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients";
+    private static final String FIND_ALL_BY_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE name = ?";
+    private static final String FIND_ALL_BY_LAST_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE lastName = ?";
 
     private static ClientDao clientDao;
 
@@ -32,147 +37,155 @@ public class ClientDaoImpl implements ClientDao {
     public static ClientDao getInstance() {
         if (clientDao == null) {
             clientDao = new ClientDaoImpl();
-            logger.debug("UserDao created");
+            logger.debug("ClientDao created");
         }
         return clientDao;
     }
 
     @Override
     public Client create(Client client) throws DaoException {
-        Client createdClient;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(3, client.getName());
-            statement.setString(4, client.getLastName());
-            statement.setInt(5, client.getTrainerId());
-            statement.setInt(7, client.getDiscount());
-            statement.setString(7, client.getPhone());
-            statement.execute();
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement usersStatement = connection.prepareStatement(INSERT_USERS_QUERY, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement trainerStatement = connection.prepareStatement(INSERT_CLIENTS_QUERY)) {
+            try {
+                connection.setAutoCommit(false);
+                usersStatement.setString(1, client.getLogin());
+                usersStatement.setString(2, client.getPassword());
+                usersStatement.setString(3, client.getRole().name());
+                usersStatement.execute();
 
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                int orderId = resultSet.getInt(1);
-                client.setId(orderId);
+                ResultSet resultSet = usersStatement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    int clientId = resultSet.getInt(1);
+                    client.setId(clientId);
+                }
+
+                trainerStatement.setInt(1, client.getId());
+                trainerStatement.setString(2, client.getName());
+                trainerStatement.setString(3, client.getLastName());
+                trainerStatement.setString(4, client.getPhone());
+
+                usersStatement.execute();
+
+                connection.commit();
+                logger.debug("Client created = {}", client);
+            } finally {
+                connection.setAutoCommit(true);
             }
-
-            createdClient = client;
-            logger.debug("User created - {}", client);
-
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
-        return createdClient;
+        return client;
     }
 
     @Override
     public boolean update(Client client) throws DaoException {
         boolean isUpdated;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setString(2, client.getName());
-            statement.setString(3, client.getLastName());
-            statement.setInt(4, client.getTrainerId());
-            statement.setInt(5, client.getDiscount());
-            statement.setString(6, client.getPhone());
-            statement.setString(7, client.getPhone());
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
+            statement.setString(1, client.getName());
+            statement.setString(2, client.getLastName());
+            if (client.getTrainerId() != null) {
+                statement.setInt(3, client.getTrainerId());
+            } else {
+                statement.setNull(3, MysqlType.NULL.getJdbcType());
+            }
+            if (client.getPhone() != null) {
+                statement.setString(4, client.getPhone());
+            } else {
+                statement.setNull(4, MysqlType.NULL.getJdbcType());
+            }
+            statement.setInt(5, client.getId());
 
-            isUpdated = statement.executeUpdate() == 1;
-
-
+            isUpdated = statement.execute();
+            logger.debug("Client updated, new trainer - {}", client);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return isUpdated;
     }
 
     @Override
-    public boolean delete(int id) throws DaoException {
+    public boolean delete(int clientId) throws DaoException {
         boolean isDeleted;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
-            statement.setInt(1, id);
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement clientsStatement = connection.prepareStatement(DELETE_CLIENTS_QUERY);
+             PreparedStatement usersStatement = connection.prepareStatement(DELETE_USERS_QUERY)) {
+            try {
+                connection.setAutoCommit(false);
+                clientsStatement.setInt(1, clientId);
+                usersStatement.setInt(1, clientId);
+                isDeleted = clientsStatement.execute() & usersStatement.execute();
 
-            isDeleted = statement.executeUpdate() == 1;
-
-            logger.debug("User deleted, id - {}", id);
+                if (isDeleted) {
+                    logger.debug("Client deleted, id - {}", clientId);
+                    connection.commit();
+                } else {
+                    logger.debug("Unsuccessful client delete, id - {}", clientId);
+                    connection.rollback();
+                }
+            } finally {
+                connection.setAutoCommit(true);
+            }
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return isDeleted;
     }
 
     @Override
-    public List<Client> findAllActive() throws DaoException {
-        List<Client> result = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
-
+    public Client find(int clientId) throws DaoException {
+        Client client = null;
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_QUERY)) {
+            statement.setInt(1, clientId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.first()) {
-                Client client = getUserFromResultSet(resultSet);
-                result.add(client);
+                client = getClientFromResultSet(resultSet);
+                logger.debug("Find, client - {}", client);
             }
-
-            logger.debug("FindAllActive, user - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
+        }
+        return client;
+    }
 
+    @Override
+    public List<Client> findAllActive() throws DaoException {
+        List<Client> result = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Client client = getClientFromResultSet(resultSet);
+                result.add(client);
+            }
+            logger.debug("FindAllActive, clients - {}", result);
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
         return result;
     }
 
     @Override
-    public List<Client> findAllActiveWithTrainer(int trainerId) throws DaoException {
+    public List<Client> findAllActiveByTrainerId(int trainerId) throws DaoException {
         List<Client> result = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_WITH_TRAINER_QUERY)) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_ID_QUERY)) {
             statement.setInt(1, trainerId);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.first()) {
-                Client client = getUserFromResultSet(resultSet);
+            while (resultSet.next()) {
+                Client client = getClientFromResultSet(resultSet);
                 result.add(client);
             }
-
-            logger.debug("FindAllActive, user - {}", result);
+            logger.debug("FindAllActiveByTrainerId, clients - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return result;
     }
@@ -180,94 +193,69 @@ public class ClientDaoImpl implements ClientDao {
     @Override
     public List<Client> findAll() throws DaoException {
         List<Client> result = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.first()) {
-                Client client = getUserFromResultSet(resultSet);
+            while (resultSet.next()) {
+                Client client = getClientFromResultSet(resultSet);
                 result.add(client);
             }
-
-            logger.debug("FindAll, users - {}", result);
+            logger.debug("FindAll, clients - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return result;
     }
 
     @Override
-    public Client findByLogin(String userLogin) throws DaoException {
-        Client client = null;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_QUERY)) {
-            statement.setString(1, userLogin);
+    public List<Client> findAllActiveByName(String name) throws DaoException {
+        List<Client> result = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_NAME_QUERY)) {
+            statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.first()) {
-                client = getUserFromResultSet(resultSet);
+            while (resultSet.next()) {
+                Client client = getClientFromResultSet(resultSet);
+                result.add(client);
             }
-
-            logger.debug("FindByLogin, user - {}", client);
+            logger.debug("FindAllActiveByName, clients - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
-        return client;
+        return result;
     }
 
     @Override
-    public Client findByLoginAndPassword(String userLogin, String userPassword) throws DaoException {
-        Client client = null;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_LOGIN_AND_PASSWORD_QUERY)) {
-            statement.setString(1, userLogin);
-            statement.setString(2, userPassword);
-
+    public List<Client> findAllActiveByLastName(String lastName) throws DaoException {
+        List<Client> result = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_LAST_NAME_QUERY)) {
+            statement.setString(1, lastName);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.first()) {
-                client = getUserFromResultSet(resultSet);
+            while (resultSet.next()) {
+                Client client = getClientFromResultSet(resultSet);
+                result.add(client);
             }
-
-            logger.debug("FindByLogin, user - {}", client);
+            logger.debug("FindAllActiveByLastName, clients - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
-        return client;
+        return result;
     }
 
-    private Client getUserFromResultSet(ResultSet resultSet) throws SQLException {
+    private Client getClientFromResultSet(ResultSet resultSet) throws SQLException {
         Client client = new Client();
-        client.setId(resultSet.getInt(TableColumn.USERS_ID));
-        client.setName(resultSet.getString(TableColumn.USERS_NAME));
-        client.setLastName(resultSet.getString(TableColumn.USERS_LAST_NAME));
-        client.setRegisterDateTime(resultSet.getTimestamp(TableColumn.USERS_REGISTER_DATE).toLocalDateTime());
-        client.setTrainerId(resultSet.getInt(TableColumn.USERS_TRAINER_ID));
-        client.setActive(resultSet.getBoolean(TableColumn.USERS_ACTIVE));
-        client.setDiscount(resultSet.getInt(TableColumn.USERS_DISCOUNT));
-        client.setPhone(resultSet.getString(TableColumn.USERS_PHONE));
-//        user = new User(id, name, lastName, login, "********", LocalDateTime.of(registerDate, registerTime), role);    // FIXME: 22.10.2019 Password ??
+        client.setId(resultSet.getInt(TableColumn.CLIENT_ID));
+        client.setName(resultSet.getString(TableColumn.CLIENT_NAME));
+        client.setLastName(resultSet.getString(TableColumn.CLIENT_LAST_NAME));
+        client.setRegisterDateTime(resultSet.getTimestamp(TableColumn.CLIENT_REGISTER_DATE).toLocalDateTime());
+        client.setTrainerId(resultSet.getInt(TableColumn.CLIENT_HIS_TRAINER_ID));
+        client.setActive(resultSet.getBoolean(TableColumn.CLIENT_ACTIVE));
+        client.setDiscount(resultSet.getInt(TableColumn.CLIENT_DISCOUNT));
+        client.setPhone(resultSet.getString(TableColumn.CLIENT_PHONE));
         return client;
     }
 

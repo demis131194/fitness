@@ -5,7 +5,7 @@ import by.epam.fitness.model.AbstractBaseEntity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Client extends AbstractBaseEntity {
+public class Client extends User {
 
     private String name;
     private String lastName;
@@ -47,14 +47,6 @@ public class Client extends AbstractBaseEntity {
 
     public void setTrainerId(Integer trainerId) {
         this.trainerId = trainerId;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 
     public Integer getDiscount() {

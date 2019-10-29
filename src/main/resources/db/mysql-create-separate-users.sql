@@ -20,6 +20,7 @@ CREATE TABLE users
     login	 	 VARBINARY(255) 				    NOT NULL,
     password 	 VARBINARY(255) 				    NOT NULL,
     role 	     ENUM('ADMIN', 'TRAINER', 'CLIENT') NOT NULL DEFAULT 'CLIENT',
+    active 	     BOOLEAN                            NOT NULL DEFAULT true,
     PRIMARY KEY (id),
     UNIQUE KEY login_UNIQUE (login)
 );
@@ -40,7 +41,7 @@ CREATE TABLE trainers
     lastName 	 VARCHAR(255) 					  NOT NULL,
     registerDate TIMESTAMP				          NOT NULL DEFAULT now(),
     phone		 VARCHAR(20)                      NOT NULL,
-    active 	     BOOLEAN                            NOT NULL DEFAULT true,
+    active 	     BOOLEAN                          NOT NULL DEFAULT true,
     PRIMARY KEY (trainerId),
     FOREIGN KEY (trainerId) REFERENCES users (id) ON DELETE CASCADE
 );
@@ -51,10 +52,10 @@ CREATE TABLE clients
     name	 	 VARCHAR(255) 					  NOT NULL,
     lastName 	 VARCHAR(255) 					  NOT NULL,
     registerDate TIMESTAMP				          NOT NULL DEFAULT now(),
-    hisTrainerId INT 							  ,
+    hisTrainerId INT 							  DEFAULT NULL,
     discount     INT                              UNSIGNED NOT NULL DEFAULT 0 CHECK (discount >=0 AND discount <=100),
-    phone        VARCHAR(255)                     ,
-    active 	     BOOLEAN                            NOT NULL DEFAULT true,
+    phone        VARCHAR(255)                     DEFAULT NULL,
+    active 	     BOOLEAN                          NOT NULL DEFAULT true,
     PRIMARY KEY (clientId),
     FOREIGN KEY (clientId) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (hisTrainerId) REFERENCES trainers (trainerId) ON DELETE CASCADE
@@ -66,7 +67,7 @@ CREATE TABLE orders
     clientId	 	INT 	    NOT NULL,
     trainerId	    INT 	    NOT NULL,
     registerDate    TIMESTAMP   NOT NULL DEFAULT now(),
-    description     TEXT 	    ,
+    description     TEXT 	    DEFAULT NULL,
     active          BOOLEAN     NOT NULL DEFAULT true,
     PRIMARY KEY (id),
     FOREIGN KEY (clientId) REFERENCES clients (clientId) ON DELETE CASCADE,
@@ -124,7 +125,7 @@ VALUES (2, 'trainer_Name_1', 'trainer_LastName_1', '2014-08-01 20:01:17', '222-3
 
 INSERT INTO clients(clientId, name, lastName, registerDate, hisTrainerId, discount, phone)
 VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 2, 10, '111-11-11'),
-       (5, 'Ghost', 'Ghostman', '2015-10-04 15:20:41', null, default, null),
+       (5, 'Ghost', 'Ghostman', '2015-10-04 15:20:41', null, default, default),
        (6, 'Pasha', 'Pavel', '2016-02-21 10:28:02', 3, 5, '333-33-33'),
        (7, 'Dima', 'Dmitry', '2016-05-27 09:51:22', 3, 0, '444-44-44');
 
