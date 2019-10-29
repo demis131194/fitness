@@ -42,7 +42,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
             statement.setInt(1, assignment.getOrderId());
-            statement.setInt(2, assignment.getUserId());
+            statement.setInt(2, assignment.getClientId());
             statement.setInt(3, assignment.getTrainerId());
             statement.setString(4, assignment.getExercises());
             statement.setString(5, assignment.getNutrition());
@@ -80,7 +80,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
         Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setInt(1, assignment.getOrderId());
-            statement.setInt(2, assignment.getUserId());
+            statement.setInt(2, assignment.getClientId());
             statement.setInt(3, assignment.getOrderId());
             statement.setString(4, assignment.getExercises());
             statement.setString(5, assignment.getNutrition());

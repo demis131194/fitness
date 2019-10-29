@@ -5,7 +5,7 @@ import by.epam.fitness.controller.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
-import by.epam.fitness.model.User;
+import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.UserService;
 import by.epam.fitness.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -26,19 +26,19 @@ public class LoginCommand implements Command {
         String login = requestContent.getParameterByName(PARAM_NAME_LOGIN);
         String password = requestContent.getParameterByName(PARAM_NAME_PASSWORD);
 
-        User user;
+        Client client;
         String page;
         try {
-            user = userService.findByLoginAndPassword(login, password);
+            client = userService.findByLoginAndPassword(login, password);
 
-            if (user != null) {
+            if (client != null) {
                 requestContent.putSessionAttribute("authorization", true);
-                requestContent.putSessionAttribute("userId", user.getId());
-                requestContent.putSessionAttribute("userRole", user.getUserRole().name());
-                requestContent.putSessionAttribute("userName", user.getName());
-                requestContent.putSessionAttribute("userLastName", user.getLastName());
-                requestContent.putSessionAttribute("userLogin", user.getLogin());
-                requestContent.putSessionAttribute("userRegisterDate", user.getRegisterDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                requestContent.putSessionAttribute("userId", client.getId());
+                requestContent.putSessionAttribute("userRole", client.getUserRole().name());
+                requestContent.putSessionAttribute("userName", client.getName());
+                requestContent.putSessionAttribute("userLastName", client.getLastName());
+                requestContent.putSessionAttribute("userLogin", client.getLogin());
+                requestContent.putSessionAttribute("userRegisterDate", client.getRegisterDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                 page = PagePath.WELCOME_PATH;
             } else {
                 page = PagePath.LOGIN_PATH;

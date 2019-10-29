@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -20,13 +21,15 @@ public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static final int DEFAULT_NUMBER_OF_CONNECTION = 5;
     private static final String PROPERTY_PATH = "db/mysql.properties";
-    private static Lock lock = new ReentrantLock();
+//    private static Lock lock = new ReentrantLock();
+    private static AtomicBoolean isCreated = new AtomicBoolean(false);
     private static ConnectionPool INSTANCE;
 
     private int numberOfConnections;
 
     private BlockingQueue<ProxyConnection> awaitingConnections;
     private List<ProxyConnection>  occupiedConnections = new ArrayList<>();
+    private Driver driver;
 
 
     private ConnectionPool() {
@@ -42,7 +45,8 @@ public class ConnectionPool {
 
             this.awaitingConnections = new ArrayBlockingQueue<>(numberOfConnections);
 
-            DriverManager.registerDriver(new Driver());
+            driver = new Driver();
+            DriverManager.registerDriver(driver);
             for (int i = 0; i < numberOfConnections; i++) {
                 ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(property.getProperty("url"), property));
                 awaitingConnections.offer(connection);
@@ -55,21 +59,35 @@ public class ConnectionPool {
 
     }
 
-    public static ConnectionPool getInstance() {
-        if (INSTANCE == null) {
-            if (lock.tryLock()) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ConnectionPool();
-                    logger.debug("Connection pool created, number of connections - {}", INSTANCE.numberOfConnections);
-                }
-                lock.unlock();
-            }
+//    public static ConnectionPool getInstance() {                    // FIXME: 29.10.2019 need synchronization???
+//        if (INSTANCE == null) {
+//            if (lock.tryLock()) {
+//                if (INSTANCE == null) {
+//                    INSTANCE = new ConnectionPool();
+//                    logger.debug("Connection pool created, number of connections - {}", INSTANCE.numberOfConnections);
+//                }
+//                lock.unlock();
+//            }
+//        }
+//        return INSTANCE;
+//    }
+
+    public static ConnectionPool getInstance() {                    // FIXME: 29.10.2019 need synchronization???
+        if (!isCreated.get()) {
+            initPool();
+            logger.debug("Connection pool created, number of connections - {}", INSTANCE.numberOfConnections);
         }
         return INSTANCE;
     }
 
+    public static void initPool() {                 // FIXME: 29.10.2019 how is it?
+        if (!isCreated.getAndSet(true)) {
+            INSTANCE = new ConnectionPool();
+        }
+    }
+
     public Connection takeConnection() {
-        ProxyConnection connection = null;                          // FIXME: 21.10.2019 Fix
+        ProxyConnection connection = null;
         try {
             connection = awaitingConnections.take();
             occupiedConnections.add(connection);
@@ -84,24 +102,20 @@ public class ConnectionPool {
     }
 
     public void closeAllConnections() {
-        while (!awaitingConnections.isEmpty() && !occupiedConnections.isEmpty()) {
-            occupiedConnections.forEach(proxyConnection -> {
-                try {
-                    proxyConnection.reallyClose();
-                } catch (SQLException e) {
-                    logger.warn(e);
-                }
-            });
-
-            awaitingConnections.forEach(proxyConnection -> {
-                try {
-                    proxyConnection.reallyClose();
-                } catch (SQLException e) {
-                    logger.warn(e);
-                }
-            });
+        for (int i = 0; i < numberOfConnections; i++) {
+            try {
+                ProxyConnection connection = awaitingConnections.take();
+                connection.reallyClose();
+            } catch (InterruptedException | SQLException e) {
+                logger.warn(e);
+            }
         }
 
+        try {
+            DriverManager.deregisterDriver(driver);
+        } catch (SQLException e) {
+            logger.warn(e);
+        }
     }
 
 }

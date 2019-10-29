@@ -41,7 +41,7 @@ public class OrderDaoImpl implements OrderDao {
         Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
-            statement.setInt(1, order.getUserId());
+            statement.setInt(1, order.getClientId());
             statement.setInt(2, order.getTrainerId());
             statement.setString(3, order.getDescription());
             statement.execute();
@@ -74,7 +74,7 @@ public class OrderDaoImpl implements OrderDao {
         boolean isUpdated;
         Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setInt(1, order.getUserId());
+            statement.setInt(1, order.getClientId());
             statement.setInt(2, order.getTrainerId());
             statement.setString(3, order.getDescription());
             statement.setInt(4, order.getId());
@@ -233,7 +233,7 @@ public class OrderDaoImpl implements OrderDao {
     private Order getOrderFromResultSet(ResultSet resultSet) throws SQLException {
         Order order = new Order();
         order.setId(resultSet.getInt(TableColumn.ORDERS_ID));
-        order.setUserId(resultSet.getInt(TableColumn.ORDERS_USER_ID));
+        order.setClientId(resultSet.getInt(TableColumn.ORDERS_USER_ID));
         order.setTrainerId(resultSet.getInt(TableColumn.ORDERS_TRAINER_ID));
         order.setRegisterDate(resultSet.getTimestamp(TableColumn.ORDERS_REGISTER_DATE).toLocalDateTime());
         order.setDescription(resultSet.getString(TableColumn.ORDERS_DESCRIPTION));

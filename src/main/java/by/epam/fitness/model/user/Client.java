@@ -1,38 +1,21 @@
-package by.epam.fitness.model;
+package by.epam.fitness.model.user;
+
+import by.epam.fitness.model.AbstractBaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class User extends AbstractBaseEntity {
+public class Client extends AbstractBaseEntity {
 
-    private String login;
-    private String password;
     private String name;
     private String lastName;
     private LocalDateTime registerDateTime;
     private Integer trainerId;
-    private UserRole userRole;
-    private Integer discount;
     private boolean isActive;
+    private Integer discount;
     private String phone;
 
-    public User() {
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public Client() {
     }
 
     public String getName() {
@@ -59,12 +42,12 @@ public class User extends AbstractBaseEntity {
         this.registerDateTime = registerDateTime;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+    public Integer getTrainerId() {
+        return trainerId;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setTrainerId(Integer trainerId) {
+        this.trainerId = trainerId;
     }
 
     public boolean isActive() {
@@ -73,14 +56,6 @@ public class User extends AbstractBaseEntity {
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    public Integer getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(Integer trainerId) {
-        this.trainerId = trainerId;
     }
 
     public Integer getDiscount() {
@@ -103,26 +78,31 @@ public class User extends AbstractBaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(login, user.login) &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(registerDateTime, user.registerDateTime) &&
-                Objects.equals(phone, user.phone);
+        Client client = (Client) o;
+        return isActive == client.isActive &&
+                Objects.equals(name, client.name) &&
+                Objects.equals(lastName, client.lastName) &&
+                Objects.equals(registerDateTime, client.registerDateTime) &&
+                Objects.equals(trainerId, client.trainerId) &&
+                Objects.equals(discount, client.discount) &&
+                Objects.equals(phone, client.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, name, lastName);
+        return Objects.hash(name, lastName, registerDateTime, discount, phone);
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
-        sb.append("login='").append(login).append('\'');
-        sb.append(", name='").append(name).append('\'');
+        final StringBuilder sb = new StringBuilder("Client{");
+        sb.append("name='").append(name).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", userRole=").append(userRole);
+        sb.append(", registerDateTime=").append(registerDateTime);
+        sb.append(", trainerId=").append(trainerId);
+        sb.append(", isActive=").append(isActive);
+        sb.append(", discount=").append(discount);
+        sb.append(", phone='").append(phone).append('\'');
         sb.append(", id=").append(id);
         sb.append('}');
         return sb.toString();

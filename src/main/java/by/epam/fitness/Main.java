@@ -4,7 +4,7 @@ import by.epam.fitness.dao.UserDao;
 import by.epam.fitness.dao.impl.UserDaoImpl;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
-import by.epam.fitness.model.User;
+import by.epam.fitness.model.user.Client;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,11 +15,11 @@ public class Main {
 
         UserDao userDao = UserDaoImpl.getInstance();
 
-        User user = userDao.findByLogin("vova");
-        System.out.println(user);
+        Client client = userDao.findByLogin("vova");
+        System.out.println(client);
         System.out.println("--------");
-        User user1 = userDao.findByLoginAndPassword("vova", "vova");
-        System.out.println(user1);
+        Client client1 = userDao.findByLoginAndPassword("vova", "vova");
+        System.out.println(client1);
 
     }
 }

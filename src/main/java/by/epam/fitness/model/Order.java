@@ -5,25 +5,28 @@ import java.util.Objects;
 
 public class Order extends AbstractBaseEntity {
 
-    private Integer userId;
-    private Integer trainerId;
+    private int clientId;
+    private int trainerId;
     private LocalDateTime registerDate;
     private String description;
     private boolean active = true;
 
-    public Integer getUserId() {
-        return userId;
+    public Order() {
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public int getClientId() {
+        return clientId;
     }
 
-    public Integer getTrainerId() {
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
+
+    public int getTrainerId() {
         return trainerId;
     }
 
-    public void setTrainerId(Integer trainerId) {
+    public void setTrainerId(int trainerId) {
         this.trainerId = trainerId;
     }
 
@@ -56,7 +59,7 @@ public class Order extends AbstractBaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(userId, order.userId) &&
+        return Objects.equals(clientId, order.clientId) &&
                 Objects.equals(trainerId, order.trainerId) &&
                 Objects.equals(registerDate, order.registerDate) &&
                 Objects.equals(description, order.description);
@@ -64,13 +67,13 @@ public class Order extends AbstractBaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, trainerId, registerDate, description);
+        return Objects.hash(clientId, trainerId, registerDate, description);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Order{");
-        sb.append("userId=").append(userId);
+        sb.append("userId=").append(clientId);
         sb.append(", trainerId=").append(trainerId);
         sb.append(", description='").append(description).append('\'');
         sb.append(", id=").append(id);

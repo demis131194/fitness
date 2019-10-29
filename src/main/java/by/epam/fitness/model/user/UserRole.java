@@ -1,4 +1,4 @@
-package by.epam.fitness.model;
+package by.epam.fitness.model.user;
 
 public enum UserRole {
     ADMIN,

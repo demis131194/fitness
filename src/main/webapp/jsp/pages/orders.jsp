@@ -6,7 +6,7 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 
 <fmt:message key="orders.order.id" bundle="${rb}" var="orderId"/>
-<fmt:message key="orders.user.id" bundle="${rb}" var="userId"/>
+<fmt:message key="orders.client.id" bundle="${rb}" var="userId"/>
 <fmt:message key="orders.trainer.id" bundle="${rb}" var="trainerId"/>
 <fmt:message key="orders.register.date" bundle="${rb}" var="registerDate"/>
 <fmt:message key="orders.description" bundle="${rb}" var="description"/>
@@ -35,7 +35,7 @@
             <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
             <tr bgcolor="${order.active ? "green": "red"}">
                 <td>${order.id}</td>
-                <td>${order.userId}</td>
+                <td>${order.clientId}</td>
                 <td>${order.trainerId}</td>
                 <td>${order.registerDate}</td>
                 <td>${order.description}</td>

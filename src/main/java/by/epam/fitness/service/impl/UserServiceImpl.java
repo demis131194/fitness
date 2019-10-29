@@ -4,7 +4,7 @@ import by.epam.fitness.dao.UserDao;
 import by.epam.fitness.dao.impl.UserDaoImpl;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
-import by.epam.fitness.model.User;
+import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,21 +30,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user) throws ServiceException {
-        User createdUser;
+    public Client create(Client client) throws ServiceException {
+        Client createdClient;
         try {
-            createdUser = userDao.create(user);
+            createdClient = userDao.create(client);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return createdUser;
+        return createdClient;
     }
 
     @Override
-    public boolean update(User user) throws ServiceException {
+    public boolean update(Client client) throws ServiceException {
         boolean isUpdated;
         try {
-            isUpdated = userDao.update(user);
+            isUpdated = userDao.update(client);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -63,57 +63,57 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllActive() throws ServiceException {
-        List<User> activeUsers;
+    public List<Client> findAllActive() throws ServiceException {
+        List<Client> activeClients;
         try {
-            activeUsers = userDao.findAllActive();
+            activeClients = userDao.findAllActive();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return activeUsers;
+        return activeClients;
     }
 
     @Override
-    public List<User> findAllActiveWithTrainer(int trainerId) throws ServiceException {
-        List<User> activeUsers;
+    public List<Client> findAllActiveWithTrainer(int trainerId) throws ServiceException {
+        List<Client> activeClients;
         try {
-            activeUsers = userDao.findAllActiveWithTrainer(trainerId);
+            activeClients = userDao.findAllActiveWithTrainer(trainerId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return activeUsers;
+        return activeClients;
     }
 
     @Override
-    public List<User> findAll() throws ServiceException {
-        List<User> allUsers;
+    public List<Client> findAll() throws ServiceException {
+        List<Client> allClients;
         try {
-            allUsers = userDao.findAll();
+            allClients = userDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return allUsers;
+        return allClients;
     }
 
     @Override
-    public User findByLogin(String userLogin) throws ServiceException {
-        User userByLogin;
+    public Client findByLogin(String userLogin) throws ServiceException {
+        Client clientByLogin;
         try {
-            userByLogin = userDao.findByLogin(userLogin);
+            clientByLogin = userDao.findByLogin(userLogin);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return userByLogin;
+        return clientByLogin;
     }
 
     @Override
-    public User findByLoginAndPassword(String userLogin, String userPassword) throws ServiceException {
-        User userByLogin;
+    public Client findByLoginAndPassword(String userLogin, String userPassword) throws ServiceException {
+        Client clientByLogin;
         try {
-            userByLogin = userDao.findByLoginAndPassword(userLogin, userPassword);
+            clientByLogin = userDao.findByLoginAndPassword(userLogin, userPassword);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return userByLogin;
+        return clientByLogin;
     }
 }
