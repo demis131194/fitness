@@ -3,13 +3,12 @@ package by.epam.fitness.model.user;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Trainer extends AbstractUser {
+public class Trainer extends User {
 
     private String name;
     private String lastName;
     private LocalDateTime registerDateTime;
     private String phone;
-    private boolean isActive;
 
     public Trainer() {
     }

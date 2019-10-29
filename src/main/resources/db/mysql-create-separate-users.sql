@@ -40,7 +40,7 @@ CREATE TABLE trainers
     lastName 	 VARCHAR(255) 					  NOT NULL,
     registerDate TIMESTAMP				          NOT NULL DEFAULT now(),
     phone		 VARCHAR(20)                      NOT NULL,
-    active		 BOOLEAN                          NOT NULL DEFAULT true,
+    active 	     BOOLEAN                            NOT NULL DEFAULT true,
     PRIMARY KEY (trainerId),
     FOREIGN KEY (trainerId) REFERENCES users (id) ON DELETE CASCADE
 );
@@ -52,9 +52,9 @@ CREATE TABLE clients
     lastName 	 VARCHAR(255) 					  NOT NULL,
     registerDate TIMESTAMP				          NOT NULL DEFAULT now(),
     hisTrainerId INT 							  ,
-    active		 BOOLEAN                          NOT NULL DEFAULT true,
     discount     INT                              UNSIGNED NOT NULL DEFAULT 0 CHECK (discount >=0 AND discount <=100),
     phone        VARCHAR(255)                     ,
+    active 	     BOOLEAN                            NOT NULL DEFAULT true,
     PRIMARY KEY (clientId),
     FOREIGN KEY (clientId) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (hisTrainerId) REFERENCES trainers (trainerId) ON DELETE CASCADE

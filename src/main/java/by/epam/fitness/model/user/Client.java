@@ -11,7 +11,6 @@ public class Client extends AbstractBaseEntity {
     private String lastName;
     private LocalDateTime registerDateTime;
     private Integer trainerId;
-    private boolean isActive;
     private Integer discount;
     private String phone;
 

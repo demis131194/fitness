@@ -2,13 +2,14 @@ package by.epam.fitness.model.user;
 
 import by.epam.fitness.model.AbstractBaseEntity;
 
-public abstract class AbstractUser extends AbstractBaseEntity {
+public class User extends AbstractBaseEntity {
 
     protected String login;
     protected String password;
     protected UserRole role;
+    protected boolean isActive;
 
-    public AbstractUser() {
+    public User() {
     }
 
     public String getLogin() {
@@ -33,5 +34,13 @@ public abstract class AbstractUser extends AbstractBaseEntity {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

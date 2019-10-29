@@ -2,7 +2,7 @@ package by.epam.fitness.model.user;
 
 import java.util.Objects;
 
-public class Admin extends AbstractUser {
+public class Admin extends User {
 
     private String name;
     private String lastName;
