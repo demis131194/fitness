@@ -19,12 +19,11 @@ import java.io.IOException;
 @WebServlet("/controller")
 public class MainController extends HttpServlet {
 
-    private UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = UserServiceImpl.getInstance();
+        ConnectionPool.initPool();
     }
 
     @Override

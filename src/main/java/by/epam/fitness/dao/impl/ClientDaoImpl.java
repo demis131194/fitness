@@ -1,10 +1,9 @@
 package by.epam.fitness.dao.impl;
 
 import by.epam.fitness.dao.TableColumn;
-import by.epam.fitness.dao.UserDao;
+import by.epam.fitness.dao.ClientDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.user.Client;
-import by.epam.fitness.model.user.UserRole;
 import by.epam.fitness.pool.ConnectionPool;
 ;
 import org.apache.logging.log4j.LogManager;
@@ -14,8 +13,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoImpl implements UserDao {
-    private static Logger logger = LogManager.getLogger(UserDaoImpl.class);
+public class ClientDaoImpl implements ClientDao {
+    private static Logger logger = LogManager.getLogger(ClientDaoImpl.class);
     private static final String UPDATE_QUERY = "UPDATE users SET password = ?, name = ?, lastName = ?, trainerId = ?, discount = ?, phone = ? WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE users SET active = false WHERE id = ?";
     private static final String INSERT_QUERY = "INSERT INTO users (login, password, name, lastName, trainerId, role, discount, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -25,17 +24,17 @@ public class UserDaoImpl implements UserDao {
     private static final String FIND_BY_LOGIN_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, discount, phone FROM users WHERE login = ? AND active = true";
     private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, name, lastName, registerDate, trainerId, role, active, discount, phone FROM users WHERE login = ? AND password = ? AND active = true";
 
-    private static UserDao userDao;
+    private static ClientDao clientDao;
 
-    private UserDaoImpl() {
+    private ClientDaoImpl() {
     }
 
-    public static UserDao getInstance() {
-        if (userDao == null) {
-            userDao = new UserDaoImpl();
+    public static ClientDao getInstance() {
+        if (clientDao == null) {
+            clientDao = new ClientDaoImpl();
             logger.debug("UserDao created");
         }
-        return userDao;
+        return clientDao;
     }
 
     @Override

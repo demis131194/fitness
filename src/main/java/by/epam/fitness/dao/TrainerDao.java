@@ -1,11 +1,10 @@
 package by.epam.fitness.dao;
 
 import by.epam.fitness.exception.DaoException;
-import by.epam.fitness.model.user.Client;
 
 import java.util.List;
 
-public interface UserDao {
+public interface TrainerDao {
 
     Client create(Client client) throws DaoException;
     boolean update(Client client) throws DaoException;

@@ -1,7 +1,7 @@
 package by.epam.fitness.service.impl;
 
-import by.epam.fitness.dao.UserDao;
-import by.epam.fitness.dao.impl.UserDaoImpl;
+import by.epam.fitness.dao.ClientDao;
+import by.epam.fitness.dao.impl.ClientDaoImpl;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.Client;
@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private static UserService orderService;
 
-    private UserDao userDao = UserDaoImpl.getInstance();
+    private ClientDao clientDao = ClientDaoImpl.getInstance();
 
     private UserServiceImpl() {
     }
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public Client create(Client client) throws ServiceException {
         Client createdClient;
         try {
-            createdClient = userDao.create(client);
+            createdClient = clientDao.create(client);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public boolean update(Client client) throws ServiceException {
         boolean isUpdated;
         try {
-            isUpdated = userDao.update(client);
+            isUpdated = clientDao.update(client);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     public boolean delete(int id) throws ServiceException {
         boolean isDeleted;
         try {
-            isDeleted = userDao.delete(id);
+            isDeleted = clientDao.delete(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     public List<Client> findAllActive() throws ServiceException {
         List<Client> activeClients;
         try {
-            activeClients = userDao.findAllActive();
+            activeClients = clientDao.findAllActive();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     public List<Client> findAllActiveWithTrainer(int trainerId) throws ServiceException {
         List<Client> activeClients;
         try {
-            activeClients = userDao.findAllActiveWithTrainer(trainerId);
+            activeClients = clientDao.findAllActiveWithTrainer(trainerId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     public List<Client> findAll() throws ServiceException {
         List<Client> allClients;
         try {
-            allClients = userDao.findAll();
+            allClients = clientDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     public Client findByLogin(String userLogin) throws ServiceException {
         Client clientByLogin;
         try {
-            clientByLogin = userDao.findByLogin(userLogin);
+            clientByLogin = clientDao.findByLogin(userLogin);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
     public Client findByLoginAndPassword(String userLogin, String userPassword) throws ServiceException {
         Client clientByLogin;
         try {
-            clientByLogin = userDao.findByLoginAndPassword(userLogin, userPassword);
+            clientByLogin = clientDao.findByLoginAndPassword(userLogin, userPassword);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

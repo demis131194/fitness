@@ -1,7 +1,7 @@
 package by.epam.fitness;
 
-import by.epam.fitness.dao.UserDao;
-import by.epam.fitness.dao.impl.UserDaoImpl;
+import by.epam.fitness.dao.ClientDao;
+import by.epam.fitness.dao.impl.ClientDaoImpl;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.Client;
@@ -13,12 +13,12 @@ public class Main {
 
     public static void main(String[] args) throws DaoException, ServiceException {
 
-        UserDao userDao = UserDaoImpl.getInstance();
+        ClientDao clientDao = ClientDaoImpl.getInstance();
 
-        Client client = userDao.findByLogin("vova");
+        Client client = clientDao.findByLogin("vova");
         System.out.println(client);
         System.out.println("--------");
-        Client client1 = userDao.findByLoginAndPassword("vova", "vova");
+        Client client1 = clientDao.findByLoginAndPassword("vova", "vova");
         System.out.println(client1);
 
     }
