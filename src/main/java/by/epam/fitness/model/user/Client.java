@@ -2,6 +2,7 @@ package by.epam.fitness.model.user;
 
 import by.epam.fitness.model.AbstractBaseEntity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,9 +11,9 @@ public class Client extends User {
     private String name;
     private String lastName;
     private LocalDateTime registerDateTime;
-    private Integer trainerId;
     private Integer discount;
     private String phone;
+    private BigDecimal cash;
 
     public Client() {
     }
@@ -41,14 +42,6 @@ public class Client extends User {
         this.registerDateTime = registerDateTime;
     }
 
-    public Integer getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(Integer trainerId) {
-        this.trainerId = trainerId;
-    }
-
     public Integer getDiscount() {
         return discount;
     }
@@ -65,37 +58,29 @@ public class Client extends User {
         this.phone = phone;
     }
 
+    public BigDecimal getCash() {
+        return cash;
+    }
+
+    public void setCash(BigDecimal cash) {
+        this.cash = cash;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return isActive == client.isActive &&
-                Objects.equals(name, client.name) &&
+        return Objects.equals(name, client.name) &&
                 Objects.equals(lastName, client.lastName) &&
                 Objects.equals(registerDateTime, client.registerDateTime) &&
-                Objects.equals(trainerId, client.trainerId) &&
                 Objects.equals(discount, client.discount) &&
-                Objects.equals(phone, client.phone);
+                Objects.equals(phone, client.phone) &&
+                Objects.equals(cash, client.cash);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, lastName, registerDateTime, discount, phone);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Client{");
-        sb.append("name='").append(name).append('\'');
-        sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", registerDateTime=").append(registerDateTime);
-        sb.append(", trainerId=").append(trainerId);
-        sb.append(", isActive=").append(isActive);
-        sb.append(", discount=").append(discount);
-        sb.append(", phone='").append(phone).append('\'');
-        sb.append(", id=").append(id);
-        sb.append('}');
-        return sb.toString();
+        return Objects.hash(name, lastName, registerDateTime, discount, phone, cash);
     }
 }

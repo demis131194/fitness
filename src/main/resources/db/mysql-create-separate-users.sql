@@ -52,45 +52,29 @@ CREATE TABLE clients
     name	 	 VARCHAR(255) 					  NOT NULL,
     lastName 	 VARCHAR(255) 					  NOT NULL,
     registerDate TIMESTAMP				          NOT NULL DEFAULT now(),
-    hisTrainerId INT 							  DEFAULT NULL,
     discount     INT                              UNSIGNED NOT NULL DEFAULT 0 CHECK (discount >=0 AND discount <=100),
     phone        VARCHAR(255)                     DEFAULT NULL,
     active 	     BOOLEAN                          NOT NULL DEFAULT true,
     PRIMARY KEY (clientId),
-    FOREIGN KEY (clientId) REFERENCES users (id) ON DELETE CASCADE,
-    FOREIGN KEY (hisTrainerId) REFERENCES trainers (trainerId) ON DELETE CASCADE
+    FOREIGN KEY (clientId) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE orders
 (
-    id		 	    INT 	    NOT NULL AUTO_INCREMENT,
-    clientId	 	INT 	    NOT NULL,
-    trainerId	    INT 	    NOT NULL,
-    registerDate    TIMESTAMP   NOT NULL DEFAULT now(),
-    description     TEXT 	    DEFAULT NULL,
-    active          BOOLEAN     NOT NULL DEFAULT true,
-    PRIMARY KEY (id),
-    FOREIGN KEY (clientId) REFERENCES clients (clientId) ON DELETE CASCADE,
-    FOREIGN KEY (trainerId) REFERENCES trainers (trainerId) ON DELETE CASCADE
-);
-
-CREATE TABLE assignments
-(
     id		 	    INT 	        NOT NULL AUTO_INCREMENT,
-    orderId	 	    INT 	        NOT NULL,
-    clientId	    INT 	        NOT NULL,
+    clientId	 	INT 	        NOT NULL,
     trainerId	    INT 	        NOT NULL,
     registerDate    TIMESTAMP       NOT NULL DEFAULT now(),
     exercises       TEXT 	        NOT NULL,
     nutrition       TEXT 	        NOT NULL,
     startDate       DATE 	        NOT NULL,
     endDate         DATE 	        NOT NULL,
-    active          BOOLEAN         NOT NULL DEFAULT true,
     price           DECIMAL(6,2)    UNSIGNED NOT NULL,
     userComment     TEXT            DEFAULT NULL,
+    status          INT             DEFAULT 0 CHECK (status >=0 AND status <=2),
     accept          BOOLEAN         DEFAULT NULL,
+    active          BOOLEAN         NOT NULL DEFAULT true,
     PRIMARY KEY (id),
-    FOREIGN KEY (orderId) REFERENCES orders (id) ON DELETE CASCADE,
     FOREIGN KEY (clientId) REFERENCES clients (clientId) ON DELETE CASCADE,
     FOREIGN KEY (trainerId) REFERENCES trainers (trainerId) ON DELETE CASCADE
 );
