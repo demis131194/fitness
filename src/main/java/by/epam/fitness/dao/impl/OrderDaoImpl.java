@@ -14,13 +14,14 @@ import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
     private static Logger logger = LogManager.getLogger(OrderDaoImpl.class);
-    private static final String INSERT_QUERY = "INSERT INTO orders (userId, trainerId, description) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE orders SET userId = ?, trainerId = ?, trainerId = ? WHERE id = ? OR trainerId = ?";
-    private static final String DELETE_QUERY = "UPDATE orders SET active = false WHERE id = ? AND userId = ?";
-    private static final String FIND_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE id = ? AND active = true";
-    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE trainerId = ? AND active = true";
-    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE userId = ? AND active = true";
-    private static final String FIND_ALL_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders";
+    private static final String INSERT_QUERY = "INSERT INTO orders (clientId, trainerId, description) VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE orders SET clientId = ?, trainerId = ?, description = ?  WHERE id = ?";
+    private static final String DELETE_QUERY = "UPDATE orders SET active = false WHERE id = ?";
+    private static final String FIND_QUERY = "SELECT id, clientId, trainerId, registerDate, description, active FROM orders WHERE id = ?";
+    private static final String FIND_ALL_QUERY = "SELECT id, clientId, trainerId, registerDate, description, active FROM orders";
+//    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE trainerId = ? AND active = true";
+//    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE userId = ? AND active = true";
+
 
     private static OrderDao orderDao;
 
@@ -38,9 +39,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order create(Order order) throws DaoException {
         Order createdOrder;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            connection.setAutoCommit(false);
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, order.getClientId());
             statement.setInt(2, order.getTrainerId());
             statement.setString(3, order.getDescription());
@@ -52,19 +53,11 @@ public class OrderDaoImpl implements OrderDao {
                 order.setId(orderId);
             }
 
-            connection.commit();
-            connection.setAutoCommit(true);
             createdOrder = order;
             logger.debug("Order created = {}", order);
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
         }
         return createdOrder;
     }
@@ -72,37 +65,28 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean update(Order order) throws DaoException {
         boolean isUpdated;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setInt(1, order.getClientId());
             statement.setInt(2, order.getTrainerId());
             statement.setString(3, order.getDescription());
             statement.setInt(4, order.getId());
-            statement.setInt(5, order.getTrainerId());
-
             isUpdated = statement.execute();
             logger.debug("Order updated, new order - {}", order);
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return isUpdated;
     }
 
     @Override
-    public boolean delete(int orderId, int userId) throws DaoException {
+    public boolean delete(int orderId) throws DaoException {
         boolean isDeleted;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, orderId);
-            statement.setInt(2, userId);
             isDeleted = statement.execute();
 
             if (isDeleted) {
@@ -113,24 +97,17 @@ public class OrderDaoImpl implements OrderDao {
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return isDeleted;
     }
 
-    @Override
-    public Order findActive(int orderId) throws DaoException {
-        Order order = null;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ACTIVE_QUERY)) {
-            statement.setInt(1, orderId);
 
+    @Override
+    public Order find(int orderId) throws DaoException {
+        Order order = null;
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_QUERY)) {
+            statement.setInt(1, orderId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.first()) {
@@ -138,6 +115,24 @@ public class OrderDaoImpl implements OrderDao {
                 logger.debug("FindActive order - {}", order);
             }
 
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return order;
+    }
+
+    @Override
+    public List<Order> findAll() throws DaoException {
+        List<Order> orders = new ArrayList<>();
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Order order = getOrderFromResultSet(resultSet);
+                orders.add(order);
+            }
+            logger.debug("FindAll orders - {}", orders);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -148,7 +143,12 @@ public class OrderDaoImpl implements OrderDao {
             }
 
         }
-        return order;
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllActive() throws DaoException {
+        return null;
     }
 
     @Override
@@ -192,31 +192,6 @@ public class OrderDaoImpl implements OrderDao {
                 orders.add(order);
             }
             logger.debug("FindAllActiveByClient orders, clientId = {} - {}", clientId, orders);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
-        }
-        return orders;
-    }
-
-    @Override
-    public List<Order> findAll() throws DaoException {
-        List<Order> orders = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet);
-                orders.add(order);
-            }
-            logger.debug("FindAll orders - {}", orders);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {

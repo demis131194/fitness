@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
         logger.trace("In service method delete.");
         boolean isDeleted;
         try {
-            isDeleted = orderDao.delete(orderId, userId);
+            isDeleted = orderDao.deleteByUser(orderId, userId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
         logger.trace("In service method findActive.");
         Order order;
         try {
-            order = orderDao.findActive(orderId);
+            order = orderDao.find(orderId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
