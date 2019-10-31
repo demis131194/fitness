@@ -15,8 +15,8 @@ public class Order extends AbstractBaseEntity {
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal price;
-    private boolean accept;
-    private String userComment;
+    private Boolean accept;
+    private String clientComment;
     private OrderStatus orderStatus;
     private boolean active = true;
 
@@ -87,20 +87,20 @@ public class Order extends AbstractBaseEntity {
         this.price = price;
     }
 
-    public boolean isAccept() {
+    public Boolean isAccept() {
         return accept;
     }
 
-    public void setAccept(boolean accept) {
+    public void setAccept(Boolean accept) {
         this.accept = accept;
     }
 
-    public String getUserComment() {
-        return userComment;
+    public String getClientComment() {
+        return clientComment;
     }
 
-    public void setUserComment(String userComment) {
-        this.userComment = userComment;
+    public void setClientComment(String clientComment) {
+        this.clientComment = clientComment;
     }
 
     public OrderStatus getOrderStatus() {
@@ -119,6 +119,8 @@ public class Order extends AbstractBaseEntity {
         this.active = active;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -134,13 +136,13 @@ public class Order extends AbstractBaseEntity {
                 Objects.equals(startDate, order.startDate) &&
                 Objects.equals(endDate, order.endDate) &&
                 Objects.equals(price, order.price) &&
-                Objects.equals(userComment, order.userComment) &&
+                Objects.equals(clientComment, order.clientComment) &&
                 orderStatus == order.orderStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, accept, userComment, orderStatus, active);
+        return Objects.hash(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, accept, clientComment, orderStatus, active);
     }
 
     @Override
@@ -155,7 +157,7 @@ public class Order extends AbstractBaseEntity {
         sb.append(", endDate=").append(endDate);
         sb.append(", price=").append(price);
         sb.append(", accept=").append(accept);
-        sb.append(", userComment='").append(userComment).append('\'');
+        sb.append(", userComment='").append(clientComment).append('\'');
         sb.append(", orderStatus=").append(orderStatus);
         sb.append(", active=").append(active);
         sb.append(", id=").append(id);

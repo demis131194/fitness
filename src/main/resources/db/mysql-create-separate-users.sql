@@ -121,7 +121,8 @@ BEGIN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 1
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 3
-          AND discountLevel = 0;
+          AND discountLevel = 0
+          AND discount <= 90;
     END IF;
 END;
 
@@ -131,7 +132,8 @@ BEGIN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 2
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 6
-          AND discountLevel = 1;
+          AND discountLevel = 1
+          AND discount <= 90;
     END IF;
 END;
 
@@ -141,7 +143,8 @@ BEGIN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 3
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 10
-          AND discountLevel = 2;
+          AND discountLevel = 2
+          AND discount <= 90;
     END IF;
 END;
 
@@ -154,6 +157,7 @@ BEGIN
     END IF;
     IF NEW.active = false AND NEW.role = 'CLIENT' THEN
         UPDATE clients SET active = false WHERE clientId = NEW.id;
+        UPDATE orders SET active = false WHERE clientId = NEW.id;
     END IF;
 END;
 
@@ -166,6 +170,7 @@ BEGIN
     END IF;
     IF NEW.active = true AND NEW.role = 'CLIENT' THEN
         UPDATE clients SET active = true WHERE clientId = NEW.id;
+        UPDATE orders SET active = false WHERE trainerId = NEW.id;
     END IF;
 END;
 
