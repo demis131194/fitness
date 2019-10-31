@@ -63,7 +63,7 @@ CREATE TABLE clients
     registerDate    TIMESTAMP				         NOT NULL DEFAULT now(),
     discount        INT                              UNSIGNED NOT NULL DEFAULT 0 CHECK (discount >=0 AND discount <=100),
     phone           VARCHAR(255)                     DEFAULT NULL,
-    cash            DECIMAL(7,2)                     DEFAULT 0,
+    cash            DECIMAL(7,2)                     DEFAULT 0 CHECK (cash >= 0),
     discountLevel   INT                              NOT NULL DEFAULT 0 CHECK (discountLevel >=0 AND discountLevel <=3),
     active 	        BOOLEAN                          NOT NULL DEFAULT true,
     PRIMARY KEY (clientId),

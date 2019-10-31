@@ -65,6 +65,14 @@ public class Client extends User {
         this.cash = cash;
     }
 
+    public Integer getDiscountLevel() {
+        return discountLevel;
+    }
+
+    public void setDiscountLevel(Integer discountLevel) {
+        this.discountLevel = discountLevel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,5 +89,24 @@ public class Client extends User {
     @Override
     public int hashCode() {
         return Objects.hash(name, lastName, registerDateTime, discount, phone, cash);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Client{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", registerDateTime=").append(registerDateTime);
+        sb.append(", discount=").append(discount);
+        sb.append(", discountLevel=").append(discountLevel);
+        sb.append(", phone='").append(phone).append('\'');
+        sb.append(", cash=").append(cash);
+        sb.append(", login='").append(login).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", role=").append(role);
+        sb.append(", isActive=").append(isActive);
+        sb.append(", id=").append(id);
+        sb.append('}');
+        return sb.toString();
     }
 }

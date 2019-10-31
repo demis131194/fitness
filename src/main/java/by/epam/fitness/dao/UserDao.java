@@ -6,4 +6,6 @@ import by.epam.fitness.model.user.User;
 public interface UserDao {
     User findByLoginAndPassword(String login, String password) throws DaoException;
     boolean updatePassword(int userId, String password) throws DaoException;
+    boolean delete(int userId) throws DaoException;
+    boolean restoreUser(int userId) throws DaoException;
 }

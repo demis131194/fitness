@@ -18,6 +18,8 @@ public class UserDaoImpl implements UserDao {
     private static Logger logger = LogManager.getLogger(TrainerDaiImpl.class);
     private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, role FROM users WHERE login = ? AND password = ? AND active = true";
     private static final String UPDATE_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE id = ?";
+    private static final String DELETE_QUERY = "UPDATE users SET active = false WHERE id = ?";
+    private static final String RESTORE_QUERY = "UPDATE users SET active = true WHERE id = ?";
 
     private static UserDao userDao;
 
@@ -74,6 +76,48 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(e);
         }
         return isUpdated;
+    }
+
+    @Override
+    public boolean delete(int userId) throws DaoException {
+        boolean isDeleted;
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
+            statement.setInt(1, userId);
+
+            isDeleted = statement.execute();
+
+            if (isDeleted) {
+                logger.debug("User deleted, user id - {}", userId);
+            } else {
+                logger.debug("Can't delete user, user id - {}", userId);
+            }
+
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return isDeleted;
+    }
+
+    @Override
+    public boolean restoreUser(int userId) throws DaoException {
+        boolean isRestored;
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(RESTORE_QUERY)) {
+            statement.setInt(1, userId);
+
+            isRestored = statement.execute();
+
+            if (isRestored) {
+                logger.debug("User restored, user id - {}", userId);
+            } else {
+                logger.debug("Can't restore user, user id - {}", userId);
+            }
+
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return isRestored;
     }
 
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {

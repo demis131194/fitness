@@ -10,9 +10,11 @@ import com.mysql.cj.MysqlType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ClientDaoImpl implements ClientDao {
     private static Logger logger = LogManager.getLogger(ClientDaoImpl.class);
@@ -20,14 +22,12 @@ public class ClientDaoImpl implements ClientDao {
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
     private static final String INSERT_CLIENTS_QUERY = "INSERT INTO clients (clientId, name, lastName, phone) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE clients SET name = ?, lastName = ?, phone = ? WHERE clientId = ?";
-    private static final String DELETE_CLIENTS_QUERY = "UPDATE clients SET active = false WHERE clientId = ?";
-    private static final String DELETE_USERS_QUERY = "UPDATE users SET active = false WHERE id = ?";
-    private static final String FIND_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE clientId = ?";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE active = true";
-    private static final String FIND_ALL_ACTIVE_BY_TRAINER_ID_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE active = true AND hisTrainerId = ?";
-    private static final String FIND_ALL_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients";
-    private static final String FIND_ALL_BY_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE name = ?";
-    private static final String FIND_ALL_BY_LAST_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE lastName = ?";
+    private static final String DEPOSIT_CASH_QUERY = "UPDATE clients SET cash = cash + ? WHERE clientId = ?";
+    private static final String FIND_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE clientId = ?";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE active = true";
+    private static final String FIND_ALL_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients";
+    private static final String FIND_ALL_BY_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE name = ?";
+    private static final String FIND_ALL_BY_LAST_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE lastName = ?";
 
     private static ClientDao clientDao;
 
@@ -63,7 +63,11 @@ public class ClientDaoImpl implements ClientDao {
                 trainerStatement.setInt(1, client.getId());
                 trainerStatement.setString(2, client.getName());
                 trainerStatement.setString(3, client.getLastName());
-                trainerStatement.setString(4, client.getPhone());
+                if (client.getPhone() != null) {
+                    trainerStatement.setString(4, client.getPhone());
+                } else {
+                    trainerStatement.setNull(4, MysqlType.NULL.getJdbcType());
+                }
 
                 usersStatement.execute();
 
@@ -85,20 +89,15 @@ public class ClientDaoImpl implements ClientDao {
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, client.getName());
             statement.setString(2, client.getLastName());
-            if (client.getTrainerId() != null) {
-                statement.setInt(3, client.getTrainerId());
+            if (client.getPhone() != null) {
+                statement.setString(3, client.getPhone());
             } else {
                 statement.setNull(3, MysqlType.NULL.getJdbcType());
             }
-            if (client.getPhone() != null) {
-                statement.setString(4, client.getPhone());
-            } else {
-                statement.setNull(4, MysqlType.NULL.getJdbcType());
-            }
-            statement.setInt(5, client.getId());
+            statement.setInt(4, client.getId());
 
             isUpdated = statement.execute();
-            logger.debug("Client updated, new trainer - {}", client);
+            logger.debug("Client updated, new client - {}", client);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -106,32 +105,19 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public boolean delete(int clientId) throws DaoException {
-        boolean isDeleted;
+    public boolean updateCash(int clientId, BigDecimal cash) throws DaoException {
+        boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement clientsStatement = connection.prepareStatement(DELETE_CLIENTS_QUERY);
-             PreparedStatement usersStatement = connection.prepareStatement(DELETE_USERS_QUERY)) {
-            try {
-                connection.setAutoCommit(false);
-                clientsStatement.setInt(1, clientId);
-                usersStatement.setInt(1, clientId);
-                isDeleted = clientsStatement.execute() & usersStatement.execute();
+             PreparedStatement statement = connection.prepareStatement(DEPOSIT_CASH_QUERY)) {
+            statement.setBigDecimal(1, Objects.requireNonNull(cash));
+            statement.setInt(2, clientId);
 
-                if (isDeleted) {
-                    logger.debug("Client deleted, id - {}", clientId);
-                    connection.commit();
-                } else {
-                    logger.debug("Unsuccessful client delete, id - {}", clientId);
-                    connection.rollback();
-                }
-            } finally {
-                connection.setAutoCommit(true);
-            }
-
+            isUpdated = statement.execute();
+            logger.debug("Client cash updated, value = {}", cash.doubleValue());
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return isDeleted;
+        return isUpdated;
     }
 
     @Override
@@ -172,25 +158,6 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public List<Client> findAllActiveByTrainerId(int trainerId) throws DaoException {
-        List<Client> result = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_ID_QUERY)) {
-            statement.setInt(1, trainerId);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Client client = getClientFromResultSet(resultSet);
-                result.add(client);
-            }
-            logger.debug("FindAllActiveByTrainerId, clients - {}", result);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return result;
-    }
-
-    @Override
     public List<Client> findAll() throws DaoException {
         List<Client> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
@@ -213,7 +180,7 @@ public class ClientDaoImpl implements ClientDao {
         List<Client> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_NAME_QUERY)) {
-            statement.setString(1, name);
+            statement.setString(1, Objects.requireNonNull(name));
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -232,7 +199,7 @@ public class ClientDaoImpl implements ClientDao {
         List<Client> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_LAST_NAME_QUERY)) {
-            statement.setString(1, lastName);
+            statement.setString(1, Objects.requireNonNull(lastName));
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -252,10 +219,11 @@ public class ClientDaoImpl implements ClientDao {
         client.setName(resultSet.getString(TableColumn.CLIENT_NAME));
         client.setLastName(resultSet.getString(TableColumn.CLIENT_LAST_NAME));
         client.setRegisterDateTime(resultSet.getTimestamp(TableColumn.CLIENT_REGISTER_DATE).toLocalDateTime());
-        client.setTrainerId(resultSet.getInt(TableColumn.CLIENT_HIS_TRAINER_ID));
-        client.setActive(resultSet.getBoolean(TableColumn.CLIENT_ACTIVE));
         client.setDiscount(resultSet.getInt(TableColumn.CLIENT_DISCOUNT));
         client.setPhone(resultSet.getString(TableColumn.CLIENT_PHONE));
+        client.setCash(resultSet.getBigDecimal(TableColumn.CLIENT_CASH));
+        client.setDiscountLevel(resultSet.getInt(TableColumn.CLIENT_DISCOUNT_LEVEL));
+        client.setActive(resultSet.getBoolean(TableColumn.CLIENT_ACTIVE));
         return client;
     }
 
