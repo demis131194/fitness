@@ -1,7 +1,5 @@
 package by.epam.fitness.model.user;
 
-import by.epam.fitness.model.AbstractBaseEntity;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -12,6 +10,7 @@ public class Client extends User {
     private String lastName;
     private LocalDateTime registerDateTime;
     private Integer discount;
+    private Integer discountLevel;
     private String phone;
     private BigDecimal cash;
 

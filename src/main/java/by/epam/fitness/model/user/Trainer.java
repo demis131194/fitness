@@ -45,14 +45,6 @@ public class Trainer extends User {
         this.phone = phone;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -19,7 +19,7 @@ public class ClientDaoImpl implements ClientDao {
 
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
     private static final String INSERT_CLIENTS_QUERY = "INSERT INTO clients (clientId, name, lastName, phone) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE clients SET name = ?, lastName = ?, hisTrainerId = ?, phone = ? WHERE clientId = ?";
+    private static final String UPDATE_QUERY = "UPDATE clients SET name = ?, lastName = ?, phone = ? WHERE clientId = ?";
     private static final String DELETE_CLIENTS_QUERY = "UPDATE clients SET active = false WHERE clientId = ?";
     private static final String DELETE_USERS_QUERY = "UPDATE users SET active = false WHERE id = ?";
     private static final String FIND_QUERY = "SELECT clientId, name, lastName, registerDate, hisTrainerId, discount, phone, active FROM clients WHERE clientId = ?";

@@ -6,6 +6,7 @@ public class TableColumn {
     public static final String USERS_LOGIN = "login";
     public static final String USERS_PASSWORD = "password";
     public static final String USERS_ROLE = "role";
+    public static final String USERS_ACTIVE = "active";
 
     public static final String ADMINS_ID = "adminId";
     public static final String ADMINS_NAME = "name";
@@ -22,33 +23,28 @@ public class TableColumn {
     public static final String CLIENT_NAME = "name";
     public static final String CLIENT_LAST_NAME = "lastName";
     public static final String CLIENT_REGISTER_DATE = "registerDate";
-    public static final String CLIENT_HIS_TRAINER_ID = "hisTrainerId";
     public static final String CLIENT_DISCOUNT = "discount";
+    public static final String CLIENT_DISCOUNT_LEVEL = "discountLevel";
     public static final String CLIENT_PHONE = "phone";
+    public static final String CLIENT_CASH = "cash";
     public static final String CLIENT_ACTIVE = "active";
 
     public static final String ORDERS_ID = "id";
     public static final String ORDERS_USER_ID = "userId";
     public static final String ORDERS_TRAINER_ID = "trainerId";
     public static final String ORDERS_REGISTER_DATE = "registerDate";
-    public static final String ORDERS_DESCRIPTION = "description";
+    public static final String ORDERS_EXERCISES = "exercises";
+    public static final String ORDERS_NUTRITION = "nutrition";
+    public static final String ORDERS_START_DATE = "startDate";
+    public static final String ORDERS_END_DATE = "endDate";
+    public static final String ORDERS_PRICE = "price";
+    public static final String ORDERS_CLIENT_COMMENT = "userComment";
+    public static final String ORDERS_STATUS = "status";
+    public static final String ORDERS_ACCEPT = "accept";
     public static final String ORDERS_ACTIVE = "active";
 
-    public static final String ASSIGNMENTS_ID = "id";
-    public static final String ASSIGNMENTS_ORDER_ID = "orderId";
-    public static final String ASSIGNMENTS_USER_ID = "userId";
-    public static final String ASSIGNMENTS_TRAINER_ID = "trainerId";
-    public static final String ASSIGNMENTS_REGISTER_DATE = "registerDate";
-    public static final String ASSIGNMENTS_EXERCISES = "exercises";
-    public static final String ASSIGNMENTS_NUTRITION = "nutrition";
-    public static final String ASSIGNMENTS_START_DATE = "startDate";
-    public static final String ASSIGNMENTS_END_DATE = "endDate";
-    public static final String ASSIGNMENTS_ACTIVE = "active";
-    public static final String ASSIGNMENTS_PRICE = "price";
-    public static final String ASSIGNMENTS_ACCEPT = "accept";
-
     public static final String COMMENT_ID = "id";
-    public static final String COMMENT_USER_ID = "userId";
+    public static final String COMMENT_CLIENT_ID = "userId";
     public static final String COMMENT_TRAINER_ID = "trainerId";
     public static final String COMMENT_REGISTER_DATE = "registerDate";
     public static final String COMMENT_COMMENT = "comment";
