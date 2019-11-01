@@ -18,7 +18,7 @@ public class Order extends AbstractBaseEntity {
     private Boolean accept;
     private String clientComment;
     private OrderStatus orderStatus;
-    private boolean active = true;
+    private Boolean active = true;
 
     public Order() {
     }
@@ -111,7 +111,7 @@ public class Order extends AbstractBaseEntity {
         this.orderStatus = orderStatus;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return active;
     }
 

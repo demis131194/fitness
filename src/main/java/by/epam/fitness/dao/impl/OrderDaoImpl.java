@@ -21,9 +21,10 @@ public class OrderDaoImpl implements OrderDao {
     private static final String DELETE_QUERY = "UPDATE orders SET active = false WHERE id = ?";
     private static final String FIND_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders";
+    private static final String FIND_ALL_WITH_FILTER_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE id=? AND clientId=? AND trainerId=? AND startDate>=? AND endDate<=? AND price=? AND status=? AND accept=? AND active=?";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE active = 1";
-//    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE trainerId = ? AND active = true";
-//    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT id, userId, trainerId, registerDate, description, active FROM orders WHERE userId = ? AND active = true";
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE trainerId = ? AND active = true";
+    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE userId = ? AND active = true";
 
 
     private static OrderDao orderDao;
@@ -183,6 +184,73 @@ public class OrderDaoImpl implements OrderDao {
             throw new DaoException(e);
         }
         return orders;
+    }
+
+    @Override
+    public List<Order> findAllWithFilter(Order filter) throws DaoException {
+        List<Order> result = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_WITH_FILTER_QUERY)) {
+            if (filter.getId() != null) {
+                statement.setInt(1, filter.getId());
+            } else {
+                statement.setString(1, TableColumn.ORDERS_ID);
+            }
+            if (filter.getClientId() != null) {
+                statement.setInt(2, filter.getClientId());
+            } else {
+                statement.setString(2, TableColumn.ORDERS_CLIENT_ID);
+            }
+            if (filter.getTrainerId() != null) {
+                statement.setInt(3, filter.getTrainerId());
+            } else {
+                statement.setString(3, TableColumn.ORDERS_TRAINER_ID);
+            }
+            if (filter.getStartDate() != null) {
+                statement.setDate(4, Date.valueOf(filter.getStartDate()));
+            } else {
+                statement.setString(4, TableColumn.ORDERS_START_DATE);
+            }
+            if (filter.getEndDate() != null) {
+                statement.setDate(5, Date.valueOf(filter.getEndDate()));
+            } else {
+                statement.setString(5, TableColumn.ORDERS_END_DATE);
+            }
+            if (filter.getPrice() != null) {
+                statement.setBigDecimal(6, filter.getPrice());
+            } else {
+                statement.setString(6, TableColumn.ORDERS_PRICE);
+            }
+            if (filter.getOrderStatus() != null) {
+                statement.setInt(7, filter.getOrderStatus().ordinal());
+            } else {
+                statement.setString(7, TableColumn.ORDERS_STATUS);
+            }
+            if (filter.isAccept() != null) {
+                statement.setBoolean(8, filter.isAccept());
+            } else {
+                statement.setString(8, TableColumn.ORDERS_ACCEPT);
+            }
+            if (filter.isActive() != null) {
+                statement.setBoolean(9, filter.isActive());
+            } else {
+                statement.setString(9, TableColumn.ORDERS_ACTIVE);
+            }
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Order order = getOrderFromResultSet(resultSet);
+                result.add(order);
+            }
+
+            logger.debug("FindAllWithFilter - {}", result);
+
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return result;
     }
 
     @Override

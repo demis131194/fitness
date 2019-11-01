@@ -11,6 +11,7 @@ public interface OrderDao {
     boolean delete(int orderId) throws DaoException;
     Order find(int orderId) throws DaoException;
     List<Order> findAll() throws DaoException;
+    List<Order> findAllWithFilter(Order filter) throws DaoException;
     List<Order> findAllActive() throws DaoException;
     List<Order> findAllActiveByTrainer(int trainerId) throws DaoException;
     List<Order> findAllActiveByClient(int clientId) throws DaoException;
