@@ -10,6 +10,7 @@ public interface CommentService {
     Comment create(Comment comment) throws ServiceException;
     boolean update(Comment comment) throws ServiceException;
     boolean delete(int commentId) throws ServiceException;
+    Comment find(int commentId) throws ServiceException;
     Comment findActive(int commentId) throws ServiceException;
     List<Comment> findAllActive() throws ServiceException;
     List<Comment> findAllActiveByTrainer(int trainerId) throws ServiceException;

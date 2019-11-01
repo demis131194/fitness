@@ -18,6 +18,7 @@ public class CommentDaoImpl implements CommentDao {
     private static final String INSERT_QUERY = "INSERT INTO comments (clientId, trainerId, comment) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE comments SET clientId = ?, trainerId = ?, comment = ? WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE comments SET active = false WHERE id = ?";
+    private static final String FIND_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE id = ?";
     private static final String FIND_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE id = ? AND active = true";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE active = true";
     private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE trainerId = ? AND active = true";
@@ -39,8 +40,9 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     public Comment create(Comment comment) throws DaoException {
         Comment createdComment;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, comment.getClientId());
             statement.setInt(2, comment.getTrainerId());
             statement.setString(3, comment.getComment());
@@ -57,12 +59,6 @@ public class CommentDaoImpl implements CommentDao {
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
         }
         return createdComment;
     }
@@ -70,8 +66,9 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     public boolean update(Comment comment) throws DaoException {
         boolean isUpdated;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setInt(1, comment.getClientId());
             statement.setInt(2, comment.getTrainerId());
             statement.setString(3, comment.getComment());
@@ -81,13 +78,6 @@ public class CommentDaoImpl implements CommentDao {
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return isUpdated;
     }
@@ -95,8 +85,9 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     public boolean delete(int commentId) throws DaoException {
         boolean isDeleted;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, commentId);
             isDeleted = statement.execute();
 
@@ -108,22 +99,16 @@ public class CommentDaoImpl implements CommentDao {
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return isDeleted;
     }
 
     @Override
-    public Comment findActive(int commentId) throws DaoException {
+    public Comment find(int commentId) throws DaoException {
         Comment comment = null;
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ACTIVE_QUERY)) {
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_QUERY)) {
             statement.setInt(1, commentId);
             ResultSet resultSet = statement.executeQuery();
 
@@ -134,13 +119,26 @@ public class CommentDaoImpl implements CommentDao {
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
+        }
+        return comment;
+    }
+
+    @Override
+    public Comment findActive(int commentId) throws DaoException {
+        Comment comment = null;
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ACTIVE_QUERY)) {
+            statement.setInt(1, commentId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.first()) {
+                comment = getCommentFromResultSet(resultSet);
+                logger.debug("FindActive comment - {}", comment);
             }
 
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
         return comment;
     }
@@ -148,8 +146,9 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     public List<Comment> findAllActive() throws DaoException {
         List<Comment> comments = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -160,13 +159,6 @@ public class CommentDaoImpl implements CommentDao {
             logger.debug("FindAllActive comments - {}", comments);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return comments;
     }
@@ -174,8 +166,8 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     public List<Comment> findAllActiveByTrainer(int trainerId) throws DaoException {
         List<Comment> comments = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
             statement.setInt(1, trainerId);
             ResultSet resultSet = statement.executeQuery();
 
@@ -186,13 +178,6 @@ public class CommentDaoImpl implements CommentDao {
             logger.debug("FindAllActiveByTrainer comments - {}", comments);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return comments;
     }
@@ -200,8 +185,9 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     public List<Comment> findAll() throws DaoException {
         List<Comment> comments = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -212,13 +198,6 @@ public class CommentDaoImpl implements CommentDao {
             logger.debug("FindAllActive comments - {}", comments);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
         return comments;
     }

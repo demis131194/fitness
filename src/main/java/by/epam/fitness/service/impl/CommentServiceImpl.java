@@ -64,6 +64,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Comment find(int commentId) throws ServiceException {
+        logger.trace("In service method findActive.");
+        Comment comment;
+        try {
+            comment = commentDao.find(commentId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return comment;
+    }
+
+    @Override
     public Comment findActive(int commentId) throws ServiceException {
         logger.trace("In service method findActive.");
         Comment comment;
