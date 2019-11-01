@@ -4,18 +4,18 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Comment extends AbstractBaseEntity {
-    private Integer userId;
+    private Integer clientId;
     private Integer trainerId;
     private LocalDateTime registerDate;
     private String comment;
     private boolean active;
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getClientId() {
+        return clientId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 
     public Integer getTrainerId() {
@@ -55,7 +55,7 @@ public class Comment extends AbstractBaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment1 = (Comment) o;
-        return Objects.equals(userId, comment1.userId) &&
+        return Objects.equals(clientId, comment1.clientId) &&
                 Objects.equals(trainerId, comment1.trainerId) &&
                 Objects.equals(registerDate, comment1.registerDate) &&
                 Objects.equals(comment, comment1.comment);
@@ -63,13 +63,13 @@ public class Comment extends AbstractBaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, trainerId, registerDate, comment);
+        return Objects.hash(clientId, trainerId, registerDate, comment);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Comment{");
-        sb.append("userId=").append(userId);
+        sb.append("userId=").append(clientId);
         sb.append(", trainerId=").append(trainerId);
         sb.append(", registerDate=").append(registerDate);
         sb.append(", comment='").append(comment).append('\'');

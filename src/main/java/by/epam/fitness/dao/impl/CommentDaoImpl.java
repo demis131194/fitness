@@ -15,13 +15,13 @@ import java.util.List;
 public class CommentDaoImpl implements CommentDao {
     private static Logger logger = LogManager.getLogger(CommentDaoImpl.class);
 
-    private static final String INSERT_QUERY = "INSERT INTO comments (userId, trainerId, comment) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE comments SET userId = ?, trainerId = ?, comment = ? WHERE id = ?";
+    private static final String INSERT_QUERY = "INSERT INTO comments (clientId, trainerId, comment) VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE comments SET clientId = ?, trainerId = ?, comment = ? WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE comments SET active = false WHERE id = ?";
-    private static final String FIND_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments WHERE id = ? AND active = true";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments WHERE active = true";
-    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments WHERE trainerId = ? AND active = true";
-    private static final String FIND_ALL_QUERY = "SELECT id, userId, trainerId, registerDate, comment, active FROM comments";
+    private static final String FIND_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE id = ? AND active = true";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE active = true";
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE trainerId = ? AND active = true";
+    private static final String FIND_ALL_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments";
 
     private static CommentDao commentDao;
 
@@ -41,8 +41,7 @@ public class CommentDaoImpl implements CommentDao {
         Comment createdComment;
         Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            connection.setAutoCommit(false);
-            statement.setInt(1, comment.getUserId());
+            statement.setInt(1, comment.getClientId());
             statement.setInt(2, comment.getTrainerId());
             statement.setString(3, comment.getComment());
             statement.execute();
@@ -53,8 +52,6 @@ public class CommentDaoImpl implements CommentDao {
                 comment.setId(orderId);
             }
 
-            connection.commit();
-            connection.setAutoCommit(true);
             createdComment = comment;
             logger.debug("Assignment created = {}", comment);
 
@@ -75,7 +72,7 @@ public class CommentDaoImpl implements CommentDao {
         boolean isUpdated;
         Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setInt(1, comment.getUserId());
+            statement.setInt(1, comment.getClientId());
             statement.setInt(2, comment.getTrainerId());
             statement.setString(3, comment.getComment());
 
@@ -229,7 +226,7 @@ public class CommentDaoImpl implements CommentDao {
     private Comment getCommentFromResultSet(ResultSet resultSet) throws SQLException {
         Comment comment = new Comment();
         comment.setId(resultSet.getInt(TableColumn.COMMENT_ID));
-        comment.setUserId(resultSet.getInt(TableColumn.COMMENT_USER_ID));
+        comment.setClientId(resultSet.getInt(TableColumn.COMMENT_CLIENT_ID));
         comment.setTrainerId(resultSet.getInt(TableColumn.COMMENT_TRAINER_ID));
         comment.setRegisterDate(resultSet.getTimestamp(TableColumn.COMMENT_REGISTER_DATE).toLocalDateTime());
         comment.setComment(resultSet.getString(TableColumn.COMMENT_COMMENT));
