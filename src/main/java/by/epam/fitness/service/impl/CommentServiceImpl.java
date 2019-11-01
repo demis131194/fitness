@@ -29,19 +29,19 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment create(Comment comment) throws ServiceException {
-        logger.trace("In service method create.");
-        Comment createdAssignment;
+        logger.trace("In service method create comment.");
+        Comment createdComment;
         try {
-            createdAssignment = commentDao.create(comment);
+            createdComment = commentDao.create(comment);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return createdAssignment;
+        return createdComment;
     }
 
     @Override
     public boolean update(Comment comment) throws ServiceException {
-        logger.trace("In service method update.");
+        logger.trace("In service method update comment.");
         boolean isUpdated;
         try {
             isUpdated = commentDao.update(comment);
@@ -53,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public boolean delete(int commentId) throws ServiceException {
-        logger.trace("In service method delete.");
+        logger.trace("In service method delete comment.");
         boolean isDeleted;
         try {
             isDeleted = commentDao.delete(commentId);
@@ -65,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment find(int commentId) throws ServiceException {
-        logger.trace("In service method findActive.");
+        logger.trace("In service method find comment.");
         Comment comment;
         try {
             comment = commentDao.find(commentId);
@@ -77,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment findActive(int commentId) throws ServiceException {
-        logger.trace("In service method findActive.");
+        logger.trace("In service method findActive comment.");
         Comment comment;
         try {
             comment = commentDao.findActive(commentId);
@@ -101,7 +101,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAllActiveByTrainer(int trainerId) throws ServiceException {
-        logger.trace("In service method findAllActiveByTrainer.");
+        logger.trace("In service method findAllActiveByTrainer comments.");
         List<Comment> comments;
         try {
             comments = commentDao.findAllActiveByTrainer(trainerId);
@@ -113,7 +113,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAll() throws ServiceException {
-        logger.trace("In service method findAll.");
+        logger.trace("In service method findAll comments.");
         List<Comment> comments;
         try {
             comments = commentDao.findAll();

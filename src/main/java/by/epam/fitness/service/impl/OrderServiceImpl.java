@@ -29,19 +29,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order create(Order order) throws ServiceException {
-        logger.trace("In service method create.");
-        Order createdOder;
+        logger.trace("In service method create order.");
+        Order createdOrder;
         try {
-            createdOder = orderDao.create(order);
+            createdOrder = orderDao.create(order);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return createdOder;
+        return createdOrder;
     }
 
     @Override
     public boolean update(Order order) throws ServiceException {
-        logger.trace("In service method update.");
         boolean isUpdated;
         try {
             isUpdated = orderDao.update(order);
@@ -52,11 +51,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean delete(int orderId, int userId) throws ServiceException {
-        logger.trace("In service method delete.");
+    public boolean delete(int orderId) throws ServiceException {
         boolean isDeleted;
         try {
-            isDeleted = orderDao.deleteByUser(orderId, userId);
+            isDeleted = orderDao.delete(orderId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -64,8 +62,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order findActive(int orderId, Integer userId, Integer trainerId) throws ServiceException {
-        logger.trace("In service method findActive.");
+    public Order find(int orderId) throws ServiceException {
         Order order;
         try {
             order = orderDao.find(orderId);
@@ -77,7 +74,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAll() throws ServiceException {
-        logger.trace("In service method findAllActive.");
         List<Order> orders;
         try {
             orders = orderDao.findAll();
@@ -88,8 +84,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findAllWithFilter(Order filter) throws ServiceException {
+        List<Order> orders;
+        try {
+            orders = orderDao.findAllWithFilter(filter);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllActive() throws ServiceException {
+        List<Order> orders;
+        try {
+            orders = orderDao.findAllActive();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return orders;
+    }
+
+    @Override
     public List<Order> findAllActiveByTrainer(int trainerId) throws ServiceException {
-        logger.trace("In service method findAllActiveByTrainer.");
         List<Order> orders;
         try {
             orders = orderDao.findAllActiveByTrainer(trainerId);
@@ -101,7 +118,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAllActiveByClient(int clientId) throws ServiceException {
-        logger.trace("In service method findAllActiveByTrainer.");
         List<Order> orders;
         try {
             orders = orderDao.findAllActiveByClient(clientId);
