@@ -7,8 +7,8 @@
 
 <fmt:message key="orders.order.id" bundle="${rb}" var="orderId"/>
 <fmt:message key="orders.client.id" bundle="${rb}" var="userId"/>
-<fmt:message key="orders.trainer.id" bundle="${rb}" var="trainerId"/>
-<fmt:message key="orders.register.date" bundle="${rb}" var="registerDate"/>
+<fmt:message key="trainer.id" bundle="${rb}" var="trainerId"/>
+<fmt:message key="register.date" bundle="${rb}" var="registerDate"/>
 <fmt:message key="orders.description" bundle="${rb}" var="description"/>
 
 <html>
@@ -18,9 +18,9 @@
 <body>
 <c:import url="/jsp/fragment/header.jsp"/>
 <section>
-    <h3><a href="${pageContext.request.contextPath}/jsp/pages/main.jsp"><fmt:message key="project.home" bundle="${rb}"/></a></h3>
+    <h3><a href="${pageContext.request.contextPath}"><fmt:message key="project.home" bundle="${rb}"/></a></h3>
     <hr/>
-    <h2><fmt:message key="orders.orders" bundle="${rb}"/></h2>
+    <h2><fmt:message key="orders" bundle="${rb}"/></h2>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>

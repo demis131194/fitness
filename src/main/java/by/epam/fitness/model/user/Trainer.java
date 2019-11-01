@@ -11,6 +11,7 @@ public class Trainer extends User {
     private String phone;
 
     public Trainer() {
+        role = UserRole.TRAINER;
     }
 
     public String getName() {

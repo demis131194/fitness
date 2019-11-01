@@ -1,11 +1,11 @@
 package by.epam.fitness.pool;
 
 import by.epam.fitness.util.PropertyLoader;
-import com.mysql.cj.jdbc.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,8 +14,6 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
@@ -45,7 +43,7 @@ public class ConnectionPool {
 
             this.awaitingConnections = new ArrayBlockingQueue<>(numberOfConnections);
 
-            driver = new Driver();
+            driver = new com.mysql.cj.jdbc.Driver();
             DriverManager.registerDriver(driver);
             for (int i = 0; i < numberOfConnections; i++) {
                 ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(property.getProperty("url"), property));

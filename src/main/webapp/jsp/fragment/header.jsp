@@ -7,9 +7,12 @@
 <fmt:message key="header.header" bundle="${rb}" var="header"/>
 <fmt:message key="index.project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="header.locale" bundle="${rb}" var="locale"/>
-<fmt:message key="header.name" bundle="${rb}" var="name"/>
-<fmt:message key="header.lastName" bundle="${rb}" var="lastName"/>
+<fmt:message key="name" bundle="${rb}" var="name"/>
+<fmt:message key="last.name" bundle="${rb}" var="lastName"/>
 <fmt:message key="header.role" bundle="${rb}" var="role"/>
+<fmt:message key="heder.sign.in" bundle="${rb}" var="signIn"/>
+<fmt:message key="heder.sign.up" bundle="${rb}" var="signUp"/>
+<fmt:message key="header.logout" bundle="${rb}" var="logOut"/>
 
 <html>
 <head>
@@ -37,10 +40,15 @@
             <td>${sessionScope.userLastName}</td>
             <td>${sessionScope.userRole}</td>
         </tr>
+            <tr>
+                <td colspan="3"><a href="${pageContext.request.contextPath}/controller?command=Logout">${logOut}</a></td>
+            </tr>
         </c:if>
         <c:if test="${!sessionScope.authorization}">
             <tr>
-                <td colspan="3" align="center">Guest</td>
+                <td align="center">Guest</td>
+                <td align="center"><a href="${pageContext.request.contextPath}/jsp/pages/sign-in.jsp">${signIn}</a></td>
+                <td align="center"><a href="${pageContext.request.contextPath}/jsp/pages/sign-up.jsp">${signUp}</a></td>
             </tr>
         </c:if>
     </table>

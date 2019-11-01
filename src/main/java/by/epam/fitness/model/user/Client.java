@@ -15,6 +15,7 @@ public class Client extends User {
     private BigDecimal cash;
 
     public Client() {
+        role = UserRole.CLIENT;
     }
 
     public String getName() {

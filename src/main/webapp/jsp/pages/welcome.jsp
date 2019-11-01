@@ -13,7 +13,7 @@
 <c:import url="/jsp/fragment/header.jsp"/>
 <h2><a href="${pageContext.request.contextPath}"><fmt:message key="project.home" bundle="${rb}"/></a></h2>
 <hr/>
-<h3><fmt:message key="welcome.lable.walcome" bundle="${rb}"/></h3>
+<h3><fmt:message key="welcome.lable.welcome" bundle="${rb}"/></h3>
 <hr/>
 ${sessionScope.userName}<fmt:message key="welcome.message.hello" bundle="${rb}"/>
 <br/>

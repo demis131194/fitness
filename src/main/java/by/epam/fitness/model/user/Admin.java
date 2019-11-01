@@ -8,6 +8,7 @@ public class Admin extends User {
     private String lastName;
 
     public Admin() {
+        role = UserRole.ADMIN;
     }
 
     public String getName() {

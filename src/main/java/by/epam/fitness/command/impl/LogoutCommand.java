@@ -1,7 +1,7 @@
 package by.epam.fitness.command.impl;
 
 import by.epam.fitness.command.Command;
-import by.epam.fitness.controller.PagePath;
+import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 
