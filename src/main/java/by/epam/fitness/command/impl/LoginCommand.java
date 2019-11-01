@@ -7,7 +7,7 @@ import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.UserService;
-import by.epam.fitness.service.impl.UserServiceImpl;
+import by.epam.fitness.service.impl.user.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

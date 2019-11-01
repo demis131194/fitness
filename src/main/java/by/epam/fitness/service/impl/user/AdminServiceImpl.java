@@ -1,4 +1,4 @@
-package by.epam.fitness.service.impl;
+package by.epam.fitness.service.impl.user;
 
 import by.epam.fitness.dao.AdminDao;
 import by.epam.fitness.dao.impl.AdminDaoImpl;
@@ -24,7 +24,7 @@ public class AdminServiceImpl implements AdminService {
     public static AdminService getInstance() {
         if (adminService == null) {
             adminService = new AdminServiceImpl();
-            logger.debug("UserService created.");
+            logger.debug("AdminService created.");
         }
         return adminService;
     }

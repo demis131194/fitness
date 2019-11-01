@@ -1,4 +1,4 @@
-package by.epam.fitness.service.impl;
+package by.epam.fitness.service.impl.user;
 
 import by.epam.fitness.dao.UserDao;
 import by.epam.fitness.dao.impl.UserDaoImpl;

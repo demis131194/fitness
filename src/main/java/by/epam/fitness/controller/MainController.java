@@ -5,8 +5,6 @@ import by.epam.fitness.command.CommandOperation;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.pool.ConnectionPool;
-import by.epam.fitness.service.UserService;
-import by.epam.fitness.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
