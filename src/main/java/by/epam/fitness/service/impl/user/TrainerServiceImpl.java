@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class TrainerServiceImpl implements TrainerService {
-    private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
+    private static Logger logger = LogManager.getLogger(TrainerServiceImpl.class);
     private static TrainerService trainerService;
 
     private TrainerDao trainerDao = TrainerDaiImpl.getInstance();
