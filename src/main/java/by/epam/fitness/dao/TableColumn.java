@@ -38,7 +38,7 @@ public class TableColumn {
     public static final String ORDERS_START_DATE = "startDate";
     public static final String ORDERS_END_DATE = "endDate";
     public static final String ORDERS_PRICE = "price";
-    public static final String ORDERS_CLIENT_COMMENT = "userComment";
+    public static final String ORDERS_CLIENT_COMMENT = "clientComment";
     public static final String ORDERS_STATUS = "status";
     public static final String ORDERS_ACCEPT = "accept";
     public static final String ORDERS_ACTIVE = "active";

@@ -13,8 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class FindAllTrainers implements Command {
-    private static Logger logger = LogManager.getLogger(FindAllTrainers.class);
+public class FindAllTrainersCommand implements Command {
+    private static Logger logger = LogManager.getLogger(FindAllTrainersCommand.class);
 
     private TrainerService orderService = TrainerServiceImpl.getInstance();
 

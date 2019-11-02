@@ -46,7 +46,7 @@ public class ClientDaoImpl implements ClientDao {
     public Client create(Client client) throws DaoException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement usersStatement = connection.prepareStatement(INSERT_USERS_QUERY, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement trainerStatement = connection.prepareStatement(INSERT_CLIENTS_QUERY)) {
+             PreparedStatement clientStatement = connection.prepareStatement(INSERT_CLIENTS_QUERY)) {
             try {
                 connection.setAutoCommit(false);
                 usersStatement.setString(1, client.getLogin());
@@ -60,19 +60,22 @@ public class ClientDaoImpl implements ClientDao {
                     client.setId(clientId);
                 }
 
-                trainerStatement.setInt(1, client.getId());
-                trainerStatement.setString(2, client.getName());
-                trainerStatement.setString(3, client.getLastName());
+                clientStatement.setInt(1, client.getId());
+                clientStatement.setString(2, client.getName());
+                clientStatement.setString(3, client.getLastName());
                 if (client.getPhone() != null) {
-                    trainerStatement.setString(4, client.getPhone());
+                    clientStatement.setString(4, client.getPhone());
                 } else {
-                    trainerStatement.setNull(4, MysqlType.NULL.getJdbcType());
+                    clientStatement.setNull(4, Types.NULL);
                 }
 
-                usersStatement.execute();
+                clientStatement.execute();
 
                 connection.commit();
                 logger.debug("Client created = {}", client);
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new SQLException(e);
             } finally {
                 connection.setAutoCommit(true);
             }

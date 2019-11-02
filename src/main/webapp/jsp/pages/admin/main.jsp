@@ -17,8 +17,9 @@
 </head>
 <body>
 <c:import url="/jsp/fragment/header.jsp"/>
+<h1>ADMIN MAIN</h1>
 <ul>
-    <li><a href="${pageContext.request.contextPath}/jsp/pages/welcome.jsp">${welcome}</a></li>
+    <li><a href="${pageContext.request.contextPath}/jsp/pages/admin/welcome.jsp">${welcome}</a></li>
     <li><a href="${pageContext.request.contextPath}/controller?command=Find_All_Orders">${orders}</a></li>
     <li><a href="${pageContext.request.contextPath}/controller?command=Find_All_Trainers">${users}</a></li>
 </ul>

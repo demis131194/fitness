@@ -27,13 +27,9 @@
 <h1>ADMIN WELCOME</h1>
 ${sessionScope.userName}:${hello}
 <br/>
-${role} - ${sessionScope.get("userRole")}
+${role} - ${sessionScope.userRole}
 <br/>
-${lastName}${sessionScope.userLastName}
-<br/>
-${login} - ${sessionScope.userLogin}
-<br/>
-${regDate} ${sessionScope.userRegisterDate}
+${lastName} - ${sessionScope.userLastName}
 <hr/>
 </body>
 </html>

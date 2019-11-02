@@ -11,8 +11,8 @@
 <fmt:message key="welcome.message.hello" bundle="${rb}" var="hello"/>
 <fmt:message key="welcome.message.role" bundle="${rb}" var="role"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>
-<fmt:message key="login.login" bundle="${rb}" var="login"/>
 <fmt:message key="register.date" bundle="${rb}" var="regDate"/>
+<fmt:message key="phone" bundle="${rb}" var="phone"/>
 
 <html>
 <head>
@@ -27,13 +27,13 @@
 <h1>TRAINER WELCOME</h1>
 ${sessionScope.userName}:${hello}
 <br/>
-${role} - ${sessionScope.get("userRole")}
+${role} - ${sessionScope.userRole}
 <br/>
-${lastName}${sessionScope.userLastName}
-<br/>
-${login} - ${sessionScope.userLogin}
+${lastName} - ${sessionScope.userLastName}
 <br/>
 ${regDate} ${sessionScope.userRegisterDate}
+<br/>
+${phone} - ${sessionScope.userPhone}
 <hr/>
 </body>
 </html>

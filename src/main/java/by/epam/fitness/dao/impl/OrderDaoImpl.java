@@ -24,7 +24,7 @@ public class OrderDaoImpl implements OrderDao {
     private static final String FIND_ALL_WITH_FILTER_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE id=? AND clientId=? AND trainerId=? AND startDate>=? AND endDate<=? AND price=? AND status=? AND accept=? AND active=?";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE active = 1";
     private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE trainerId = ? AND active = true";
-    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE userId = ? AND active = true";
+    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE clientId = ? AND active = true";
 
 
     private static OrderDao orderDao;

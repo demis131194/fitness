@@ -58,7 +58,7 @@ public class LoginCommand implements Command {
                         requestContent.putSessionAttribute("userRole", trainer.getRole().name());
                         requestContent.putSessionAttribute("userName", trainer.getName());
                         requestContent.putSessionAttribute("userLastName", trainer.getLastName());
-                        requestContent.putSessionAttribute("registerDateTime", trainer.getRegisterDateTime());
+                        requestContent.putSessionAttribute("userRegisterDate", trainer.getRegisterDateTime());
                         requestContent.putSessionAttribute("userPhone", trainer.getPhone());
                         page = PagePath.TRAINER_WELCOME_PATH;
                         break;
@@ -67,7 +67,7 @@ public class LoginCommand implements Command {
                         requestContent.putSessionAttribute("userRole", client.getRole().name());
                         requestContent.putSessionAttribute("userName", client.getName());
                         requestContent.putSessionAttribute("userLastName", client.getLastName());
-                        requestContent.putSessionAttribute("registerDateTime", client.getRegisterDateTime());
+                        requestContent.putSessionAttribute("userRegisterDate", client.getRegisterDateTime());
                         requestContent.putSessionAttribute("userDiscount", client.getDiscount());
                         requestContent.putSessionAttribute("userDiscountLevel", client.getDiscountLevel());
                         requestContent.putSessionAttribute("userPhone", client.getPhone());
@@ -78,7 +78,7 @@ public class LoginCommand implements Command {
                         throw new CommandException("User has not have init field role");
                 }
             } else {
-                page = PagePath.LOGIN_PATH;
+                page = PagePath.SIGN_IN_PATH;
                 requestContent.putAttribute("wrongPassOrLogin", true);
             }
 

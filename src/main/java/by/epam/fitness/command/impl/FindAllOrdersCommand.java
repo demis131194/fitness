@@ -21,6 +21,7 @@ public class FindAllOrdersCommand implements Command {
 
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {
+        String page;
         try {
             Object obj = requestContent.getSessionAttributeByName("userId");
             if (obj != null && obj.getClass() == Integer.class) {
@@ -33,23 +34,28 @@ public class FindAllOrdersCommand implements Command {
                 switch (role) {
                     case "ADMIN":
                         orders = orderService.findAll();
+                        page = PagePath.ADMIN_ORDERS_PATH;
                         break;
                     case "CLIENT":
                         orders = orderService.findAllActiveByClient(userId);
+                        page = PagePath.CLIENT_ORDERS_PATH;
                         break;
                     case "TRAINER":
                         orders = orderService.findAllActiveByTrainer(userId);
+                        page = PagePath.TRAINER_ORDERS_PATH;
                         break;
                     default:
-                        orders = new ArrayList<>();
+                        throw new CommandException("User hasn't have role");
                 }
-
                 requestContent.putAttribute("orders", orders);
+            } else {
+                throw new CommandException("No user in session");
             }
+
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
 
-        return PagePath.ORDERS_PATH;
+        return page;
     }
 }
