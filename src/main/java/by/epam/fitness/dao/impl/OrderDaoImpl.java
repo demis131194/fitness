@@ -20,12 +20,29 @@ public class OrderDaoImpl implements OrderDao {
     private static final String INSERT_QUERY = "INSERT INTO orders (clientId, trainerId, clientComment) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE orders SET clientId = ?, trainerId = ?, exercises = ?, nutrition = ?, startDate = ?, endDate = ?, price = ?, clientComment = ?, accept = ? WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE orders SET active = false WHERE id = ?";
-    private static final String FIND_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders";
-    private static final String FIND_ALL_WITH_FILTER_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE id=? AND clientId=? AND trainerId=? AND startDate>=? AND endDate<=? AND price=? AND status=? AND accept=? AND active=?";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE active = 1";
-    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE trainerId = ? AND active = true";
-    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT id, clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active FROM orders WHERE clientId = ? AND active = true";
+    private static final String FIND_QUERY = "SELECT o.id, o.clientId, c.name, c.lastName, o.trainerId, t.name, t.lastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+            "LEFT JOIN clients c on o.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
+            "WHERE o.id = ?";
+    private static final String FIND_ALL_QUERY = "SELECT o.id, o.clientId, c.name, c.lastName, o.trainerId, t.name, t.lastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+            "LEFT JOIN clients c on o.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t on o.trainerId = t.trainerId\n";
+    private static final String FIND_ALL_WITH_FILTER_QUERY = "SELECT o.id, o.clientId, c.name, c.lastName, o.trainerId, t.name, t.lastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+            "LEFT JOIN clients c on o.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
+            "WHERE id=? AND clientId=? AND trainerId=? AND startDate>=? AND endDate<=? AND price=? AND status=? AND accept=? AND active=?";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT o.id, o.clientId, c.name, c.lastName, o.trainerId, t.name, t.lastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+            "LEFT JOIN clients c on o.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
+            "WHERE o.active = true ";
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT o.id, o.clientId, c.name, c.lastName, o.trainerId, t.name, t.lastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+            "LEFT JOIN clients c on o.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
+            "WHERE o.active = true AND o.trainerId = ?";
+    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT o.id, o.clientId, c.name, c.lastName, o.trainerId, t.name, t.lastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+            "LEFT JOIN clients c on o.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
+            "WHERE o.active = true AND o.clientId = ?";
 
 
     private static OrderDao orderDao;
@@ -158,7 +175,7 @@ public class OrderDaoImpl implements OrderDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.first()) {
-                orderTo = getOrderFromResultSet(resultSet);
+                orderTo = getOrderToFromResultSet(resultSet);
                 logger.debug("FindActive orderTo - {}", orderTo);
             }
 
@@ -170,26 +187,25 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<OrderTo> findAll() throws DaoException {
-        List<Order> orders = new ArrayList<>();
-
+        List<OrderTo> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet);
-                orders.add(order);
+                OrderTo orderTo = getOrderToFromResultSet(resultSet);
+                result.add(orderTo);
             }
-            logger.debug("FindAll orders - {}", orders);
+            logger.debug("FindAll result - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return orders;
+        return result;
     }
 
     @Override
     public List<OrderTo> findAllWithFilter(Order filter) throws DaoException {
-        List<Order> result = new ArrayList<>();
+        List<OrderTo> result = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_WITH_FILTER_QUERY)) {
@@ -242,8 +258,8 @@ public class OrderDaoImpl implements OrderDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet);
-                result.add(order);
+                OrderTo orderTo = getOrderToFromResultSet(resultSet);
+                result.add(orderTo);
             }
 
             logger.debug("FindAllWithFilter - {}", result);
@@ -256,92 +272,82 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<OrderTo> findAllActive() throws DaoException {
-        List<Order> orders = new ArrayList<>();
+        List<OrderTo> result = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet);
-                orders.add(order);
+                OrderTo orderTo = getOrderToFromResultSet(resultSet);
+                result.add(orderTo);
             }
-            logger.debug("FindAll orders - {}", orders);
+            logger.debug("FindAll orders - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return orders;
+        return result;
     }
 
     @Override
     public List<OrderTo> findAllActiveByTrainer(int trainerId) throws DaoException {
-        List<Order> orders = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
+        List<OrderTo> result = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
             statement.setInt(1, trainerId);
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet);
-                orders.add(order);
+                OrderTo orderTo = getOrderToFromResultSet(resultSet);
+                result.add(orderTo);
             }
-            logger.debug("FindAllActiveByTrainer orders, trainerId = {} - {}", trainerId, orders);
+            logger.debug("FindAllActiveByTrainer orders, trainerId = {} - {}", trainerId, result);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
-        return orders;
+        return result;
     }
 
     @Override
     public List<OrderTo> findAllActiveByClient(int clientId) throws DaoException {
-        List<Order> orders = new ArrayList<>();
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_CLIENT_QUERY)) {
+        List<OrderTo> result = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_CLIENT_QUERY)) {
             statement.setInt(1, clientId);
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet);
-                orders.add(order);
+                OrderTo orderTo = getOrderToFromResultSet(resultSet);
+                result.add(orderTo);
             }
-            logger.debug("FindAllActiveByClient orders, clientId = {} - {}", clientId, orders);
+            logger.debug("FindAllActiveByClient orders, clientId = {} - {}", clientId, result);
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warn(e);
-            }
-
         }
-        return orders;
+        return result;
     }
 
-    private Order getOrderFromResultSet(ResultSet resultSet) throws SQLException {
-        Order order = new Order();
-        order.setId(resultSet.getInt(TableColumn.ORDERS_ID));
-        order.setClientId(resultSet.getInt(TableColumn.ORDERS_CLIENT_ID));
-        order.setTrainerId(resultSet.getInt(TableColumn.ORDERS_TRAINER_ID));
-        order.setRegisterDate(resultSet.getTimestamp(TableColumn.ORDERS_REGISTER_DATE).toLocalDateTime());
-        order.setExercises(resultSet.getString(TableColumn.ORDERS_EXERCISES));
-        order.setNutrition(resultSet.getString(TableColumn.ORDERS_NUTRITION));
-        order.setStartDate(resultSet.getDate(TableColumn.ORDERS_START_DATE).toLocalDate());
-        order.setEndDate(resultSet.getDate(TableColumn.ORDERS_END_DATE).toLocalDate());
-        order.setPrice(resultSet.getBigDecimal(TableColumn.ORDERS_PRICE));
-        order.setClientComment(resultSet.getString(TableColumn.ORDERS_CLIENT_COMMENT));
-        order.setOrderStatus(OrderStatus.values()[resultSet.getInt(TableColumn.ORDERS_STATUS)]);
-        order.setAccept(resultSet.getBoolean(TableColumn.ORDERS_ACCEPT));
-        order.setActive(resultSet.getBoolean(TableColumn.ORDERS_ACTIVE));
-        return order;
+    private OrderTo getOrderToFromResultSet(ResultSet resultSet) throws SQLException {
+        OrderTo orderTo = new OrderTo();
+        orderTo.setId(resultSet.getInt(TableColumn.ORDERS_ID));
+        orderTo.setClientId(resultSet.getInt(TableColumn.ORDERS_CLIENT_ID));
+        orderTo.setClientName(resultSet.getString(TableColumn.CLIENT_NAME));
+        orderTo.setClientLastName(resultSet.getString(TableColumn.CLIENT_LAST_NAME));
+        orderTo.setTrainerId(resultSet.getInt(TableColumn.ORDERS_TRAINER_ID));
+        orderTo.setTrainerName(resultSet.getString(TableColumn.TRAINER_NAME));
+        orderTo.setTrainerLastName(resultSet.getString(TableColumn.TRAINER_LAST_NAME));
+        orderTo.setRegisterDate(resultSet.getTimestamp(TableColumn.ORDERS_REGISTER_DATE).toLocalDateTime());
+        orderTo.setExercises(resultSet.getString(TableColumn.ORDERS_EXERCISES));
+        orderTo.setNutrition(resultSet.getString(TableColumn.ORDERS_NUTRITION));
+        orderTo.setStartDate(resultSet.getDate(TableColumn.ORDERS_START_DATE).toLocalDate());
+        orderTo.setEndDate(resultSet.getDate(TableColumn.ORDERS_END_DATE).toLocalDate());
+        orderTo.setPrice(resultSet.getBigDecimal(TableColumn.ORDERS_PRICE));
+        orderTo.setClientComment(resultSet.getString(TableColumn.ORDERS_CLIENT_COMMENT));
+        orderTo.setOrderStatus(OrderStatus.values()[resultSet.getInt(TableColumn.ORDERS_STATUS)]);
+        orderTo.setAccept(resultSet.getBoolean(TableColumn.ORDERS_ACCEPT));
+        orderTo.setActive(resultSet.getBoolean(TableColumn.ORDERS_ACTIVE));
+        return orderTo;
     }
 }
