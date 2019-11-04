@@ -26,8 +26,8 @@ DROP TRIGGER IF EXISTS restore_user;
 CREATE TABLE users
 (
     id		 	 INT 							    NOT NULL AUTO_INCREMENT,
-    login	 	 VARBINARY(50) 				        NOT NULL,
-    password 	 VARCHAR(50) 				        NOT NULL,
+    login	 	 VARBINARY(255) 				    NOT NULL,
+    password 	 VARBINARY(255) 				    NOT NULL,
     role 	     ENUM('ADMIN', 'TRAINER', 'CLIENT') NOT NULL DEFAULT 'CLIENT',
     active 	     BOOLEAN                            NOT NULL DEFAULT true,
     PRIMARY KEY (id),
@@ -177,13 +177,13 @@ END;
 
 
 INSERT INTO users(login, password, role)
-VALUES ('admin', '21232F297A57A5A743894A0E4A801FC3', 'ADMIN'),
-       ('trainer1', '2C065AAE9FCB37B49043A5A2012B3DBF', 'TRAINER'),
-       ('trainer2', '2C065AAE9FCB37B49043A5A2012B3DBF', 'TRAINER'),
-       ('client1', '62608E08ADC29A8D6DBC9754E659F125', default),
-       ('client2', '62608E08ADC29A8D6DBC9754E659F125', default),
-       ('client3', '62608E08ADC29A8D6DBC9754E659F125', default),
-       ('client4', '62608E08ADC29A8D6DBC9754E659F125', default);
+VALUES ('admin', 'admin', 'ADMIN'),
+       ('trainer1', 'trainer', 'TRAINER'),
+       ('trainer2', 'trainer', 'TRAINER'),
+       ('client1', 'client', default),
+       ('client2', 'client', default),
+       ('client3', 'client', default),
+       ('client4', 'client', default);
 
 INSERT INTO admins(adminId, name, lastName)
 VALUES (1, 'Денис', 'Кацук');

@@ -6,6 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.User;
 import by.epam.fitness.service.UserService;
+import by.epam.fitness.util.Encoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +32,8 @@ public class UserServiceImpl implements UserService {
     public User findByLoginAndPassword(String login, String password) throws ServiceException {
         User user;
         try {
-            user = userDao.findByLoginAndPassword(login, password);
+            String encodedPassword = Encoder.encode(password);
+            user = userDao.findByLoginAndPassword(login, encodedPassword);
         } catch (DaoException e) {
             logger.warn(e);
             throw new ServiceException(e);
@@ -43,7 +45,8 @@ public class UserServiceImpl implements UserService {
     public boolean updatePassword(int userId, String password) throws ServiceException {
         boolean isUpdated;
         try {
-            isUpdated = userDao.updatePassword(userId, password);
+            String encodedPassword = Encoder.encode(password);
+            isUpdated = userDao.updatePassword(userId, encodedPassword);
         } catch (DaoException e) {
             logger.warn(e);
             throw new ServiceException(e);

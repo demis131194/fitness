@@ -8,6 +8,7 @@ import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.service.OrderService;
 import by.epam.fitness.service.impl.OrderServiceImpl;
+import by.epam.fitness.to.OrderTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +30,7 @@ public class FindAllOrdersCommand implements Command {
 
                 String role = (String) requestContent.getSessionAttributeByName("userRole");
 
-                List<Order> orders;
+                List<OrderTo> orders;
 
                 switch (role) {
                     case "ADMIN":

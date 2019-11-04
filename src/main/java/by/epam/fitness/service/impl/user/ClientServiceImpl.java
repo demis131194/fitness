@@ -6,6 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.ClientService;
+import by.epam.fitness.util.Encoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,13 +32,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client create(Client client) throws ServiceException {
-        Client clientTrainer;
+        Client createdClient;
         try {
-            clientTrainer = clientDao.create(client);
+            client.setPassword(Encoder.encode(client.getPassword()));
+            createdClient = clientDao.create(client);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return clientTrainer;
+        return createdClient;
     }
 
     @Override

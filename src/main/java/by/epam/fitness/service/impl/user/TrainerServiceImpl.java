@@ -6,6 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.Trainer;
 import by.epam.fitness.service.TrainerService;
+import by.epam.fitness.util.Encoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,7 @@ public class TrainerServiceImpl implements TrainerService {
     public Trainer create(Trainer trainer) throws ServiceException {
         Trainer createdTrainer;
         try {
+            trainer.setPassword(Encoder.encode(trainer.getPassword()));
             createdTrainer = trainerDao.create(trainer);
         } catch (DaoException e) {
             throw new ServiceException(e);
