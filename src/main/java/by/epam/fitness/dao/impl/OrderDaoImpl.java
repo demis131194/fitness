@@ -6,6 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.model.OrderStatus;
 import by.epam.fitness.pool.ConnectionPool;
+import by.epam.fitness.to.OrderTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -149,26 +150,26 @@ public class OrderDaoImpl implements OrderDao {
 
 
     @Override
-    public Order find(int orderId) throws DaoException {
-        Order order = null;
+    public OrderTo find(int orderId) throws DaoException {
+        OrderTo orderTo = null;
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_QUERY)) {
             statement.setInt(1, orderId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.first()) {
-                order = getOrderFromResultSet(resultSet);
-                logger.debug("FindActive order - {}", order);
+                orderTo = getOrderFromResultSet(resultSet);
+                logger.debug("FindActive orderTo - {}", orderTo);
             }
 
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return order;
+        return orderTo;
     }
 
     @Override
-    public List<Order> findAll() throws DaoException {
+    public List<OrderTo> findAll() throws DaoException {
         List<Order> orders = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
@@ -187,7 +188,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllWithFilter(Order filter) throws DaoException {
+    public List<OrderTo> findAllWithFilter(Order filter) throws DaoException {
         List<Order> result = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
@@ -254,7 +255,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllActive() throws DaoException {
+    public List<OrderTo> findAllActive() throws DaoException {
         List<Order> orders = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
@@ -273,7 +274,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllActiveByTrainer(int trainerId) throws DaoException {
+    public List<OrderTo> findAllActiveByTrainer(int trainerId) throws DaoException {
         List<Order> orders = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
@@ -300,7 +301,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllActiveByClient(int clientId) throws DaoException {
+    public List<OrderTo> findAllActiveByClient(int clientId) throws DaoException {
         List<Order> orders = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().takeConnection();
         try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_CLIENT_QUERY)) {

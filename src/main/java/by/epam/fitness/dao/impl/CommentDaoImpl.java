@@ -5,6 +5,7 @@ import by.epam.fitness.dao.TableColumn;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.Comment;
 import by.epam.fitness.pool.ConnectionPool;
+import by.epam.fitness.to.CommentTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,11 +19,21 @@ public class CommentDaoImpl implements CommentDao {
     private static final String INSERT_QUERY = "INSERT INTO comments (clientId, trainerId, comment) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE comments SET clientId = ?, trainerId = ?, comment = ? WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE comments SET active = false WHERE id = ?";
-    private static final String FIND_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE id = ?";
-    private static final String FIND_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE id = ? AND active = true";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE active = true";
-    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments WHERE trainerId = ? AND active = true";
-    private static final String FIND_ALL_QUERY = "SELECT id, clientId, trainerId, registerDate, comment, active FROM comments";
+    private static final String FIND_QUERY = "SELECT comments.id, comments.clientId, c.name, c.lastName, comments.trainerId, t.name, t.lastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "WHERE comments.id = ?";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT comments.id, comments.clientId, c.name, c.lastName, comments.trainerId, t.name, t.lastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "WHERE comments.active = true";
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT comments.id, comments.clientId, c.name, c.lastName, comments.trainerId, t.name, t.lastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "WHERE t.trainerId = ?";
+    private static final String FIND_ALL_QUERY = "SELECT comments.id, comments.clientId, c.name, c.lastName, comments.trainerId, t.name, t.lastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId";
 
     private static CommentDao commentDao;
 
@@ -104,8 +115,8 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public Comment find(int commentId) throws DaoException {
-        Comment comment = null;
+    public CommentTo find(int commentId) throws DaoException {
+        CommentTo commentTo = null;
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_QUERY)) {
@@ -113,39 +124,19 @@ public class CommentDaoImpl implements CommentDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.first()) {
-                comment = getCommentFromResultSet(resultSet);
-                logger.debug("FindActive comment - {}", comment);
+                commentTo = getCommentToFromResultSet(resultSet);
+                logger.debug("FindActive comment - {}", commentTo);
             }
 
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return comment;
+        return commentTo;
     }
 
     @Override
-    public Comment findActive(int commentId) throws DaoException {
-        Comment comment = null;
-
-        try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ACTIVE_QUERY)) {
-            statement.setInt(1, commentId);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.first()) {
-                comment = getCommentFromResultSet(resultSet);
-                logger.debug("FindActive comment - {}", comment);
-            }
-
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return comment;
-    }
-
-    @Override
-    public List<Comment> findAllActive() throws DaoException {
-        List<Comment> comments = new ArrayList<>();
+    public List<CommentTo> findAllActive() throws DaoException {
+        List<CommentTo> commentTos = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
@@ -153,38 +144,38 @@ public class CommentDaoImpl implements CommentDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Comment assignment = getCommentFromResultSet(resultSet);
-                comments.add(assignment);
+                CommentTo commentTo = getCommentToFromResultSet(resultSet);
+                commentTos.add(commentTo);
             }
-            logger.debug("FindAllActive comments - {}", comments);
+            logger.debug("FindAllActive commentTos - {}", commentTos);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return comments;
+        return commentTos;
     }
 
     @Override
-    public List<Comment> findAllActiveByTrainer(int trainerId) throws DaoException {
-        List<Comment> comments = new ArrayList<>();
+    public List<CommentTo> findAllActiveByTrainer(int trainerId) throws DaoException {
+        List<CommentTo> commentTos = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
             statement.setInt(1, trainerId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Comment assignment = getCommentFromResultSet(resultSet);
-                comments.add(assignment);
+                CommentTo commentTo = getCommentToFromResultSet(resultSet);
+                commentTos.add(commentTo);
             }
-            logger.debug("FindAllActiveByTrainer comments - {}", comments);
+            logger.debug("FindAllActiveByTrainer commentTos - {}", commentTos);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return comments;
+        return commentTos;
     }
 
     @Override
-    public List<Comment> findAll() throws DaoException {
-        List<Comment> comments = new ArrayList<>();
+    public List<CommentTo> findAll() throws DaoException {
+        List<CommentTo> commentTos = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
@@ -192,21 +183,25 @@ public class CommentDaoImpl implements CommentDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Comment assignment = getCommentFromResultSet(resultSet);
-                comments.add(assignment);
+                CommentTo commentTo = getCommentToFromResultSet(resultSet);
+                commentTos.add(commentTo);
             }
-            logger.debug("FindAllActive comments - {}", comments);
+            logger.debug("FindAllActive commentTos - {}", commentTos);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return comments;
+        return commentTos;
     }
 
-    private Comment getCommentFromResultSet(ResultSet resultSet) throws SQLException {
-        Comment comment = new Comment();
+    private CommentTo getCommentToFromResultSet(ResultSet resultSet) throws SQLException {
+        CommentTo comment = new CommentTo();
         comment.setId(resultSet.getInt(TableColumn.COMMENT_ID));
         comment.setClientId(resultSet.getInt(TableColumn.COMMENT_CLIENT_ID));
+        comment.setClientName(resultSet.getString(TableColumn.CLIENT_NAME));
+        comment.setClientLastName(resultSet.getString(TableColumn.CLIENT_LAST_NAME));
         comment.setTrainerId(resultSet.getInt(TableColumn.COMMENT_TRAINER_ID));
+        comment.setTrainerName(resultSet.getString(TableColumn.TRAINER_LAST_NAME));
+        comment.setTrainerLastName(resultSet.getString(TableColumn.TRAINER_LAST_NAME));
         comment.setRegisterDate(resultSet.getTimestamp(TableColumn.COMMENT_REGISTER_DATE).toLocalDateTime());
         comment.setComment(resultSet.getString(TableColumn.COMMENT_COMMENT));
         comment.setActive(resultSet.getBoolean(TableColumn.COMMENT_ACTIVE));

@@ -6,6 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.service.OrderService;
+import by.epam.fitness.to.OrderTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,68 +63,68 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order find(int orderId) throws ServiceException {
-        Order order;
+    public OrderTo find(int orderId) throws ServiceException {
+        OrderTo orderTo;
         try {
-            order = orderDao.find(orderId);
+            orderTo = orderDao.find(orderId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return order;
+        return orderTo;
     }
 
     @Override
-    public List<Order> findAll() throws ServiceException {
-        List<Order> orders;
+    public List<OrderTo> findAll() throws ServiceException {
+        List<OrderTo> orderTos;
         try {
-            orders = orderDao.findAll();
+            orderTos = orderDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return orders;
+        return orderTos;
     }
 
     @Override
-    public List<Order> findAllWithFilter(Order filter) throws ServiceException {
-        List<Order> orders;
+    public List<OrderTo> findAllWithFilter(Order filter) throws ServiceException {
+        List<OrderTo> orderTos;
         try {
-            orders = orderDao.findAllWithFilter(filter);
+            orderTos = orderDao.findAllWithFilter(filter);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return orders;
+        return orderTos;
     }
 
     @Override
-    public List<Order> findAllActive() throws ServiceException {
-        List<Order> orders;
+    public List<OrderTo> findAllActive() throws ServiceException {
+        List<OrderTo> orderTos;
         try {
-            orders = orderDao.findAllActive();
+            orderTos = orderDao.findAllActive();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return orders;
+        return orderTos;
     }
 
     @Override
-    public List<Order> findAllActiveByTrainer(int trainerId) throws ServiceException {
-        List<Order> orders;
+    public List<OrderTo> findAllActiveByTrainer(int trainerId) throws ServiceException {
+        List<OrderTo> orderTos;
         try {
-            orders = orderDao.findAllActiveByTrainer(trainerId);
+            orderTos = orderDao.findAllActiveByTrainer(trainerId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return orders;
+        return orderTos;
     }
 
     @Override
-    public List<Order> findAllActiveByClient(int clientId) throws ServiceException {
-        List<Order> orders;
+    public List<OrderTo> findAllActiveByClient(int clientId) throws ServiceException {
+        List<OrderTo> orderTos;
         try {
-            orders = orderDao.findAllActiveByClient(clientId);
+            orderTos = orderDao.findAllActiveByClient(clientId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return orders;
+        return orderTos;
     }
 }

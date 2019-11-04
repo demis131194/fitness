@@ -203,7 +203,7 @@ VALUES (4, 2, '2015-08-21 10:16:43', 'Training-1! cl-tr : 4-2', 'Nutrition-1', '
        (6, 3, '2016-03-21 10:28:02', 'Training-2! cl-tr : 6-3', 'Nutrition-2', '2016-03-21', '2017-03-21', 250, 'Comment-2', 1, false, 1),
        (7, 3, '2016-06-01 09:51:22', 'Training-3! cl-tr : 7-3', 'Nutrition-3', '2016-06-01', '2017-06-01', 150, 'Comment-3', 2, true, 1);
 
-INSERT INTO comments(clientId, trainerId, registerDate, comment)
+INSERT INTO comments(clientId, trainerId, registerDate, commentTo)
 VALUES (4, 2, '2015-09-22 10:16:43', 'BEST!'),
        (6, 3, '2016-04-24 10:16:43', 'NORM!'),
        (7, 3, '2016-07-04 14:18:43', 'BAD!');

@@ -23,9 +23,9 @@
 <br/>
 <form name="signUpForm" method="POST" action="${pageContext.request.contextPath}/controller">
     <input type="hidden" name="command" value="sign_up"/>
-    ${login}
+    <label for="login">${login}</label>
     <br/>
-    <input type="text" name="Login" value="" pattern="\w{4,}"/>
+    <input id="login" type="text" name="Login" value="" pattern="\w{4,}"/>
     <br/>
     ${password}
     <br/>

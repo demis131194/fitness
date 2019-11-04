@@ -6,6 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Comment;
 import by.epam.fitness.service.CommentService;
+import by.epam.fitness.to.CommentTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,62 +65,62 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment find(int commentId) throws ServiceException {
-        logger.trace("In service method find comment.");
-        Comment comment;
+    public CommentTo find(int commentId) throws ServiceException {
+        logger.trace("In service method find commentTo.");
+        CommentTo commentTo;
         try {
-            comment = commentDao.find(commentId);
+            commentTo = commentDao.find(commentId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return comment;
+        return commentTo;
     }
 
     @Override
-    public Comment findActive(int commentId) throws ServiceException {
-        logger.trace("In service method findActive comment.");
-        Comment comment;
+    public CommentTo findActive(int commentId) throws ServiceException {
+        logger.trace("In service method findActive commentTo.");
+        CommentTo commentTo;
         try {
-            comment = commentDao.findActive(commentId);
+            commentTo = commentDao.findActive(commentId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return comment;
+        return commentTo;
     }
 
     @Override
-    public List<Comment> findAllActive() throws ServiceException {
+    public List<CommentTo> findAllActive() throws ServiceException {
         logger.trace("In service method findAllActive.");
-        List<Comment> comments;
+        List<CommentTo> commentTos;
         try {
-            comments = commentDao.findAllActive();
+            commentTos = commentDao.findAllActive();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return comments;
+        return commentTos;
     }
 
     @Override
-    public List<Comment> findAllActiveByTrainer(int trainerId) throws ServiceException {
-        logger.trace("In service method findAllActiveByTrainer comments.");
-        List<Comment> comments;
+    public List<CommentTo> findAllActiveByTrainer(int trainerId) throws ServiceException {
+        logger.trace("In service method findAllActiveByTrainer commentTos.");
+        List<CommentTo> commentTos;
         try {
-            comments = commentDao.findAllActiveByTrainer(trainerId);
+            commentTos = commentDao.findAllActiveByTrainer(trainerId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return comments;
+        return commentTos;
     }
 
     @Override
-    public List<Comment> findAll() throws ServiceException {
-        logger.trace("In service method findAll comments.");
-        List<Comment> comments;
+    public List<CommentTo> findAll() throws ServiceException {
+        logger.trace("In service method findAll commentTos.");
+        List<CommentTo> commentTos;
         try {
-            comments = commentDao.findAll();
+            commentTos = commentDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return comments;
+        return commentTos;
     }
 }
