@@ -1,0 +1,36 @@
+.header {
+  background-color: #129ef4;
+  height: 100px;
+  vertical-align: center;
+}
+.header .row {
+  height: 100%;
+}
+.header-locale {
+  vertical-align: center;
+  height: 100%;
+}
+.header-locale-button {
+  margin: 30px 10px 10px;
+  background-color: #bbc7bf;
+  border: none;
+}
+.header-locale img {
+  color: #f40014;
+  width: 20px;
+}
+.header-title {
+  margin-top: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: #383838 2px 2px;
+  font-style: italic;
+  color: #d7eb0a;
+}
+.header-box {
+  margin-top: 20px;
+  margin-right: 20px;
+  background-color: #e9e9e9;
+  border: 3px solid black;
+  border-radius: 5px;
+}

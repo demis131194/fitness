@@ -1,5 +1,6 @@
 package by.epam.fitness.command.impl;
 
+import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
@@ -35,7 +36,7 @@ public class SignUpCommand implements Command {
             clientService.create(client);
             page = PagePath.CLIENT_CREATED;
         } catch (ServiceException e) {
-            requestContent.putAttribute("wrongLogin", true);
+            requestContent.putAttribute(AttributeName.ERR_WRONG_LOGIN, true);
             page = PagePath.SIGN_UP_PATH;
         }
         return page;

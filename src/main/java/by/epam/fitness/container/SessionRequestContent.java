@@ -24,6 +24,7 @@ public class SessionRequestContent {
             Enumeration<String> sessionAttributesNames = session.getAttributeNames();
             Collections.list(sessionAttributesNames).forEach(attr -> sessionAttributes.put(attr, session.getAttribute(attr)));
         }
+
     }
 
     public void insertAttributes(HttpServletRequest request) {                          // FIXME: 22.10.2019 SetParameters ???

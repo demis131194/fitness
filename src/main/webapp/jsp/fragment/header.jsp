@@ -5,7 +5,7 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 
 <fmt:message key="header.header" bundle="${rb}" var="header"/>
-<fmt:message key="index.project.name" bundle="${rb}" var="projectName"/>
+<fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="header.locale" bundle="${rb}" var="locale"/>
 <fmt:message key="name" bundle="${rb}" var="name"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>
@@ -17,43 +17,68 @@
 <html>
 <head>
     <title>${header}</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <script src="${pageContext.request.contextPath}/js/jquery/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.bundle.js"></script>
+    <script src="${pageContext.request.contextPath}/js/locale.js"></script>
 </head>
 <body>
-<form>
-    <h3>${projectName}</h3>
-    <output>${locale}</output>
-    <span>
-        <select name="locale">
-        <option selected name="en" value="en_EN">EN</option>
-        <option name="ru" value="ru_RU">RU</option>
-    </select>
-    </span>
-    <table align="right" border="2">
-        <tr>
-            <th>${name}</th>
-            <th>${lastName}</th>
-            <th>${role}</th>
-        </tr>
-        <c:if test="${sessionScope.authorization}">
-        <tr>
-            <td>${sessionScope.userName}</td>
-            <td>${sessionScope.userLastName}</td>
-            <td>${sessionScope.userRole}</td>
-        </tr>
-            <tr>
-                <td colspan="3"><a href="${pageContext.request.contextPath}/controller?command=Logout">${logOut}</a></td>
-            </tr>
-        </c:if>
-        <c:if test="${!sessionScope.authorization}">
-            <tr>
-                <td align="center">Guest</td>
-                <td align="center"><a href="${pageContext.request.contextPath}/jsp/pages/sign-in.jsp">${signIn}</a></td>
-                <td align="center"><a href="${pageContext.request.contextPath}/jsp/pages/sign-up.jsp">${signUp}</a></td>
-            </tr>
-        </c:if>
-    </table>
-</form>
-<br/>
-<hr/>
+<%-- Header--%>
+<div class="header">
+    <div class="row">
+        <%--Locale--%>
+        <div class="col-lg-2">
+            <div class="dropdown header-locale">
+                <button class="btn dropdown-toggle btn-sm header-locale-button" type="button" id="dropdown-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="${pageContext.request.contextPath}/images/icons/icon-locale.png" alt="Locale">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown-menu">
+                    <a class="dropdown-item btn-sm" href="${pageContext.request.contextPath}/controller?command=change_locale&locale=en_EN">EN</a>
+                    <a class="dropdown-item btn-sm" href="${pageContext.request.contextPath}/controller?command=change_locale&locale=ru_RU">RU</a>
+                </div>
+            </div>
+        </div>
+<%--            Project Name--%>
+        <div class="col-lg-2 offset-lg-3">
+            <div class="header-title">
+                <h1>${projectName}</h1>
+            </div>
+
+        </div>
+
+        <div class="col-lg-2 offset-lg-3">
+            <div class="header-box">
+                <c:choose >
+                    <c:when test="${sessionScope.authorization}">
+                        <div>
+                            <strong>${name} : ${sessionScope.userName} ${sessionScope.userLastName}</strong>
+                        </div>
+                        <div>
+                            <strong>${role} : ${sessionScope.userRole}</strong>
+                        </div>
+                        <div>
+                            <strong><a href="${pageContext.request.contextPath}/controller?command=Logout">${logOut}</a></strong>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div>
+                            <strong>${role} : Guest</strong>
+                        </div>
+                        <div>
+                            <strong>
+                                <a href="${pageContext.request.contextPath}/jsp/pages/sign-in.jsp">${signIn}</a>
+                                <a href="${pageContext.request.contextPath}/jsp/pages/sign-up.jsp">${signUp}</a>
+                            </strong>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
+

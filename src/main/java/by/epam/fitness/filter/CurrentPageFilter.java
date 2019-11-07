@@ -1,5 +1,7 @@
 package by.epam.fitness.filter;
 
+import by.epam.fitness.command.AttributeName;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -10,26 +12,15 @@ import java.io.IOException;
         DispatcherType.INCLUDE,
         DispatcherType.REQUEST
 })
-public class LocaleFilter implements Filter {
+public class CurrentPageFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        if (httpRequest.getSession(false) != null && httpRequest.getSession(false).getAttribute("locale") == null) {
-            httpRequest.getSession().setAttribute("locale", "en_EN");
-        }
+        String currentPage = httpRequest.getRequestURL().toString();
+        int index = currentPage.indexOf("jsp/");
+        currentPage = currentPage.substring(index);
+        httpRequest.getSession().setAttribute(AttributeName.CURRENT_PAGE, currentPage);
         chain.doFilter(httpRequest, response);
-    }
-
-
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }
