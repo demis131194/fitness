@@ -11,6 +11,7 @@ public class ErrMessageKey {
     public static final String INVALID_PHONE = "invalid.phone";
     public static final String INVALID_MONEY_VALUE = "invalid.money.value";
     public static final String LOGIN_ALREADY_EXIST = "login.already.exist";
+    public static final String INVALID_LENGTH_OF_PASSWORD = "invalid.length.password";
 
     private ErrMessageKey() {}
 }

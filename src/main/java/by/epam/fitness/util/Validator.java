@@ -24,15 +24,16 @@ public class Validator {
     }
 
     public static void checkPassword(String password) throws ValidatorExcepton {
+        if (password.length() < 6) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_LENGTH_OF_PASSWORD);
+        }
         if (!password.matches(PASSWORD_REGEX)) {
             throw new ValidatorExcepton(ErrMessageKey.INVALID_PASSWORD);
         }
     }
 
     public static void checkPassword(String password, String repeatedPassword) throws ValidatorExcepton {
-        if (!password.matches(PASSWORD_REGEX)) {
-            throw new ValidatorExcepton(ErrMessageKey.INVALID_PASSWORD);
-        }
+        checkPassword(password);
         if (!password.equals(repeatedPassword)) {
             throw new ValidatorExcepton(ErrMessageKey.PASSWORDS_NOT_EQUAL);
         }

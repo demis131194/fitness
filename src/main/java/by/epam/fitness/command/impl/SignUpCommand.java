@@ -44,7 +44,7 @@ public class SignUpCommand implements Command {
             Validator.checkPassword(password, repeatedPassword);
             Validator.checkName(name);
             Validator.checkLastName(lastName);
-            Validator.checkLastName(phone);
+            Validator.checkPhone(phone);
 
             Client client = new Client();
             client.setLogin(login);

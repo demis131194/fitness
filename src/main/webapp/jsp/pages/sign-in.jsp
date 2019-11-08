@@ -8,7 +8,6 @@
 
 <fmt:message key="login.login" bundle="${rb}" var="login"/>
 <fmt:message key="login.password" bundle="${rb}" var="password"/>
-<fmt:message key="${requestScope.errMessage}" bundle="${err_rb}" var="errMessage"/>
 <fmt:message key="login.button.login" bundle="${rb}" var="buttonLogin"/>
 <fmt:message key="login.title.login" bundle="${rb}" var="login"/>
 <fmt:message key="project.home" bundle="${rb}" var="home"/>
@@ -50,7 +49,7 @@
                         </div>
                         <c:if test="${requestScope.errMessage != null}">
                         <div class="alert alert-danger ">
-                            <span>${errMessage}</span>
+                            <span><fmt:message key="${requestScope.errMessage}" bundle="${err_rb}"/></span>
                         </div>
                         </c:if>
                         <button type="submit" class="btn btn-primary">${submit}</button>
