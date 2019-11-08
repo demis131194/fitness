@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
     <script src="${pageContext.request.contextPath}/js/jquery/jquery-3.4.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.bundle.js"></script>
-    <script src="${pageContext.request.contextPath}/js/locale.js"></script>
 </head>
 <body>
 <%-- Header--%>
@@ -31,7 +30,7 @@
         <%--Locale--%>
         <div class="col-lg-2">
             <div class="dropdown header-locale">
-                <button class="btn dropdown-toggle btn-sm header-locale-button" type="button" id="dropdown-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn dropdown-toggle btn-sm header-locale-button btn-light" type="button" id="dropdown-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="${pageContext.request.contextPath}/images/icons/icon-locale.png" alt="Locale">
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdown-menu">

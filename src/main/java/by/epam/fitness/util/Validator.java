@@ -1,6 +1,6 @@
 package by.epam.fitness.util;
 
-import java.math.BigDecimal;
+import by.epam.fitness.exception.ValidatorExcepton;
 
 public class Validator {
     private static final String LOGIN_REGEX = "^[\\w_]{3,16}$";
@@ -11,23 +11,54 @@ public class Validator {
 
     private Validator(){}
 
-    public static  boolean checkLogin(String login) {
-        return login.matches(LOGIN_REGEX);
+    public static void checkLoginAndPassword(String login, String password) throws ValidatorExcepton {
+        if (!login.matches(LOGIN_REGEX) && !password.matches(PASSWORD_REGEX)) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_LOGIN_OR_PASSWORD);
+        }
     }
 
-    public static  boolean checkPassword(String password) {
-        return password.matches(PASSWORD_REGEX);
+    public static void checkLogin(String login) throws ValidatorExcepton {
+        if (!login.matches(LOGIN_REGEX)) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_LOGIN);
+        }
     }
 
-    public static  boolean checkNameOrLastName(String password) {
-        return password.matches(NAME_LAST_NAME_REGEX);
+    public static void checkPassword(String password) throws ValidatorExcepton {
+        if (!password.matches(PASSWORD_REGEX)) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_PASSWORD);
+        }
     }
 
-    public static  boolean checkPhone(String password) {
-        return password.matches(PHONE_REGEX);
+    public static void checkPassword(String password, String repeatedPassword) throws ValidatorExcepton {
+        if (!password.matches(PASSWORD_REGEX)) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_PASSWORD);
+        }
+        if (!password.equals(repeatedPassword)) {
+            throw new ValidatorExcepton(ErrMessageKey.PASSWORDS_NOT_EQUAL);
+        }
     }
 
-    public static  boolean checkMoneyValue(String moneyValue) {
-        return moneyValue.matches(MONEY_VALUE_REGEX);
+    public static void checkName(String name) throws ValidatorExcepton {
+        if (!name.matches(NAME_LAST_NAME_REGEX)) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_NAME);
+        }
+    }
+
+    public static void checkLastName(String lastName) throws ValidatorExcepton {
+        if (!lastName.matches(NAME_LAST_NAME_REGEX)) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_LAST_NAME);
+        }
+    }
+
+    public static void checkPhone(String phone) throws ValidatorExcepton {
+        if (phone!= null && !phone.matches(PHONE_REGEX)) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_PHONE);
+        }
+    }
+
+    public static void checkMoneyValue(String moneyValue) throws ValidatorExcepton {
+        if (!moneyValue.matches(MONEY_VALUE_REGEX)) {
+            throw new ValidatorExcepton(ErrMessageKey.INVALID_MONEY_VALUE);
+        }
     }
 }

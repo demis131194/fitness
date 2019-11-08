@@ -1,6 +1,6 @@
 .header {
   background-color: #129ef4;
-  height: 100px;
+  height: 90px;
   vertical-align: center;
 }
 .header .row {
@@ -11,12 +11,12 @@
   height: 100%;
 }
 .header-locale-button {
+  display: block;
+  background-color: #bec7b5;
+  color: black;
   margin: 30px 10px 10px;
-  background-color: #bbc7bf;
-  border: none;
 }
 .header-locale img {
-  color: #f40014;
   width: 20px;
 }
 .header-title {

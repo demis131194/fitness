@@ -6,6 +6,7 @@ import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
+import by.epam.fitness.exception.ValidatorExcepton;
 import by.epam.fitness.model.user.Admin;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.model.user.Trainer;
@@ -18,6 +19,8 @@ import by.epam.fitness.service.impl.user.AdminServiceImpl;
 import by.epam.fitness.service.impl.user.ClientServiceImpl;
 import by.epam.fitness.service.impl.user.TrainerServiceImpl;
 import by.epam.fitness.service.impl.user.UserServiceImpl;
+import by.epam.fitness.util.ErrMessageKey;
+import by.epam.fitness.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,6 +43,7 @@ public class LoginCommand implements Command {
         User user;
         String page;
         try {
+            Validator.checkLoginAndPassword(login, password);
             user = userService.findByLoginAndPassword(login, password);
 
             if (user != null) {
@@ -80,12 +84,15 @@ public class LoginCommand implements Command {
                 }
                 requestContent.putSessionAttribute(AttributeName.CURRENT_PAGE, page);
             } else {
-                page = PagePath.SIGN_IN_PATH;
-                requestContent.putAttribute(AttributeName.ERR_LOGIN_OR_PASSWORD, true);
+                page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
+                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrMessageKey.WRONG_LOGIN_OR_PASSWORD);
             }
 
         } catch (ServiceException e) {
             throw new CommandException(e);
+        } catch (ValidatorExcepton validatorExcepton) {
+            page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, validatorExcepton.getMessage());
         }
 
         return page;

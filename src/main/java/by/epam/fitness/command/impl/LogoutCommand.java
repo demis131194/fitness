@@ -11,8 +11,8 @@ public class LogoutCommand implements Command {
     public String execute(SessionRequestContent requestContent) throws CommandException {
 
         requestContent.invalidateSession();
-        String page = PagePath.MAIN_PATH;
+        String page = PagePath.INDEX_PATH;
         requestContent.putSessionAttribute(AttributeName.CURRENT_PAGE, page);
-        return PagePath.MAIN_PATH;
+        return page;
     }
 }

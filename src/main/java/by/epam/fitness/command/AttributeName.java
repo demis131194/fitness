@@ -14,11 +14,11 @@ public class AttributeName {
     public static final String USER_CASH = "userCash";
 
     public static final String USER_AUTHORIZATION = "authorization";
-
+    public static final String COMMAND = "command";
     public static final String LOCALE = "locale";
 
-    public static final String ERR_LOGIN_OR_PASSWORD = "wrongPassOrLogin";
-    public static final String ERR_WRONG_LOGIN = "wrongLogin";
+    public static final String ERR_MESSAGE = "errMessage";
+
 
     private AttributeName() {}
 }

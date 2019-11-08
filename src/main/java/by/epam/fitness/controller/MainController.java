@@ -1,5 +1,6 @@
 package by.epam.fitness.controller;
 
+import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.CommandOperation;
 import by.epam.fitness.command.PagePath;
@@ -37,7 +38,7 @@ public class MainController extends HttpServlet {
 
     private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SessionRequestContent content = new SessionRequestContent(req);
-        Command command = CommandOperation.valueOf(req.getParameter("command").toUpperCase()).getCommand();
+        Command command = CommandOperation.valueOf(req.getParameter(AttributeName.COMMAND).toUpperCase()).getCommand();
         String page = null;
         try {
             page = command.execute(content);
