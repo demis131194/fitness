@@ -15,7 +15,7 @@
 <fmt:message key="form.last.name" bundle="${rb}" var="formLastName"/>
 <fmt:message key="form.phone" bundle="${rb}" var="formPhone"/>
 <fmt:message key="login.button.login" bundle="${rb}" var="buttonLogin"/>
-<fmt:message key="project.home" bundle="${rb}" var="home"/>
+<fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
 <fmt:message key="form.login.placeholder" bundle="${rb}" var="loginPlaceholder"/>
 <fmt:message key="form.name.placeholder" bundle="${rb}" var="namePlaceholder"/>
 <fmt:message key="form.last.name.placeholder" bundle="${rb}" var="lastNamePlaceholder"/>
@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
 <%--                Form --%>
-                <div class="main-form">
+                <div class="reg-form">
                     <div class="main-form-header">
                         <h4><a href="${pageContext.request.contextPath}">${home}</a></h4>
                     </div>

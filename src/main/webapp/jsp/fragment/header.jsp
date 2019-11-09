@@ -7,12 +7,7 @@
 <fmt:message key="header.header" bundle="${rb}" var="header"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="header.locale" bundle="${rb}" var="locale"/>
-<fmt:message key="name" bundle="${rb}" var="name"/>
-<fmt:message key="last.name" bundle="${rb}" var="lastName"/>
-<fmt:message key="header.role" bundle="${rb}" var="role"/>
-<fmt:message key="heder.sign.in" bundle="${rb}" var="signIn"/>
-<fmt:message key="heder.sign.up" bundle="${rb}" var="signUp"/>
-<fmt:message key="header.logout" bundle="${rb}" var="logOut"/>
+
 
 <html>
 <head>
@@ -45,35 +40,6 @@
                 <h1>${projectName}</h1>
             </div>
 
-        </div>
-
-        <div class="col-lg-2 offset-lg-3">
-            <div class="header-box">
-                <c:choose >
-                    <c:when test="${sessionScope.authorization}">
-                        <div>
-                            <strong>${name} : ${sessionScope.userName} ${sessionScope.userLastName}</strong>
-                        </div>
-                        <div>
-                            <strong>${role} : ${sessionScope.userRole}</strong>
-                        </div>
-                        <div>
-                            <strong><a href="${pageContext.request.contextPath}/controller?command=Logout">${logOut}</a></strong>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div>
-                            <strong>${role} : Guest</strong>
-                        </div>
-                        <div>
-                            <strong>
-                                <a href="${pageContext.request.contextPath}/jsp/pages/sign-in.jsp">${signIn}</a>
-                                <a href="${pageContext.request.contextPath}/jsp/pages/sign-up.jsp">${signUp}</a>
-                            </strong>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-            </div>
         </div>
     </div>
 </div>

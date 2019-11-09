@@ -6,49 +6,33 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <c:set var="authorization" value="${sessionScope.authorization}"/>
 <fmt:message key="index.welcome" bundle="${rb}" var="welcome"/>
-<fmt:message key="heder.sign.in" bundle="${rb}" var="login"/>
+<fmt:message key="user.box.sign.in" bundle="${rb}" var="login"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
-<fmt:message key="project.name" bundle="${rb}" var="projectName"/>
-<fmt:message key="project.home" bundle="${rb}" var="home"/>
-<fmt:message key="project.contacts" bundle="${rb}" var="contacts"/>
-<fmt:message key="project.about" bundle="${rb}" var="about"/>
-<fmt:message key="project.coments" bundle="${rb}" var="coments"/>
+<fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
+<fmt:message key="project.navigation.contacts" bundle="${rb}" var="contacts"/>
+<fmt:message key="project.navigation.about" bundle="${rb}" var="about"/>
+<fmt:message key="project.navigation.comments" bundle="${rb}" var="coments"/>
 <fmt:message key="main.welcome" bundle="${rb}" var="mainWelcome"/>
+<fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
+<fmt:message key="last.name" bundle="${rb}" var="lastName"/>
+<fmt:message key="user.box.role" bundle="${rb}" var="role"/>
+<fmt:message key="user.box.sign.in" bundle="${rb}" var="signIn"/>
+<fmt:message key="user.box.sign.up" bundle="${rb}" var="signUp"/>
+<fmt:message key="user.box.logout" bundle="${rb}" var="logOut"/>
 
 <html>
 <head>
     <title>${projectName}</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <script src="${pageContext.request.contextPath}/js/jquery/jquery-3.4.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
 </head>
 <body>
 <c:import url="/jsp/fragment/header.jsp"/>
 
 <div class="main">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-10 offset-lg-1">
-                <div class="main-navigation">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">${home}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">${contacts}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">${about}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">${coments}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
+        <c:import url="/jsp/fragment/navigation.jsp"/>
         <div class="main-section">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">

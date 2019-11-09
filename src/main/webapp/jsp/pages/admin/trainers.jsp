@@ -5,11 +5,11 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
 
-<fmt:message key="project.home" bundle="${rb}" var="home"/>
+<fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
 
 <fmt:message key="admin.trainers.title" bundle="${rb}" var="trainers"/>
 <fmt:message key="trainer.id" bundle="${rb}" var="trainerId"/>
-<fmt:message key="name" bundle="${rb}" var="name"/>
+<fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>
 <fmt:message key="register.date" bundle="${rb}" var="regDate"/>
 <fmt:message key="phone" bundle="${rb}" var="phone"/>
@@ -28,7 +28,7 @@
         <thead>
         <tr>
             <th>${trainerId}</th>
-            <th>${name}</th>
+            <th>${fio}</th>
             <th>${lastName}</th>
             <th>${regDate}</th>
             <th>${phone}</th>

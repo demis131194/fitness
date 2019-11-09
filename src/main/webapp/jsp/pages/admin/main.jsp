@@ -6,7 +6,7 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <c:set var="authorization" value="${sessionScope.authorization}"/>
 <fmt:message key="index.welcome" bundle="${rb}" var="welcome"/>
-<fmt:message key="heder.sign.in" bundle="${rb}" var="login"/>
+<fmt:message key="user.box.sign.in" bundle="${rb}" var="login"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="main.orders" bundle="${rb}" var="orders"/>
 <fmt:message key="main.users" bundle="${rb}" var="users"/>

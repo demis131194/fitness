@@ -3,7 +3,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <fmt:setBundle basename="bundle/message" var="rb"/>
-<fmt:message key="project.home" bundle="${rb}" var="home"/>
+<fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
 
 <html>
 <head>

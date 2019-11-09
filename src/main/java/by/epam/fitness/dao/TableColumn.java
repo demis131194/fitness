@@ -9,18 +9,18 @@ public class TableColumn {
     public static final String USERS_ACTIVE = "active";
 
     public static final String ADMINS_ID = "adminId";
-    public static final String ADMINS_NAME = "name";
+    public static final String ADMINS_NAME = "user.box.fio";
     public static final String ADMINS_LAST_NAME = "lastName";
 
     public static final String TRAINER_ID = "trainerId";
-    public static final String TRAINER_NAME = "name";
+    public static final String TRAINER_NAME = "user.box.fio";
     public static final String TRAINER_LAST_NAME = "lastName";
     public static final String TRAINER_REGISTER_DATE = "registerDate";
     public static final String TRAINER_PHONE = "phone";
     public static final String TRAINER_ACTIVE = "active";
 
     public static final String CLIENT_ID = "clientId";
-    public static final String CLIENT_NAME = "name";
+    public static final String CLIENT_NAME = "user.box.fio";
     public static final String CLIENT_LAST_NAME = "lastName";
     public static final String CLIENT_REGISTER_DATE = "registerDate";
     public static final String CLIENT_DISCOUNT = "discount";

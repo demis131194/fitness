@@ -7,12 +7,12 @@
 <fmt:message key="header.header" bundle="${rb}" var="header"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="header.locale" bundle="${rb}" var="locale"/>
-<fmt:message key="name" bundle="${rb}" var="name"/>
+<fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>
-<fmt:message key="header.role" bundle="${rb}" var="role"/>
-<fmt:message key="heder.sign.in" bundle="${rb}" var="signIn"/>
-<fmt:message key="heder.sign.up" bundle="${rb}" var="signUp"/>
-<fmt:message key="header.logout" bundle="${rb}" var="logOut"/>
+<fmt:message key="user.box.role" bundle="${rb}" var="role"/>
+<fmt:message key="user.box.sign.in" bundle="${rb}" var="signIn"/>
+<fmt:message key="user.box.sign.up" bundle="${rb}" var="signUp"/>
+<fmt:message key="user.box.logout" bundle="${rb}" var="logOut"/>
 
 <html>
 <head>

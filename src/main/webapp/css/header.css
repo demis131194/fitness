@@ -12,7 +12,6 @@
 }
 .header-locale-button {
   display: block;
-  background-color: #bec7b5;
   color: black;
   margin: 30px 10px 10px;
 }
@@ -26,11 +25,4 @@
   text-shadow: #383838 2px 2px;
   font-style: italic;
   color: #d7eb0a;
-}
-.header-box {
-  margin-top: 20px;
-  margin-right: 20px;
-  background-color: #e9e9e9;
-  border: 3px solid black;
-  border-radius: 5px;
 }

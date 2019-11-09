@@ -6,8 +6,8 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 
 <fmt:message key="welcome.title" bundle="${rb}" var="title"/>
-<fmt:message key="project.home" bundle="${rb}" var="home"/>
-<fmt:message key="welcome.lable.welcome" bundle="${rb}" var="welcome"/>
+<fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
+<fmt:message key="welcome.label.welcome" bundle="${rb}" var="welcome"/>
 <fmt:message key="welcome.message.hello" bundle="${rb}" var="hello"/>
 <fmt:message key="welcome.message.role" bundle="${rb}" var="role"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>

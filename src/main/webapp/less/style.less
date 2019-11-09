@@ -1,22 +1,36 @@
+@background-window-color: #f4f1bc;
+@background-body-color: #1d303b;
+@border-window-color: #a2c893;
+
 .main {
-  background-color: #2c2f4d;
-  padding-top: 50px;
-  height: 800px;
+  background-color: @background-body-color;
+  padding: 50px;
+  min-height: 700px;
   &-navigation {
-    border: 2px solid #a2c893;
-    background-color: #f4f1bc;
+    border: 2px solid @border-window-color;
+    background-color: @background-window-color;
     border-radius: 8px;
     a {
       color: black;
     }
   }
 
+  &-box {
+    margin-top: 20px;
+    margin-right: 20px;
+    min-height: 60px;
+    min-width: 80px;
+    background-color: @background-window-color;
+    border: 3px solid @border-window-color;
+    border-radius: 5px;
+  }
+
   &-section {
     padding: 20px auto;
     margin-top: 40px;
     min-height: 600px;
-    border: 2px solid #a2c893;
-    background-color: #f4f1bc;
+    border: 2px solid @border-window-color;
+    background-color: @background-window-color;
     border-radius: 10px;
     h2 {
       margin: 40px auto;
@@ -28,11 +42,18 @@
       font-size: 20px;
     }
   }
+}
 
-  &-form {
-    border: 2px solid #a2c893;
-    background-color: #f4f1bc;
-    border-radius: 10px;
-    padding: 40px;
-  }
+.login-form {
+  border: 2px solid @border-window-color;
+  background-color: @background-window-color;
+  border-radius: 10px;
+  padding: 40px;
+}
+
+.reg-form {
+  border: 2px solid @border-window-color;
+  background-color: @background-window-color;
+  border-radius: 10px;
+  padding: 40px;
 }

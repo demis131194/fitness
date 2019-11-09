@@ -10,7 +10,7 @@
 <fmt:message key="login.password" bundle="${rb}" var="password"/>
 <fmt:message key="login.button.login" bundle="${rb}" var="buttonLogin"/>
 <fmt:message key="login.title.login" bundle="${rb}" var="login"/>
-<fmt:message key="project.home" bundle="${rb}" var="home"/>
+<fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
 <fmt:message key="form.login" bundle="${rb}" var="formLogin"/>
 <fmt:message key="form.password" bundle="${rb}" var="formPassword"/>
 <fmt:message key="form.login.placeholder" bundle="${rb}" var="loginPlaceholder"/>
@@ -33,7 +33,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4 offset-lg-4">
-                <div class="main-form">
+                <div class="login-form">
                     <div class="main-form-header">
                         <h4><a href="${pageContext.request.contextPath}">${home}</a></h4>
                     </div>
