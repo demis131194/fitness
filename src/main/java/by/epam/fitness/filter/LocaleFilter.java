@@ -5,7 +5,11 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/jsp/*"})
+@WebFilter(urlPatterns = {"/jsp/*"}, dispatcherTypes = {
+        DispatcherType.FORWARD,
+        DispatcherType.INCLUDE,
+        DispatcherType.REQUEST
+})
 public class LocaleFilter implements Filter {
 
     @Override
