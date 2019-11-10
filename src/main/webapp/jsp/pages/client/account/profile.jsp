@@ -9,6 +9,10 @@
 <fmt:message key="account.profile.title" bundle="${rb}" var="title"/>
 <fmt:message key="account.profile.name" bundle="${rb}" var="name"/>
 <fmt:message key="account.profile.last.name" bundle="${rb}" var="lastName"/>
+<fmt:message key="account.profile.reg.date" bundle="${rb}" var="registrDate"/>
+<fmt:message key="account.profile.discount" bundle="${rb}" var="discount"/>
+<fmt:message key="account.profile.phone" bundle="${rb}" var="phone"/>
+<fmt:message key="account.profile.cash" bundle="${rb}" var="cash"/>
 
 <html>
 <head>
@@ -42,6 +46,26 @@
                             <tr>
                                 <td class="profile-table-td-key">${lastName}</td>
                                 <td class="profile-table-td-value">${sessionScope.userLastName}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-td-key">${registrDate}</td>
+                                <td class="profile-table-td-value">
+                                    <fmt:parseDate  value="${sessionScope.userRegisterDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" />
+                                    <fmt:formatDate value="${parsedDate}" pattern="dd.MM.yyyy HH:mm:ss" var="regDate" />
+                                    ${regDate}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-td-key">${discount}</td>
+                                <td class="profile-table-td-value">${sessionScope.userDiscount}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-td-key">${phone}</td>
+                                <td class="profile-table-td-value">${sessionScope.userPhone}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-td-key">${cash}</td>
+                                <td class="profile-table-td-value">${sessionScope.userCash}</td>
                             </tr>
                         </table>
                     </div>

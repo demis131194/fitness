@@ -11,7 +11,7 @@
 <fmt:message key="trainer.id" bundle="${rb}" var="trainerId"/>
 <fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>
-<fmt:message key="register.date" bundle="${rb}" var="regDate"/>
+<fmt:message key="orders.register.date" bundle="${rb}" var="regDate"/>
 <fmt:message key="phone" bundle="${rb}" var="phone"/>
 
 <html>

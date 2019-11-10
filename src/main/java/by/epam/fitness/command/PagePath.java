@@ -16,7 +16,7 @@ public class PagePath {
     public static final String TRAINER_ACCOUNT_PATH = "jsp/pages/trainer/profile.jsp";
 
     public static final String CLIENT_WELCOME_PATH = "jsp/pages/client/welcome.jsp";
-    public static final String CLIENT_ORDERS_PATH = "jsp/pages/client/orders.jsp";
+    public static final String CLIENT_ORDERS_PATH = "jsp/pages/client/account/orders.jsp";
     public static final String CLIENT_ACCOUNT_PATH = "jsp/pages/client/profile.jsp";
 
 

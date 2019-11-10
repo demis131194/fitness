@@ -6,6 +6,7 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <c:set var="authorization" value="${sessionScope.authorization}"/>
 <fmt:message key="account.menu.profile" bundle="${rb}" var="profile"/>
+<fmt:message key="account.menu.orders" bundle="${rb}" var="orders"/>
 
 <html>
 <head>
@@ -18,25 +19,24 @@
     <ul>
         <c:choose>
             <c:when test="${sessionScope.userRole == 'ADMIN'}">
-                <li><a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile.jsp">${profile}admin!</a></li>
+                <li><a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile.jsp">${profile}</a></li>
                 <li><a href="#">Новости</a></li>
                 <li><a href="#">Контакты</a></li>
                 <li><a href="#">О наc</a></li>
             </c:when>
             <c:when test="${sessionScope.userRole == 'TRAINER'}">
-                <li><a href="${pageContext.request.contextPath}/jsp/pages/trainer/account/profile.jsp">${profile}trainer!</a></li>
+                <li><a href="${pageContext.request.contextPath}/jsp/pages/trainer/account/profile.jsp">${profile}</a></li>
                 <li><a href="#">Новости</a></li>
                 <li><a href="#">Контакты</a></li>
                 <li><a href="#">О наc</a></li>
             </c:when>
             <c:when test="${sessionScope.userRole == 'CLIENT'}">
-                <li><a href="${pageContext.request.contextPath}/jsp/pages/client/account/profile.jsp">${profile}client!</a></li>
-                <li><a href="#">Новости</a></li>
+                <li><a href="${pageContext.request.contextPath}/jsp/pages/client/account/profile.jsp">${profile}</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=find_all_orders_by_client">${orders}</a></li>
                 <li><a href="#">Контакты</a></li>
                 <li><a href="#">О наc</a></li>
             </c:when>
         </c:choose>
-
     </ul>
 </div>
 

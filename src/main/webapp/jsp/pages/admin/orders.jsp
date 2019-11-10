@@ -8,19 +8,19 @@
 <fmt:message key="orders.order.id" bundle="${rb}" var="orderId"/>
 <fmt:message key="client.id" bundle="${rb}" var="clientId"/>
 <fmt:message key="trainer.id" bundle="${rb}" var="trainerId"/>
-<fmt:message key="register.date" bundle="${rb}" var="registerDate"/>
+<fmt:message key="orders.register.date" bundle="${rb}" var="registerDate"/>
 <fmt:message key="orders.description" bundle="${rb}" var="description"/>
 <fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
 <fmt:message key="orders.title" bundle="${rb}" var="title"/>
 <fmt:message key="orders" bundle="${rb}" var="orders"/>
-<fmt:message key="exercises" bundle="${rb}" var="exercises"/>
-<fmt:message key="nutrition" bundle="${rb}" var="nutrition"/>
-<fmt:message key="start.date" bundle="${rb}" var="startDate"/>
-<fmt:message key="end.date" bundle="${rb}" var="endDate"/>
-<fmt:message key="price" bundle="${rb}" var="price"/>
-<fmt:message key="client.comment" bundle="${rb}" var="clientComment"/>
-<fmt:message key="status" bundle="${rb}" var="status"/>
-<fmt:message key="accept" bundle="${rb}" var="accept"/>
+<fmt:message key="orders.exercises" bundle="${rb}" var="exercises"/>
+<fmt:message key="orders.nutrition" bundle="${rb}" var="nutrition"/>
+<fmt:message key="orders.start.date" bundle="${rb}" var="startDate"/>
+<fmt:message key="orders.end.date" bundle="${rb}" var="endDate"/>
+<fmt:message key="orders.price" bundle="${rb}" var="price"/>
+<fmt:message key="orders.client.comment" bundle="${rb}" var="clientComment"/>
+<fmt:message key="orders.status" bundle="${rb}" var="status"/>
+<fmt:message key="orders.accept" bundle="${rb}" var="accept"/>
 
 <html>
 <head>

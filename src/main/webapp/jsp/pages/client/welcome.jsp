@@ -11,7 +11,7 @@
 <fmt:message key="welcome.message.hello" bundle="${rb}" var="hello"/>
 <fmt:message key="welcome.message.role" bundle="${rb}" var="role"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>
-<fmt:message key="register.date" bundle="${rb}" var="regDate"/>
+<fmt:message key="orders.register.date" bundle="${rb}" var="regDate"/>
 <fmt:message key="phone" bundle="${rb}" var="phone"/>
 
 <html>

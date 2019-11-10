@@ -20,16 +20,4 @@ public class LocaleFilter implements Filter {
         }
         chain.doFilter(httpRequest, response);
     }
-
-
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
-
-    @Override
-    public void destroy() {
-
-    }
 }
