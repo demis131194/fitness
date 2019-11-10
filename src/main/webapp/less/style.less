@@ -32,12 +32,12 @@
     border: 2px solid @border-window-color;
     background-color: @background-window-color;
     border-radius: 10px;
-    h2 {
+    &-title {
       margin: 40px auto;
       text-align: center;
       display: block;
     }
-    p {
+    &-text {
       padding: 20px auto;
       font-size: 20px;
     }
@@ -56,4 +56,76 @@
   background-color: @background-window-color;
   border-radius: 10px;
   padding: 40px;
+}
+
+.comment {
+  background-color: #f7ffef;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid @border-window-color;
+  display: block;
+  min-width: 400px;
+
+  tr {
+    border: 2px solid black;
+  }
+
+  td {
+    border: 1px solid black;
+    vertical-align: top;
+  }
+
+  &-client {
+    line-height: 1.4;
+    display: inline-block;
+    top: 5%;
+    text-align: center;
+    font-size: 14pt;
+    min-width: 200px;
+    max-width: 250px;
+  }
+
+  &-wrap {
+    height: 100%;
+  }
+
+  &-date {
+    border-bottom: 1px dotted black;
+    padding-top: 5px;
+    padding-left: 10px;
+  }
+
+  &-text {
+    padding-left: 10px;
+    font-size: 12pt;
+    min-width: 600px;
+    min-height: 100px;
+  }
+}
+
+.menu-bar {
+  margin-top: 50px;
+  padding: 0;
+  min-width: 100px;
+  border: 2px solid @border-window-color;
+  background-color: @background-window-color;
+  text-align: center;
+
+  ul {
+    padding: 20px 10px 10px 10px;
+  }
+  a {
+    background-color: #4ea1a4;
+    color: #fff;
+    padding: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+  }
+  li {
+    border: 2px solid #f10009;
+    border-radius: 3px;
+    margin: 5px auto;
+    list-style-type: none;
+  }
 }

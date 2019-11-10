@@ -19,19 +19,19 @@ public class CommentDaoImpl implements CommentDao {
     private static final String INSERT_QUERY = "INSERT INTO comments (clientId, trainerId, comment) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE comments SET clientId = ?, trainerId = ?, comment = ? WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE comments SET active = false WHERE id = ?";
-    private static final String FIND_QUERY = "SELECT comments.id, comments.clientId, c.name, c.lastName, comments.trainerId, t.name, t.lastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+    private static final String FIND_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
             "WHERE comments.id = ?";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT comments.id, comments.clientId, c.name, c.lastName, comments.trainerId, t.name, t.lastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
             "WHERE comments.active = true";
-    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT comments.id, comments.clientId, c.name, c.lastName, comments.trainerId, t.name, t.lastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
             "WHERE t.trainerId = ?";
-    private static final String FIND_ALL_QUERY = "SELECT comments.id, comments.clientId, c.name, c.lastName, comments.trainerId, t.name, t.lastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+    private static final String FIND_ALL_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId";
 
@@ -197,11 +197,11 @@ public class CommentDaoImpl implements CommentDao {
         CommentTo comment = new CommentTo();
         comment.setId(resultSet.getInt(TableColumn.COMMENT_ID));
         comment.setClientId(resultSet.getInt(TableColumn.COMMENT_CLIENT_ID));
-        comment.setClientName(resultSet.getString(TableColumn.CLIENT_NAME));
-        comment.setClientLastName(resultSet.getString(TableColumn.CLIENT_LAST_NAME));
+        comment.setClientName(resultSet.getString(TableColumn.COMMENT_CLIENT_NAME));
+        comment.setClientLastName(resultSet.getString(TableColumn.COMMENT_CLIENT_LAST_NAME));
         comment.setTrainerId(resultSet.getInt(TableColumn.COMMENT_TRAINER_ID));
-        comment.setTrainerName(resultSet.getString(TableColumn.TRAINER_LAST_NAME));
-        comment.setTrainerLastName(resultSet.getString(TableColumn.TRAINER_LAST_NAME));
+        comment.setTrainerName(resultSet.getString(TableColumn.COMMENT_TRAINER_NAME));
+        comment.setTrainerLastName(resultSet.getString(TableColumn.COMMENT_TRAINER_LAST_NAME));
         comment.setRegisterDate(resultSet.getTimestamp(TableColumn.COMMENT_REGISTER_DATE).toLocalDateTime());
         comment.setComment(resultSet.getString(TableColumn.COMMENT_COMMENT));
         comment.setActive(resultSet.getBoolean(TableColumn.COMMENT_ACTIVE));

@@ -28,12 +28,12 @@
   background-color: #f4f1bc;
   border-radius: 10px;
 }
-.main-section h2 {
+.main-section-title {
   margin: 40px auto;
   text-align: center;
   display: block;
 }
-.main-section p {
+.main-section-text {
   padding: 20px auto;
   font-size: 20px;
 }
@@ -48,4 +48,67 @@
   background-color: #f4f1bc;
   border-radius: 10px;
   padding: 40px;
+}
+.comment {
+  background-color: #f7ffef;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #a2c893;
+  display: block;
+  min-width: 400px;
+}
+.comment tr {
+  border: 2px solid black;
+}
+.comment td {
+  border: 1px solid black;
+  vertical-align: top;
+}
+.comment-client {
+  line-height: 1.4;
+  display: inline-block;
+  top: 5%;
+  text-align: center;
+  font-size: 14pt;
+  min-width: 200px;
+  max-width: 250px;
+}
+.comment-wrap {
+  height: 100%;
+}
+.comment-date {
+  border-bottom: 1px dotted black;
+  padding-top: 5px;
+  padding-left: 10px;
+}
+.comment-text {
+  padding-left: 10px;
+  font-size: 12pt;
+  min-width: 600px;
+  min-height: 100px;
+}
+.menu-bar {
+  margin-top: 50px;
+  padding: 0;
+  min-width: 100px;
+  border: 2px solid #a2c893;
+  background-color: #f4f1bc;
+  text-align: center;
+}
+.menu-bar ul {
+  padding: 20px 10px 10px 10px;
+}
+.menu-bar a {
+  background-color: #4ea1a4;
+  color: #fff;
+  padding: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+}
+.menu-bar li {
+  border: 2px solid #f10009;
+  border-radius: 3px;
+  margin: 5px auto;
+  list-style-type: none;
 }

@@ -13,6 +13,8 @@ public class AttributeName {
     public static final String USER_DISCOUNT_LEVEL = "userDiscountLevel";
     public static final String USER_CASH = "userCash";
 
+    public static final String COMMENTS = "comments";
+
     public static final String USER_AUTHORIZATION = "authorization";
     public static final String COMMAND = "command";
     public static final String LOCALE = "locale";

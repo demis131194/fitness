@@ -9,6 +9,7 @@ public enum CommandOperation {
     FIND_ALL_ORDERS(new FindAllOrdersCommand()),
     FIND_ALL_TRAINERS(new FindAllTrainersCommand()),
     SIGN_UP(new SignUpCommand()),
+    FIND_ALL_COMMENTS(new FindAllCommentsCommand()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandOperation(Command command) {

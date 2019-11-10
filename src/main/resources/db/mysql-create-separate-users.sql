@@ -75,7 +75,7 @@ CREATE TABLE orders
     id		 	    INT 	        NOT NULL AUTO_INCREMENT,
     clientId	 	INT 	        NOT NULL,
     trainerId	    INT 	        NOT NULL,
-    registerDate    DATETIME       NOT NULL DEFAULT now(),
+    registerDate    DATETIME        NOT NULL DEFAULT now(),
     exercises       TEXT 	        DEFAULT NULL,
     nutrition       TEXT 	        DEFAULT NULL,
     startDate       DATE 	        DEFAULT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE comments
     id		 	    INT 	    NOT NULL AUTO_INCREMENT,
     clientId	 	INT 	    NOT NULL,
     trainerId	 	INT 	    NOT NULL,
-    registerDate    DATETIME   NOT NULL DEFAULT now(),
+    registerDate    DATETIME    NOT NULL DEFAULT now(),
     comment         TEXT        NOT NULL,
     active          BOOLEAN     NOT NULL DEFAULT true,
     PRIMARY KEY (id),
@@ -189,8 +189,8 @@ INSERT INTO admins(adminId, name, lastName)
 VALUES (1, 'Денис', 'Кацук');
 
 INSERT INTO trainers(trainerId, name, lastName, registerDate, phone)
-VALUES (2, 'trainer_Name_1', 'trainer_LastName_1', '2014-08-01 20:01:17', '222-33-22'),
-       (3, 'trainer_Name_2', 'trainer_LastName_2', '2014-08-01 20:16:43', '222-44-77');
+VALUES (2, 'Павел', 'Бегун', '2014-08-01 20:01:17', '222-33-22'),
+       (3, 'Oliver', 'Might', '2014-08-01 20:16:43', '222-44-77');
 
 INSERT INTO clients(clientId, name, lastName, registerDate, discount, phone)
 VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 10, '111-11-11'),

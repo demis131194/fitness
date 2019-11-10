@@ -7,20 +7,26 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/jsp/*"}, dispatcherTypes = {
-        DispatcherType.FORWARD,
-        DispatcherType.INCLUDE,
-        DispatcherType.REQUEST
-})
+@WebFilter(urlPatterns = {"/*"})
 public class CurrentPageFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String currentPage = httpRequest.getRequestURL().toString();
-        int index = currentPage.indexOf("jsp/");
-        currentPage = currentPage.substring(index);
-        httpRequest.getSession().setAttribute(AttributeName.CURRENT_PAGE, currentPage);
+        if (currentPage.contains("jsp/")) {
+            int index = currentPage.indexOf("jsp/");
+            currentPage = currentPage.substring(index);
+            httpRequest.getSession().setAttribute(AttributeName.CURRENT_PAGE, currentPage);
+
+        } else if (currentPage.contains("controller") && !httpRequest.getParameterMap().isEmpty()) {
+            if (httpRequest.getQueryString() != null && !httpRequest.getQueryString().contains("command=change_locale")) {
+                int index = currentPage.indexOf("controller");
+                currentPage = currentPage.substring(index) + "?" + httpRequest.getQueryString();
+                httpRequest.getSession().setAttribute(AttributeName.CURRENT_PAGE, currentPage);
+            }
+        }
+
         chain.doFilter(httpRequest, response);
     }
 }

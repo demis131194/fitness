@@ -4,10 +4,11 @@
 
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
+<fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 
 <html>
 <head>
-    <title>CREATED CLIENT</title>
+    <title>${projectName}</title>
 </head>
 <body>
 <h2>NEW CLIENT CREATED!!!!!</h2>

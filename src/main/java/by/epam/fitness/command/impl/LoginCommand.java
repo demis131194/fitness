@@ -47,7 +47,6 @@ public class LoginCommand implements Command {
             user = userService.findByLoginAndPassword(login, password);
 
             if (user != null) {
-                requestContent.putSessionAttribute(AttributeName.USER_AUTHORIZATION, true);
                 requestContent.putSessionAttribute(AttributeName.USER_ID, user.getId());
 
                 switch (user.getRole()) {
@@ -82,6 +81,7 @@ public class LoginCommand implements Command {
                     default:
                         throw new CommandException("User has not have init field role");
                 }
+                requestContent.putSessionAttribute(AttributeName.USER_AUTHORIZATION, true);
                 requestContent.putSessionAttribute(AttributeName.CURRENT_PAGE, page);
             } else {
                 page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);

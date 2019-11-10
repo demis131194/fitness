@@ -10,6 +10,7 @@
 <fmt:message key="project.navigation.contacts" bundle="${rb}" var="contacts"/>
 <fmt:message key="project.navigation.about" bundle="${rb}" var="about"/>
 <fmt:message key="project.navigation.comments" bundle="${rb}" var="coments"/>
+<fmt:message key="project.navigation.account" bundle="${rb}" var="account"/>
 <fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
 <fmt:message key="user.box.role" bundle="${rb}" var="role"/>
 <fmt:message key="user.box.sign.in" bundle="${rb}" var="signIn"/>
@@ -42,8 +43,23 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/about.jsp">${about}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">${coments}</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=find_all_comments">${coments}</a>
                 </li>
+                <c:if test="${sessionScope.authorization}">
+                    <li class="nav-item">
+                        <c:choose>
+                            <c:when test="${sessionScope.userRole == 'CLIENT'}">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/client/account.jsp">${account}</a>
+                            </c:when>
+                            <c:when test="${sessionScope.userRole == 'TRAINER'}">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/trainer/account.jsp">${account}</a>
+                            </c:when>
+                            <c:when test="${sessionScope.userRole == 'ADMIN'}">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/admin/account.jsp">${account}</a>
+                            </c:when>
+                        </c:choose>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>
