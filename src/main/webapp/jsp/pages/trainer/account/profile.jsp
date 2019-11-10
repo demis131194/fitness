@@ -6,6 +6,9 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <c:set var="authorization" value="${sessionScope.authorization}"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
+<fmt:message key="account.profile.title" bundle="${rb}" var="title"/>
+<fmt:message key="account.profile.name" bundle="${rb}" var="name"/>
+<fmt:message key="account.profile.last.name" bundle="${rb}" var="lastName"/>
 
 <html>
 <head>
@@ -22,24 +25,29 @@
         <c:import url="/jsp/fragment/navigation.jsp"/>
         <div class="row">
             <div class="col-lg-2">
-                <div class="menu-bar">
-                    <ul>
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">Новости</a></li>
-                        <li><a href="#">Контакты</a></li>
-                        <li><a href="#">О наcc1с</a></li>
-                    </ul>
-                </div>
+                <c:import url="/jsp/fragment/account-menu.jsp"/>
             </div>
 
             <div class="col-lg-10">
                 <div class="main-section">
-
+                    <div class="profile-title">
+                        <h2>${title}</h2>
+                    </div>
+                    <div class="profile-table">
+                        <table>
+                            <tr>
+                                <td class="profile-table-td-key">${name}</td>
+                                <td class="profile-table-td-value">${sessionScope.userName}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-td-key">${lastName}</td>
+                                <td class="profile-table-td-value">${sessionScope.userLastName}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-
-
     </div>
 
 </div>

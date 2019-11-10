@@ -8,18 +8,6 @@
     <title>Index</title>
 </head>
 <body>
-<%--<c:if test="${sessionScope.userRole == null}">--%>
     <c:redirect url="jsp/pages/main.jsp"/>
-<%--</c:if>--%>
-<%--<c:if test="${sessionScope.userRole == 'ADMIN'}">--%>
-<%--    <c:redirect url="jsp/pages/admin/main.jsp"/>--%>
-<%--</c:if>--%>
-<%--<c:if test="${sessionScope.userRole == 'TRAINER'}">--%>
-<%--    <c:redirect url="jsp/pages/trainer/main.jsp"/>--%>
-<%--</c:if>--%>
-<%--<c:if test="${sessionScope.userRole == 'CLIENT'}">--%>
-<%--    <c:redirect url="jsp/pages/client/main.jsp"/>--%>
-<%--</c:if>--%>
-
 </body>
 </html>

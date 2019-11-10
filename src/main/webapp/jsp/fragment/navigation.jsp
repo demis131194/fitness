@@ -49,13 +49,13 @@
                     <li class="nav-item">
                         <c:choose>
                             <c:when test="${sessionScope.userRole == 'CLIENT'}">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/client/account.jsp">${account}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/client/account/profile.jsp">${account}</a>
                             </c:when>
                             <c:when test="${sessionScope.userRole == 'TRAINER'}">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/trainer/account.jsp">${account}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/trainer/account/profile.jsp">${account}</a>
                             </c:when>
                             <c:when test="${sessionScope.userRole == 'ADMIN'}">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/admin/account.jsp">${account}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile.jsp">${account}</a>
                             </c:when>
                         </c:choose>
                     </li>
@@ -64,7 +64,7 @@
         </div>
     </div>
     <%--            User windows --%>
-    <div class="col-lg-3 offset-lg-3">
+    <div class="col-lg-4 offset-lg-2">
         <div class="main-box">
             <c:choose >
                 <c:when test="${sessionScope.authorization}">
