@@ -55,7 +55,7 @@ public class LoginCommand implements Command {
                         requestContent.putSessionAttribute(AttributeName.USER_ROLE, admin.getRole().name());
                         requestContent.putSessionAttribute(AttributeName.USER_NAME, admin.getName());
                         requestContent.putSessionAttribute(AttributeName.USER_LAST_NAME, admin.getLastName());
-                        page = PagePath.ADMIN_WELCOME_PATH;
+                        page = PagePath.WELCOME_PATH;
                         break;
                     case TRAINER:
                         Trainer trainer = trainerService.find(user.getId());
@@ -64,7 +64,7 @@ public class LoginCommand implements Command {
                         requestContent.putSessionAttribute(AttributeName.USER_LAST_NAME, trainer.getLastName());
                         requestContent.putSessionAttribute(AttributeName.USER_REGISTER_DATE, trainer.getRegisterDateTime());
                         requestContent.putSessionAttribute(AttributeName.USER_PHONE, trainer.getPhone());
-                        page = PagePath.TRAINER_WELCOME_PATH;
+                        page = PagePath.WELCOME_PATH;
                         break;
                     case CLIENT:
                         Client client = clientService.find(user.getId());
@@ -76,7 +76,7 @@ public class LoginCommand implements Command {
                         requestContent.putSessionAttribute(AttributeName.USER_DISCOUNT_LEVEL, client.getDiscountLevel());
                         requestContent.putSessionAttribute(AttributeName.USER_PHONE, client.getPhone());
                         requestContent.putSessionAttribute(AttributeName.USER_CASH, client.getCash());
-                        page = PagePath.CLIENT_WELCOME_PATH;
+                        page = PagePath.WELCOME_PATH;
                         break;
                     default:
                         throw new CommandException("User has not have init field role");

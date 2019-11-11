@@ -1,5 +1,6 @@
-package by.epam.fitness.command.impl;
+package by.epam.fitness.command.impl.order;
 
+import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
@@ -11,9 +12,10 @@ import by.epam.fitness.to.OrderTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class FindAllOrdersByClientCommand implements Command {
+public class FindOrderCommand implements Command {
     private static Logger logger = LogManager.getLogger(FindAllOrdersByClientCommand.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();
@@ -22,17 +24,14 @@ public class FindAllOrdersByClientCommand implements Command {
     public String execute(SessionRequestContent requestContent) throws CommandException {
         String page;
         try {
-            Object obj = requestContent.getSessionAttributeByName("userId");
-            if (obj != null && obj.getClass() == Integer.class) {
-                int userId = (Integer) obj;
-
-                List<OrderTo> orders;
-
-                orders = orderService.findAllActiveByClient(userId);
-                page = PagePath.CLIENT_ORDERS_PATH;
-                requestContent.putAttribute("orders", orders);
+            int id = Integer.parseInt(requestContent.getParameterByName(AttributeName.ORDER_ID));
+            if (id > 0) {
+               OrderTo order;
+                order = orderService.find(id);
+                page = PagePath.CLIENT_FIND_ORDER_PATH;
+                requestContent.putAttribute(AttributeName.ORDER, order);
             } else {
-                throw new CommandException("No user in session");
+                throw new CommandException("Incorrect id");
             }
 
         } catch (ServiceException e) {

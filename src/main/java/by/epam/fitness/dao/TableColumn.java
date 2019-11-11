@@ -31,7 +31,11 @@ public class TableColumn {
 
     public static final String ORDERS_ID = "id";
     public static final String ORDERS_CLIENT_ID = "clientId";
+    public static final String ORDERS_CLIENT_NAME = "clientName";
+    public static final String ORDERS_CLIENT_LAST_NAME = "clientLastName";
     public static final String ORDERS_TRAINER_ID = "trainerId";
+    public static final String ORDERS_TRAINER_NAME = "trainerName";
+    public static final String ORDERS_TRAINER_LAST_NAME = "trainerLastName";
     public static final String ORDERS_REGISTER_DATE = "registerDate";
     public static final String ORDERS_EXERCISES = "exercises";
     public static final String ORDERS_NUTRITION = "nutrition";

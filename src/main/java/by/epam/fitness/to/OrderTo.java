@@ -25,7 +25,7 @@ public class OrderTo {
     private Boolean accept;
     private String clientComment;
     private OrderStatus orderStatus;
-    private Boolean active = true;
+    private boolean active = true;
 
     public Integer getId() {
         return id;
@@ -155,11 +155,11 @@ public class OrderTo {
         this.orderStatus = orderStatus;
     }
 
-    public Boolean getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

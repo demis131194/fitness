@@ -82,8 +82,8 @@ CREATE TABLE orders
     endDate         DATE 	        DEFAULT NULL,
     price           DECIMAL(6,2)    DEFAULT NULL CHECK (price >= 0),
     clientComment   TEXT            DEFAULT NULL,
-    status          INT             DEFAULT 0 CHECK (status >=0 AND status <=2),
-    accept          BOOLEAN         DEFAULT NULL,
+    status          INT             NOT NULL DEFAULT 0 CHECK (status >=0 AND status <=2),
+    accept          BOOLEAN         NOT NULL DEFAULT 0 CHECK (accept >=-1 AND accept <=1),
     active          BOOLEAN         NOT NULL DEFAULT true,
     PRIMARY KEY (id),
     FOREIGN KEY (clientId) REFERENCES clients (clientId) ON DELETE CASCADE,
@@ -199,7 +199,7 @@ VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 10, '111-11-11'),
        (7, 'Dima', 'Dmitry', '2016-05-27 09:51:22', 0, '444-44-44');
 
 INSERT INTO orders(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active)
-VALUES (4, 2, '2015-08-21 10:16:43', 'Training-1! cl-tr : 4-2', 'Nutrition-1', '2015-08-21', '2016-08-21', 100, 'Comment-1', 0, null, 1),
+VALUES (4, 2, '2015-08-21 10:16:43', 'Training-1! cl-tr : 4-2', 'Nutrition-1', '2015-08-21', '2016-08-21', 100, 'Comment-1', 0, default, 1),
        (6, 3, '2016-03-21 10:28:02', 'Training-2! cl-tr : 6-3', 'Nutrition-2', '2016-03-21', '2017-03-21', 250, 'Comment-2', 1, false, 1),
        (7, 3, '2016-06-01 09:51:22', 'Training-3! cl-tr : 7-3', 'Nutrition-3', '2016-06-01', '2017-06-01', 150, 'Comment-3', 2, true, 1);
 

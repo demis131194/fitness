@@ -85,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderTo> findAllWithFilter(Order filter) throws ServiceException {
+    public List<OrderTo> findAllWithFilter(OrderTo filter) throws ServiceException {
         List<OrderTo> orderTos;
         try {
             orderTos = orderDao.findAllWithFilter(filter);

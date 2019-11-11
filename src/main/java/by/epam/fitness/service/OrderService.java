@@ -13,7 +13,7 @@ public interface OrderService {
     boolean delete(int orderId) throws ServiceException;
     OrderTo find(int orderId) throws ServiceException;
     List<OrderTo> findAll() throws ServiceException;
-    List<OrderTo> findAllWithFilter(Order filter) throws ServiceException;
+    List<OrderTo> findAllWithFilter(OrderTo filter) throws ServiceException;
     List<OrderTo> findAllActive() throws ServiceException;
     List<OrderTo> findAllActiveByTrainer(int trainerId) throws ServiceException;
     List<OrderTo> findAllActiveByClient(int clientId) throws ServiceException;

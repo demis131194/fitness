@@ -13,6 +13,11 @@ public class AttributeName {
     public static final String USER_DISCOUNT_LEVEL = "userDiscountLevel";
     public static final String USER_CASH = "userCash";
 
+    public static final String ORDERS = "orders";
+    public static final String ORDER = "order";
+    public static final String ORDER_ID = "orderId";
+
+
     public static final String COMMENTS = "comments";
 
     public static final String USER_AUTHORIZATION = "authorization";
@@ -20,6 +25,12 @@ public class AttributeName {
     public static final String LOCALE = "locale";
 
     public static final String ERR_MESSAGE = "errMessage";
+
+    public static final String TRAINER_NAME = "trainerName";
+    public static final String TRAINER_LAST_NAME = "trainerLastName";
+    public static final String START_DATE = "startDate";
+    public static final String END_DATE = "endDate";
+    public static final String STATUS = "status";
 
 
     private AttributeName() {}

@@ -123,3 +123,26 @@
 .profile-table-td-key {
   font-weight: 900;
 }
+.order-title {
+  text-align: center;
+}
+.order-table {
+  background-color: #fffded;
+  padding: 20px 30px 20px;
+  border: 1px solid #232346;
+}
+.order-table-td-key {
+  font-weight: 900;
+}
+.filter-button-show {
+  margin-bottom: 15px;
+}
+.filter-form {
+  background-color: #E9ECEF;
+  padding: 20px;
+  border-radius: 10px;
+  display: none;
+}
+.welcome {
+  text-align: center;
+}

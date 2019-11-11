@@ -22,7 +22,7 @@
 <fmt:message key="form.password.placeholder" bundle="${rb}" var="passwordPlaceholder"/>
 <fmt:message key="form.repeat.password.placeholder" bundle="${rb}" var="passwordRepeatPlaceholder"/>
 <fmt:message key="form.phone.placeholder" bundle="${rb}" var="phonePlaceholder"/>
-<fmt:message key="form.submit" bundle="${rb}" var="submit"/>
+<fmt:message key="form.sign.up.submit" bundle="${rb}" var="submit"/>
 
 
 <html>
