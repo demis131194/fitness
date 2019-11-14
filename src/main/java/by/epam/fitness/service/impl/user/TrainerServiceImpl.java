@@ -6,7 +6,7 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.Trainer;
 import by.epam.fitness.service.TrainerService;
-import by.epam.fitness.util.Encoder;
+import by.epam.fitness.util.PasswordEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TrainerServiceImpl implements TrainerService {
     private static Logger logger = LogManager.getLogger(TrainerServiceImpl.class);
-    private static TrainerService trainerService;
+    private static TrainerService trainerService = new TrainerServiceImpl();
 
     private TrainerDao trainerDao = TrainerDaiImpl.getInstance();
 
@@ -22,10 +22,6 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     public static TrainerService getInstance() {
-        if (trainerService == null) {
-            trainerService = new TrainerServiceImpl();
-            logger.debug("TrainerService created.");
-        }
         return trainerService;
     }
 
@@ -33,7 +29,7 @@ public class TrainerServiceImpl implements TrainerService {
     public Trainer create(Trainer trainer) throws ServiceException {
         Trainer createdTrainer;
         try {
-            trainer.setPassword(Encoder.encode(trainer.getPassword()));
+            trainer.setPassword(PasswordEncoder.encode(trainer.getPassword()));
             createdTrainer = trainerDao.create(trainer);
         } catch (DaoException e) {
             throw new ServiceException(e);

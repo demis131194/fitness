@@ -14,7 +14,7 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
 
     private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private static AdminService adminService;
+    private static AdminService adminService = new AdminServiceImpl();
 
     private AdminDao adminDao = AdminDaoImpl.getInstance();
 
@@ -22,10 +22,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     public static AdminService getInstance() {
-        if (adminService == null) {
-            adminService = new AdminServiceImpl();
-            logger.debug("AdminService created.");
-        }
         return adminService;
     }
 

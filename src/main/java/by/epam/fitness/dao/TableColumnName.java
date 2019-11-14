@@ -1,6 +1,6 @@
 package by.epam.fitness.dao;
 
-public class TableColumn {
+public class TableColumnName {
 
     public static final String USERS_ID = "id";
     public static final String USERS_LOGIN = "login";
@@ -59,5 +59,5 @@ public class TableColumn {
     public static final String COMMENT_ACTIVE = "active";
 
 
-    private TableColumn(){}
+    private TableColumnName(){}
 }

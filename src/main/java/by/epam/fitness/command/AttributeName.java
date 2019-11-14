@@ -19,6 +19,8 @@ public class AttributeName {
 
 
     public static final String COMMENTS = "comments";
+    public static final String COMMENT = "comment";
+    public static final String TRAINERS = "trainers";
 
     public static final String USER_AUTHORIZATION = "authorization";
     public static final String COMMAND = "command";
@@ -26,6 +28,7 @@ public class AttributeName {
 
     public static final String ERR_MESSAGE = "errMessage";
 
+    public static final String TRAINER_ID = "trainerId";
     public static final String TRAINER_NAME = "trainerName";
     public static final String TRAINER_LAST_NAME = "trainerLastName";
     public static final String START_DATE = "startDate";

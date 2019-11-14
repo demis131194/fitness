@@ -26,7 +26,7 @@
         <div class="main-section">
             <table>
                 <c:forEach items="${requestScope.comments}" var="comment">
-                    <jsp:useBean id="comment" type="by.epam.fitness.to.CommentTo"/>
+                    <jsp:useBean id="comment" type="by.epam.fitness.model.Comment"/>
                     <tbody class="comment">
                     <tr>
                         <td>

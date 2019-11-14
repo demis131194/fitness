@@ -10,7 +10,6 @@ import by.epam.fitness.model.Order;
 import by.epam.fitness.model.OrderStatus;
 import by.epam.fitness.service.OrderService;
 import by.epam.fitness.service.impl.OrderServiceImpl;
-import by.epam.fitness.to.OrderTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +31,7 @@ public class FindAllOrdersByFilterCommand implements Command {
             String endDate = requestContent.getParameterByName(AttributeName.END_DATE);
             String status = requestContent.getParameterByName(AttributeName.STATUS);
 
-            OrderTo filter = new OrderTo();
+            Order filter = new Order();
             if (trainerName != null && !trainerName.isBlank()) {
                 filter.setTrainerName(trainerName);
             }
@@ -53,7 +52,7 @@ public class FindAllOrdersByFilterCommand implements Command {
 
             filter.setClientId((Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID));
 
-            List<OrderTo> result = orderService.findAllWithFilter(filter);
+            List<Order> result = orderService.findAllWithFilter(filter);
 
             requestContent.putAttribute(AttributeName.ORDERS, result);
             page = PagePath.CLIENT_ORDERS_PATH;

@@ -82,7 +82,7 @@ CREATE TABLE orders
     endDate         DATE 	        DEFAULT NULL,
     price           DECIMAL(6,2)    DEFAULT NULL CHECK (price >= 0),
     clientComment   TEXT            DEFAULT NULL,
-    status          INT             NOT NULL DEFAULT 0 CHECK (status >=0 AND status <=2),
+    status          INT             NOT NULL DEFAULT 0 CHECK (status >=0 AND status <=3),
     accept          BOOLEAN         NOT NULL DEFAULT 0 CHECK (accept >=-1 AND accept <=1),
     active          BOOLEAN         NOT NULL DEFAULT true,
     PRIMARY KEY (id),
@@ -107,17 +107,17 @@ CREATE EVENT orders_change_status_1_event
     ON SCHEDULE EVERY 1 DAY
     STARTS TIME('00:00:30')
     DO
-    UPDATE orders SET status = 1 WHERE accept = true AND status = 0 AND CURRENT_DATE BETWEEN startDate AND endDate;
+    UPDATE orders SET status = 2 WHERE accept = true AND status = 1 AND CURRENT_DATE BETWEEN startDate AND endDate;
 
 CREATE EVENT orders_change_status_2_event
     ON SCHEDULE EVERY 1 DAY
         STARTS TIME('00:00:35')
     DO
-    UPDATE orders SET status = 2 WHERE accept = true AND status = 1 AND CURRENT_DATE > endDate;
+    UPDATE orders SET status = 3 WHERE accept = true AND status = 2 AND CURRENT_DATE > endDate;
 
 CREATE TRIGGER change_discount_level_1 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
-    IF NEW.status = 2 THEN
+    IF NEW.status = 3 THEN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 1
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 3
@@ -128,7 +128,7 @@ END;
 
 CREATE TRIGGER change_discount_level_2 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
-    IF NEW.status = 2 THEN
+    IF NEW.status = 3 THEN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 2
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 6
@@ -139,7 +139,7 @@ END;
 
 CREATE TRIGGER change_discount_level_3 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
-    IF NEW.status = 2 THEN
+    IF NEW.status = 3 THEN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 3
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 10

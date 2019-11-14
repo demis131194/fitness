@@ -6,9 +6,9 @@ import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
+import by.epam.fitness.model.Comment;
 import by.epam.fitness.service.CommentService;
 import by.epam.fitness.service.impl.CommentServiceImpl;
-import by.epam.fitness.to.CommentTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,10 +21,10 @@ public class FindAllCommentsCommand implements Command {
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {
         String page;
-        List<CommentTo> commentTos;
+        List<Comment> comments;
         try {
-            commentTos = commentService.findAllActive();
-            requestContent.putAttribute(AttributeName.COMMENTS, commentTos);
+            comments = commentService.findAllActive();
+            requestContent.putAttribute(AttributeName.COMMENTS, comments);
             page = PagePath.COMMENTS_PATH;
         } catch (ServiceException e) {
             throw new CommandException(e);

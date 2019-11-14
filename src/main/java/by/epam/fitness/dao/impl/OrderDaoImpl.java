@@ -1,12 +1,11 @@
 package by.epam.fitness.dao.impl;
 
 import by.epam.fitness.dao.OrderDao;
-import by.epam.fitness.dao.TableColumn;
+import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.model.OrderStatus;
 import by.epam.fitness.pool.ConnectionPool;
-import by.epam.fitness.to.OrderTo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,16 +44,12 @@ public class OrderDaoImpl implements OrderDao {
             "WHERE o.active = true AND o.clientId = ?";
 
 
-    private static OrderDao orderDao;
+    private static OrderDao orderDao = new OrderDaoImpl();
 
     private OrderDaoImpl() {
     }
 
     public static OrderDao getInstance() {
-        if (orderDao == null) {
-            orderDao = new OrderDaoImpl();
-            logger.debug("OrderDao created");
-        }
         return orderDao;
     }
 
@@ -93,47 +88,47 @@ public class OrderDaoImpl implements OrderDao {
             if (order.getClientId() != null) {
                 statement.setInt(1, order.getClientId());
             } else {
-                statement.setString(1, TableColumn.ORDERS_CLIENT_ID);
+                statement.setString(1, TableColumnName.ORDERS_CLIENT_ID);
             }
             if (order.getTrainerId() != null) {
                 statement.setInt(2, order.getTrainerId());
             } else {
-                statement.setString(2, TableColumn.ORDERS_TRAINER_ID);
+                statement.setString(2, TableColumnName.ORDERS_TRAINER_ID);
             }
             if (order.getExercises() != null) {
                 statement.setString(3, order.getExercises());
             } else {
-                statement.setString(3, TableColumn.ORDERS_EXERCISES);
+                statement.setString(3, TableColumnName.ORDERS_EXERCISES);
             }
             if (order.getNutrition() != null) {
                 statement.setString(4, order.getNutrition());
             } else {
-                statement.setString(4, TableColumn.ORDERS_NUTRITION);
+                statement.setString(4, TableColumnName.ORDERS_NUTRITION);
             }
             if (order.getStartDate() != null) {
                 statement.setDate(5, Date.valueOf(order.getStartDate()));
             } else {
-                statement.setString(5, TableColumn.ORDERS_START_DATE);
+                statement.setString(5, TableColumnName.ORDERS_START_DATE);
             }
             if (order.getEndDate() != null) {
                 statement.setDate(6, Date.valueOf(order.getEndDate()));
             } else {
-                statement.setString(6, TableColumn.ORDERS_END_DATE);
+                statement.setString(6, TableColumnName.ORDERS_END_DATE);
             }
             if (order.getPrice() != null) {
                 statement.setBigDecimal(7, order.getPrice());
             } else {
-                statement.setString(7, TableColumn.ORDERS_PRICE);
+                statement.setString(7, TableColumnName.ORDERS_PRICE);
             }
             if (order.getClientComment() != null) {
                 statement.setString(8, order.getClientComment());
             } else {
-                statement.setString(8, TableColumn.ORDERS_CLIENT_COMMENT);
+                statement.setString(8, TableColumnName.ORDERS_CLIENT_COMMENT);
             }
-            if (order.isAccept() != null) {
-                statement.setBoolean(9, order.isAccept());
+            if (order.getAccept() != null) {
+                statement.setBoolean(9, order.getAccept());
             } else {
-                statement.setString(9, TableColumn.ORDERS_ACCEPT);
+                statement.setString(9, TableColumnName.ORDERS_ACCEPT);
             }
             statement.setInt(10, Objects.requireNonNull(order.getId()));
             isUpdated = statement.execute();
@@ -167,34 +162,34 @@ public class OrderDaoImpl implements OrderDao {
 
 
     @Override
-    public OrderTo find(int orderId) throws DaoException {
-        OrderTo orderTo = null;
+    public Order find(int orderId) throws DaoException {
+        Order order = null;
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_QUERY)) {
             statement.setInt(1, orderId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.first()) {
-                orderTo = getOrderToFromResultSet(resultSet);
-                logger.debug("FindActive orderTo - {}", orderTo);
+                order = getOrderFromResultSet(resultSet);
+                logger.debug("FindActive order - {}", order);
             }
 
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return orderTo;
+        return order;
     }
 
     @Override
-    public List<OrderTo> findAll() throws DaoException {
-        List<OrderTo> result = new ArrayList<>();
+    public List<Order> findAll() throws DaoException {
+        List<Order> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY)) {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                OrderTo orderTo = getOrderToFromResultSet(resultSet);
-                result.add(orderTo);
+                Order order = getOrderFromResultSet(resultSet);
+                result.add(order);
             }
             logger.debug("FindAll result - {}", result);
         } catch (SQLException e) {
@@ -204,8 +199,8 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<OrderTo> findAllWithFilter(OrderTo filter) throws DaoException {
-        List<OrderTo> result = new ArrayList<>();
+    public List<Order> findAllWithFilter(Order filter) throws DaoException {
+        List<Order> result = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_FILTER_QUERY)) {
@@ -268,8 +263,8 @@ public class OrderDaoImpl implements OrderDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                OrderTo orderTo = getOrderToFromResultSet(resultSet);
-                result.add(orderTo);
+                Order order = getOrderFromResultSet(resultSet);
+                result.add(order);
             }
 
             logger.debug("FindAllWithFilter - {}", result);
@@ -281,16 +276,16 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<OrderTo> findAllActive() throws DaoException {
-        List<OrderTo> result = new ArrayList<>();
+    public List<Order> findAllActive() throws DaoException {
+        List<Order> result = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                OrderTo orderTo = getOrderToFromResultSet(resultSet);
-                result.add(orderTo);
+                Order order = getOrderFromResultSet(resultSet);
+                result.add(order);
             }
             logger.debug("FindAll orders - {}", result);
         } catch (SQLException e) {
@@ -300,8 +295,8 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<OrderTo> findAllActiveByTrainer(int trainerId) throws DaoException {
-        List<OrderTo> result = new ArrayList<>();
+    public List<Order> findAllActiveByTrainer(int trainerId) throws DaoException {
+        List<Order> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_QUERY)) {
             statement.setInt(1, trainerId);
@@ -309,8 +304,8 @@ public class OrderDaoImpl implements OrderDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                OrderTo orderTo = getOrderToFromResultSet(resultSet);
-                result.add(orderTo);
+                Order order = getOrderFromResultSet(resultSet);
+                result.add(order);
             }
             logger.debug("FindAllActiveByTrainer orders, trainerId = {} - {}", trainerId, result);
         } catch (SQLException e) {
@@ -320,8 +315,8 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<OrderTo> findAllActiveByClient(int clientId) throws DaoException {
-        List<OrderTo> result = new ArrayList<>();
+    public List<Order> findAllActiveByClient(int clientId) throws DaoException {
+        List<Order> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_CLIENT_QUERY)) {
             statement.setInt(1, clientId);
@@ -329,8 +324,8 @@ public class OrderDaoImpl implements OrderDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                OrderTo orderTo = getOrderToFromResultSet(resultSet);
-                result.add(orderTo);
+                Order order = getOrderFromResultSet(resultSet);
+                result.add(order);
             }
             logger.debug("FindAllActiveByClient orders, clientId = {} - {}", clientId, result);
         } catch (SQLException e) {
@@ -339,25 +334,27 @@ public class OrderDaoImpl implements OrderDao {
         return result;
     }
 
-    private OrderTo getOrderToFromResultSet(ResultSet resultSet) throws SQLException {
-        OrderTo orderTo = new OrderTo();
-        orderTo.setId(resultSet.getInt(TableColumn.ORDERS_ID));
-        orderTo.setClientId(resultSet.getInt(TableColumn.ORDERS_CLIENT_ID));
-        orderTo.setClientName(resultSet.getString(TableColumn.ORDERS_CLIENT_NAME));
-        orderTo.setClientLastName(resultSet.getString(TableColumn.ORDERS_CLIENT_LAST_NAME));
-        orderTo.setTrainerId(resultSet.getInt(TableColumn.ORDERS_TRAINER_ID));
-        orderTo.setTrainerName(resultSet.getString(TableColumn.ORDERS_TRAINER_NAME));
-        orderTo.setTrainerLastName(resultSet.getString(TableColumn.ORDERS_TRAINER_LAST_NAME));
-        orderTo.setRegisterDate(resultSet.getTimestamp(TableColumn.ORDERS_REGISTER_DATE).toLocalDateTime());
-        orderTo.setExercises(resultSet.getString(TableColumn.ORDERS_EXERCISES));
-        orderTo.setNutrition(resultSet.getString(TableColumn.ORDERS_NUTRITION));
-        orderTo.setStartDate(resultSet.getDate(TableColumn.ORDERS_START_DATE).toLocalDate());
-        orderTo.setEndDate(resultSet.getDate(TableColumn.ORDERS_END_DATE).toLocalDate());
-        orderTo.setPrice(resultSet.getBigDecimal(TableColumn.ORDERS_PRICE));
-        orderTo.setClientComment(resultSet.getString(TableColumn.ORDERS_CLIENT_COMMENT));
-        orderTo.setOrderStatus(OrderStatus.values()[resultSet.getInt(TableColumn.ORDERS_STATUS)]);
-        orderTo.setAccept(resultSet.getBoolean(TableColumn.ORDERS_ACCEPT));
-        orderTo.setActive(resultSet.getBoolean(TableColumn.ORDERS_ACTIVE));
-        return orderTo;
+    private Order getOrderFromResultSet(ResultSet resultSet) throws SQLException {
+        Order order = new Order();
+        Date date;
+        order.setId(resultSet.getInt(TableColumnName.ORDERS_ID));
+        order.setClientId(resultSet.getInt(TableColumnName.ORDERS_CLIENT_ID));
+        order.setClientName(resultSet.getString(TableColumnName.ORDERS_CLIENT_NAME));
+        order.setClientLastName(resultSet.getString(TableColumnName.ORDERS_CLIENT_LAST_NAME));
+        order.setTrainerId(resultSet.getInt(TableColumnName.ORDERS_TRAINER_ID));
+        order.setTrainerName(resultSet.getString(TableColumnName.ORDERS_TRAINER_NAME));
+        order.setTrainerLastName(resultSet.getString(TableColumnName.ORDERS_TRAINER_LAST_NAME));
+        order.setRegisterDate(resultSet.getTimestamp(TableColumnName.ORDERS_REGISTER_DATE).toLocalDateTime());
+        order.setExercises(resultSet.getString(TableColumnName.ORDERS_EXERCISES));
+        order.setNutrition(resultSet.getString(TableColumnName.ORDERS_NUTRITION));
+        order.setStartDate((date = resultSet.getDate(TableColumnName.ORDERS_START_DATE)) != null ? date.toLocalDate() : null );
+        order.setEndDate((date = resultSet.getDate(TableColumnName.ORDERS_END_DATE)) != null ? date.toLocalDate() : null );
+        order.setPrice(resultSet.getBigDecimal(TableColumnName.ORDERS_PRICE));
+        order.setClientComment(resultSet.getString(TableColumnName.ORDERS_CLIENT_COMMENT));
+        order.setOrderStatus(OrderStatus.values()[resultSet.getInt(TableColumnName.ORDERS_STATUS)]);
+        order.setAccept(resultSet.getBoolean(TableColumnName.ORDERS_ACCEPT));
+        order.setActive(resultSet.getBoolean(TableColumnName.ORDERS_ACTIVE));
+
+        return order;
     }
 }

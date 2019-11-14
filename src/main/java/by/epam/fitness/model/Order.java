@@ -8,7 +8,11 @@ import java.util.Objects;
 public class Order extends AbstractBaseEntity {
 
     private Integer clientId;
+    private String clientName;
+    private String clientLastName;
     private Integer trainerId;
+    private String trainerName;
+    private String trainerLastName;
     private LocalDateTime registerDate;
     private String exercises;
     private String nutrition;
@@ -23,6 +27,7 @@ public class Order extends AbstractBaseEntity {
     public Order() {
     }
 
+
     public Integer getClientId() {
         return clientId;
     }
@@ -31,12 +36,44 @@ public class Order extends AbstractBaseEntity {
         this.clientId = clientId;
     }
 
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public String getClientLastName() {
+        return clientLastName;
+    }
+
+    public void setClientLastName(String clientLastName) {
+        this.clientLastName = clientLastName;
+    }
+
     public Integer getTrainerId() {
         return trainerId;
     }
 
     public void setTrainerId(Integer trainerId) {
         this.trainerId = trainerId;
+    }
+
+    public String getTrainerName() {
+        return trainerName;
+    }
+
+    public void setTrainerName(String trainerName) {
+        this.trainerName = trainerName;
+    }
+
+    public String getTrainerLastName() {
+        return trainerLastName;
+    }
+
+    public void setTrainerLastName(String trainerLastName) {
+        this.trainerLastName = trainerLastName;
     }
 
     public LocalDateTime getRegisterDate() {
@@ -87,7 +124,7 @@ public class Order extends AbstractBaseEntity {
         this.price = price;
     }
 
-    public Boolean isAccept() {
+    public Boolean getAccept() {
         return accept;
     }
 
@@ -111,15 +148,13 @@ public class Order extends AbstractBaseEntity {
         this.orderStatus = orderStatus;
     }
 
-    public Boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

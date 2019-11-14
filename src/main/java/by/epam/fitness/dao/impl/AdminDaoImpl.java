@@ -1,7 +1,7 @@
 package by.epam.fitness.dao.impl;
 
 import by.epam.fitness.dao.AdminDao;
-import by.epam.fitness.dao.TableColumn;
+import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.user.Admin;
 import by.epam.fitness.pool.ConnectionPool;
@@ -22,16 +22,12 @@ public class AdminDaoImpl implements AdminDao {
     private static final String FIND_QUERY = "SELECT adminId, name, lastName FROM admins WHERE adminId = ?";
     private static final String FIND_ALL_QUERY = "SELECT adminId, name, lastName FROM admins";
 
-    private static AdminDao adminDao;
+    private static AdminDao adminDao = new AdminDaoImpl();;
 
     private AdminDaoImpl() {
     }
 
     public static AdminDao getInstance() {
-        if (adminDao == null) {
-            adminDao = new AdminDaoImpl();
-            logger.debug("AdminDao created");
-        }
         return adminDao;
     }
 
@@ -106,9 +102,9 @@ public class AdminDaoImpl implements AdminDao {
 
     private Admin getAdminFromResultSet(ResultSet resultSet) throws SQLException {
         Admin admin = new Admin();
-        admin.setId(resultSet.getInt(TableColumn.ADMINS_ID));
-        admin.setName(resultSet.getString(TableColumn.ADMINS_NAME));
-        admin.setLastName(resultSet.getString(TableColumn.ADMINS_LAST_NAME));
+        admin.setId(resultSet.getInt(TableColumnName.ADMINS_ID));
+        admin.setName(resultSet.getString(TableColumnName.ADMINS_NAME));
+        admin.setLastName(resultSet.getString(TableColumnName.ADMINS_LAST_NAME));
         return admin;
     }
 }

@@ -1,6 +1,6 @@
 package by.epam.fitness.dao.impl;
 
-import by.epam.fitness.dao.TableColumn;
+import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.dao.TrainerDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.user.Trainer;
@@ -24,16 +24,12 @@ public class TrainerDaiImpl implements TrainerDao {
     private static final String FIND_ALL_ACTIVE_BY_NAME_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE active = true AND name = ?";
     private static final String FIND_ALL_ACTIVE_BY_LAST_NAME_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE active = true AND lastName = ?";
 
-    private static TrainerDao adminDao;
+    private static TrainerDao adminDao = new TrainerDaiImpl();
 
     private TrainerDaiImpl() {
     }
 
     public static TrainerDao getInstance() {
-        if (adminDao == null) {
-            adminDao = new TrainerDaiImpl();
-            logger.debug("TrainerDao created");
-        }
         return adminDao;
     }
 
@@ -189,12 +185,12 @@ public class TrainerDaiImpl implements TrainerDao {
 
     private Trainer getTrainerFromResultSet(ResultSet resultSet) throws SQLException {
         Trainer trainer = new Trainer();
-        trainer.setId(resultSet.getInt(TableColumn.TRAINER_ID));
-        trainer.setName(resultSet.getString(TableColumn.TRAINER_NAME));
-        trainer.setLastName(resultSet.getString(TableColumn.TRAINER_LAST_NAME));
-        trainer.setRegisterDateTime(resultSet.getTimestamp(TableColumn.TRAINER_REGISTER_DATE).toLocalDateTime());
-        trainer.setPhone(resultSet.getString(TableColumn.TRAINER_PHONE));
-        trainer.setActive(resultSet.getBoolean(TableColumn.TRAINER_ACTIVE));
+        trainer.setId(resultSet.getInt(TableColumnName.TRAINER_ID));
+        trainer.setName(resultSet.getString(TableColumnName.TRAINER_NAME));
+        trainer.setLastName(resultSet.getString(TableColumnName.TRAINER_LAST_NAME));
+        trainer.setRegisterDateTime(resultSet.getTimestamp(TableColumnName.TRAINER_REGISTER_DATE).toLocalDateTime());
+        trainer.setPhone(resultSet.getString(TableColumnName.TRAINER_PHONE));
+        trainer.setActive(resultSet.getBoolean(TableColumnName.TRAINER_ACTIVE));
         return trainer;
     }
 }

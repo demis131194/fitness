@@ -2,11 +2,9 @@ package by.epam.fitness.command;
 
 import by.epam.fitness.command.impl.*;
 import by.epam.fitness.command.impl.locale.LocaleCommand;
-import by.epam.fitness.command.impl.order.FindAllOrdersByFilterCommand;
-import by.epam.fitness.command.impl.order.FindAllOrdersByClientCommand;
-import by.epam.fitness.command.impl.order.FindOrderCommand;
+import by.epam.fitness.command.impl.order.*;
 
-public enum CommandOperation {
+public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     FIND_ALL_ORDERS_BY_CLIENT(new FindAllOrdersByClientCommand()),
@@ -15,9 +13,11 @@ public enum CommandOperation {
     FIND_ALL_COMMENTS(new FindAllCommentsCommand()),
     FIND_ORDER(new FindOrderCommand()),
     FIND_ORDERS_BY_FILTER(new FindAllOrdersByFilterCommand()),
+    CREATE_NEW_ORDER(new CreateOrderCommand()),
+    SHOW_NEW_ORDER_PAGE(new ShowCreateOrderPageCommand()),
     CHANGE_LOCALE(new LocaleCommand());
 
-    CommandOperation(Command command) {
+    CommandType(Command command) {
         this.command = command;
     }
 

@@ -7,6 +7,7 @@
 <c:set var="authorization" value="${sessionScope.authorization}"/>
 <fmt:message key="account.menu.profile" bundle="${rb}" var="profile"/>
 <fmt:message key="account.menu.orders" bundle="${rb}" var="orders"/>
+<fmt:message key="account.menu.create.order" bundle="${rb}" var="newOrder"/>
 
 <html>
 <head>
@@ -33,7 +34,7 @@
             <c:when test="${sessionScope.userRole == 'CLIENT'}">
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/client/account/profile.jsp">${profile}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=find_all_orders_by_client">${orders}</a></li>
-                <li><a href="#">Контакты</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=show_new_order_page">${newOrder}</a></li>
                 <li><a href="#">О наc</a></li>
             </c:when>
         </c:choose>

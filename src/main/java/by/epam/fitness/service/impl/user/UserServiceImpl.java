@@ -6,14 +6,14 @@ import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.User;
 import by.epam.fitness.service.UserService;
-import by.epam.fitness.util.Encoder;
+import by.epam.fitness.util.PasswordEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
 
     private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private static UserService userService;
+    private static UserService userService = new UserServiceImpl();
 
     private UserDao userDao = UserDaoImpl.getInstance();
 
@@ -21,10 +21,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public static UserService getInstance() {
-        if (userService == null) {
-            userService = new UserServiceImpl();
-            logger.debug("UserService created.");
-        }
         return userService;
     }
 
@@ -32,7 +28,7 @@ public class UserServiceImpl implements UserService {
     public User findByLoginAndPassword(String login, String password) throws ServiceException {
         User user;
         try {
-            String encodedPassword = Encoder.encode(password);
+            String encodedPassword = PasswordEncoder.encode(password);
             user = userDao.findByLoginAndPassword(login, encodedPassword);
         } catch (DaoException e) {
             logger.warn(e);
@@ -45,7 +41,7 @@ public class UserServiceImpl implements UserService {
     public boolean updatePassword(int userId, String password) throws ServiceException {
         boolean isUpdated;
         try {
-            String encodedPassword = Encoder.encode(password);
+            String encodedPassword = PasswordEncoder.encode(password);
             isUpdated = userDao.updatePassword(userId, encodedPassword);
         } catch (DaoException e) {
             logger.warn(e);

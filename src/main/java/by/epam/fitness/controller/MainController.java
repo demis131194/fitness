@@ -2,7 +2,7 @@ package by.epam.fitness.controller;
 
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
-import by.epam.fitness.command.CommandOperation;
+import by.epam.fitness.command.CommandType;
 import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
@@ -38,18 +38,16 @@ public class MainController extends HttpServlet {
 
     private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SessionRequestContent content = new SessionRequestContent(req);
-        Command command = CommandOperation.valueOf(req.getParameter(AttributeName.COMMAND).toUpperCase()).getCommand();
+        Command command = CommandType.valueOf(req.getParameter(AttributeName.COMMAND).toUpperCase()).getCommand();
         String page = null;
         try {
             page = command.execute(content);
+            content.insertAttributes(req);
+            req.getRequestDispatcher(page).forward(req, resp);
         } catch (CommandException e) {
             req.setAttribute("error", e);
             req.getRequestDispatcher(PagePath.ERROR_PATH).forward(req, resp);
         }
-
-        content.insertAttributes(req);
-
-        req.getRequestDispatcher(page).forward(req, resp);
     }
 
     @Override

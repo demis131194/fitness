@@ -1,6 +1,6 @@
 package by.epam.fitness.dao.impl;
 
-import by.epam.fitness.dao.TableColumn;
+import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.dao.UserDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.user.User;
@@ -21,16 +21,12 @@ public class UserDaoImpl implements UserDao {
     private static final String DELETE_QUERY = "UPDATE users SET active = false WHERE id = ?";
     private static final String RESTORE_QUERY = "UPDATE users SET active = true WHERE id = ?";
 
-    private static UserDao userDao;
+    private static UserDao userDao = new UserDaoImpl();
 
     private UserDaoImpl() {
     }
 
     public static UserDao getInstance() {
-        if (userDao == null) {
-            userDao = new UserDaoImpl();
-            logger.debug("UserDao created");
-        }
         return userDao;
     }
 
@@ -122,8 +118,8 @@ public class UserDaoImpl implements UserDao {
 
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
-        user.setId(resultSet.getInt(TableColumn.USERS_ID));
-        user.setRole(UserRole.valueOf(resultSet.getString(TableColumn.USERS_ROLE).toUpperCase()));
+        user.setId(resultSet.getInt(TableColumnName.USERS_ID));
+        user.setRole(UserRole.valueOf(resultSet.getString(TableColumnName.USERS_ROLE).toUpperCase()));
         return user;
     }
 }

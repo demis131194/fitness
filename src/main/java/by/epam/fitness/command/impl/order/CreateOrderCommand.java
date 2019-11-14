@@ -7,15 +7,18 @@ import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Order;
+import by.epam.fitness.model.OrderStatus;
 import by.epam.fitness.service.OrderService;
 import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
-public class FindAllOrdersByClientCommand implements Command {
-    private static Logger logger = LogManager.getLogger(FindAllOrdersByClientCommand.class);
+public class CreateOrderCommand implements Command {
+    private static Logger logger = LogManager.getLogger(CreateOrderCommand.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();
 
@@ -23,18 +26,16 @@ public class FindAllOrdersByClientCommand implements Command {
     public String execute(SessionRequestContent requestContent) throws CommandException {
         String page;
         try {
-            Object obj = requestContent.getSessionAttributeByName(AttributeName.USER_ID);
-            if (obj != null && obj.getClass() == Integer.class) {
-                int userId = (Integer) obj;
+            int clientId = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID);
+            int trainerId = Integer.parseInt(requestContent.getParameterByName(AttributeName.TRAINER_ID));
+            String clientComment = requestContent.getParameterByName(AttributeName.COMMENT);
+            Order order = new Order();
+            order.setClientId(clientId);
+            order.setTrainerId(trainerId);
+            order.setClientComment(clientComment);
 
-                List<Order> orders;
-
-                orders = orderService.findAllActiveByClient(userId);
-                page = PagePath.CLIENT_ORDERS_PATH;
-                requestContent.putAttribute(AttributeName.ORDERS, orders);
-            } else {
-                throw new CommandException("No user in session");
-            }
+            orderService.create(order);
+            page = PagePath.CLIENT_ORDER_CREATED;
 
         } catch (ServiceException e) {
             throw new CommandException(e);

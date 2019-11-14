@@ -1,6 +1,6 @@
 package by.epam.fitness.dao.impl;
 
-import by.epam.fitness.dao.TableColumn;
+import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.dao.ClientDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.user.Client;
@@ -29,16 +29,12 @@ public class ClientDaoImpl implements ClientDao {
     private static final String FIND_ALL_BY_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE name = ?";
     private static final String FIND_ALL_BY_LAST_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE lastName = ?";
 
-    private static ClientDao clientDao;
+    private static ClientDao clientDao = new ClientDaoImpl();
 
     private ClientDaoImpl() {
     }
 
     public static ClientDao getInstance() {
-        if (clientDao == null) {
-            clientDao = new ClientDaoImpl();
-            logger.debug("ClientDao created");
-        }
         return clientDao;
     }
 
@@ -218,15 +214,15 @@ public class ClientDaoImpl implements ClientDao {
 
     private Client getClientFromResultSet(ResultSet resultSet) throws SQLException {
         Client client = new Client();
-        client.setId(resultSet.getInt(TableColumn.CLIENT_ID));
-        client.setName(resultSet.getString(TableColumn.CLIENT_NAME));
-        client.setLastName(resultSet.getString(TableColumn.CLIENT_LAST_NAME));
-        client.setRegisterDateTime(resultSet.getTimestamp(TableColumn.CLIENT_REGISTER_DATE).toLocalDateTime());
-        client.setDiscount(resultSet.getInt(TableColumn.CLIENT_DISCOUNT));
-        client.setPhone(resultSet.getString(TableColumn.CLIENT_PHONE));
-        client.setCash(resultSet.getBigDecimal(TableColumn.CLIENT_CASH));
-        client.setDiscountLevel(resultSet.getInt(TableColumn.CLIENT_DISCOUNT_LEVEL));
-        client.setActive(resultSet.getBoolean(TableColumn.CLIENT_ACTIVE));
+        client.setId(resultSet.getInt(TableColumnName.CLIENT_ID));
+        client.setName(resultSet.getString(TableColumnName.CLIENT_NAME));
+        client.setLastName(resultSet.getString(TableColumnName.CLIENT_LAST_NAME));
+        client.setRegisterDateTime(resultSet.getTimestamp(TableColumnName.CLIENT_REGISTER_DATE).toLocalDateTime());
+        client.setDiscount(resultSet.getInt(TableColumnName.CLIENT_DISCOUNT));
+        client.setPhone(resultSet.getString(TableColumnName.CLIENT_PHONE));
+        client.setCash(resultSet.getBigDecimal(TableColumnName.CLIENT_CASH));
+        client.setDiscountLevel(resultSet.getInt(TableColumnName.CLIENT_DISCOUNT_LEVEL));
+        client.setActive(resultSet.getBoolean(TableColumnName.CLIENT_ACTIVE));
         return client;
     }
 

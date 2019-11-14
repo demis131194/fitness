@@ -43,7 +43,7 @@
                     </div>
                     <div class="order-table">
                         <c:set var="order" value="${requestScope.order}"/>
-                        <jsp:useBean id="order" type="by.epam.fitness.to.OrderTo"/>
+                        <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
                         <table>
                             <tr>
                                 <td class="order-table-td-key">${id}</td>

@@ -91,7 +91,7 @@
 
                     <table>
                         <c:forEach items="${requestScope.orders}" var="order">
-                            <jsp:useBean id="order" type="by.epam.fitness.to.OrderTo"/>
+                            <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
                             <tbody class="order">
                             <tr>
                                 <td>

@@ -19,9 +19,8 @@ public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static final int DEFAULT_NUMBER_OF_CONNECTION = 5;
     private static final String PROPERTY_PATH = "db/mysql.properties";
-//    private static Lock lock = new ReentrantLock();
     private static AtomicBoolean isCreated = new AtomicBoolean(false);
-    private static ConnectionPool INSTANCE;
+    private static ConnectionPool instance;
 
     private int numberOfConnections;
 
@@ -57,30 +56,17 @@ public class ConnectionPool {
 
     }
 
-//    public static ConnectionPool getInstance() {                    // FIXME: 29.10.2019 need synchronization???
-//        if (INSTANCE == null) {
-//            if (lock.tryLock()) {
-//                if (INSTANCE == null) {
-//                    INSTANCE = new ConnectionPool();
-//                    logger.debug("Connection pool created, number of connections - {}", INSTANCE.numberOfConnections);
-//                }
-//                lock.unlock();
-//            }
-//        }
-//        return INSTANCE;
-//    }
-
     public static ConnectionPool getInstance() {                    // FIXME: 29.10.2019 need synchronization???
         if (!isCreated.get()) {
             initPool();
-            logger.debug("Connection pool created, number of connections - {}", INSTANCE.numberOfConnections);
+            logger.debug("Connection pool created, number of connections - {}", instance.numberOfConnections);
         }
-        return INSTANCE;
+        return instance;
     }
 
     public static void initPool() {                 // FIXME: 29.10.2019 how is it?
         if (!isCreated.getAndSet(true)) {
-            INSTANCE = new ConnectionPool();
+            instance = new ConnectionPool();
         }
     }
 
@@ -90,7 +76,7 @@ public class ConnectionPool {
             connection = awaitingConnections.take();
             occupiedConnections.add(connection);
         } catch (InterruptedException e) {
-            logger.warn("In ConnPoll takeConnection interrupted.");
+            logger.error("In ConnPoll takeConnection interrupted.");
         }
         return connection;
     }
@@ -105,14 +91,14 @@ public class ConnectionPool {
                 ProxyConnection connection = awaitingConnections.take();
                 connection.reallyClose();
             } catch (InterruptedException | SQLException e) {
-                logger.warn(e);
+                logger.error(e);
             }
         }
 
         try {
             DriverManager.deregisterDriver(driver);
         } catch (SQLException e) {
-            logger.warn(e);
+            logger.error(e);
         }
     }
 
