@@ -19,7 +19,6 @@ public class Order extends AbstractBaseEntity {
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal price;
-    private Boolean accept;
     private String clientComment;
     private OrderStatus orderStatus;
     private Boolean active = true;
@@ -124,14 +123,6 @@ public class Order extends AbstractBaseEntity {
         this.price = price;
     }
 
-    public Boolean getAccept() {
-        return accept;
-    }
-
-    public void setAccept(Boolean accept) {
-        this.accept = accept;
-    }
-
     public String getClientComment() {
         return clientComment;
     }
@@ -161,8 +152,7 @@ public class Order extends AbstractBaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return accept == order.accept &&
-                active == order.active &&
+        return  active == order.active &&
                 Objects.equals(clientId, order.clientId) &&
                 Objects.equals(trainerId, order.trainerId) &&
                 Objects.equals(registerDate, order.registerDate) &&
@@ -177,7 +167,7 @@ public class Order extends AbstractBaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, accept, clientComment, orderStatus, active);
+        return Objects.hash(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, orderStatus, active);
     }
 
     @Override
@@ -191,7 +181,6 @@ public class Order extends AbstractBaseEntity {
         sb.append(", startDate=").append(startDate);
         sb.append(", endDate=").append(endDate);
         sb.append(", price=").append(price);
-        sb.append(", accept=").append(accept);
         sb.append(", userComment='").append(clientComment).append('\'');
         sb.append(", orderStatus=").append(orderStatus);
         sb.append(", active=").append(active);

@@ -8,18 +8,11 @@
 <fmt:setBundle basename="bundle/err" var="err_rb"/>
 
 <fmt:message key="project.name" bundle="${rb}" var="title"/>
-<fmt:message key="create.order.form.title" bundle="${rb}" var="formTitle"/>
-<fmt:message key="create.order.form.trainers" bundle="${rb}" var="formTrainers"/>
-<fmt:message key="create.order.form.start.date" bundle="${rb}" var="formStartDate"/>
-<fmt:message key="create.order.form.duration" bundle="${rb}" var="formDuration"/>
-<fmt:message key="create.order.form.comment" bundle="${rb}" var="formComment"/>
-<fmt:message key="create.order.form.placeholder.comment" bundle="${rb}" var="formPlaceholderComment"/>
-<fmt:message key="create.order.form.submit" bundle="${rb}" var="formSubmit"/>
-<fmt:message key="create.order.form.training.duration.day" bundle="${rb}" var="trainingDurationDay"/>
-<fmt:message key="create.order.form.training.duration.week" bundle="${rb}" var="trainingDurationWeek"/>
-<fmt:message key="create.order.form.training.duration.month" bundle="${rb}" var="trainingDurationMonth"/>
-<fmt:message key="create.order.form.training.duration.three.months" bundle="${rb}" var="trainingDurationThreeMonths"/>
-<fmt:message key="create.order.form.training.duration.half.year" bundle="${rb}" var="trainingDurationHalfYear"/>
+<fmt:message key="create.comment.form.title" bundle="${rb}" var="formTitle"/>
+<fmt:message key="create.comment.form.trainers" bundle="${rb}" var="formTrainers"/>
+<fmt:message key="create.comment.form.comment" bundle="${rb}" var="formComment"/>
+<fmt:message key="create.comment.form.placeholder.comment" bundle="${rb}" var="formPlaceholderComment"/>
+<fmt:message key="create.comment.form.submit" bundle="${rb}" var="formSubmit"/>
 
 
 <html>
@@ -42,12 +35,12 @@
             </div>
             <div class="col-lg-10">
                 <div class="main-section">
-                    <div class="create-order-title">
+                    <div class="create-comment-title">
                         <h2>${formTitle}</h2>
                     </div>
                     <div class="create-order-form">
-                        <form name="createOrderForm" action="${pageContext.request.contextPath}/controller" method="POST" accept-charset="UTF-8">
-                            <input type="hidden" name="command" value="CREATE_NEW_ORDER">
+                        <form name="createCommentForm" action="${pageContext.request.contextPath}/controller" method="POST">
+                            <input type="hidden" name="command" value="CREATE_NEW_COMMENT">
                             <div class="form-group">
                                 <label for="inputTrainerId">${formTrainers}</label>
                                 <select id="inputTrainerId" class="form-control" name="trainerId">
@@ -55,20 +48,6 @@
                                         <jsp:useBean id="trainer" class="by.epam.fitness.model.user.Trainer"/>
                                         <option value="${trainer.id}">${trainer.lastName} ${trainer.name}</option>
                                     </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="input-start-date">${formStartDate}</label>
-                                <input type="date" name="startDate" class="form-control" id="input-start-date">
-                            </div>
-                            <div class="form-group">
-                                <label for="duration">${formDuration}</label>
-                                <select id="duration" class="form-control" name="duration">
-                                        <option value="0">${trainingDurationDay}</option>
-                                        <option value="1">${trainingDurationWeek}</option>
-                                        <option value="2">${trainingDurationMonth}</option>
-                                        <option value="3">${trainingDurationThreeMonths}</option>
-                                        <option value="4">${trainingDurationHalfYear}</option>
                                 </select>
                             </div>
                             <div class="form-group">

@@ -16,29 +16,29 @@ import java.util.Objects;
 
 public class OrderDaoImpl implements OrderDao {
     private static Logger logger = LogManager.getLogger(OrderDaoImpl.class);
-    private static final String INSERT_QUERY = "INSERT INTO orders (clientId, trainerId, clientComment) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE orders SET clientId = ?, trainerId = ?, exercises = ?, nutrition = ?, startDate = ?, endDate = ?, price = ?, clientComment = ?, accept = ? WHERE id = ?";
+    private static final String INSERT_QUERY = "INSERT INTO orders (clientId, trainerId, clientComment, startDate, endDate, price) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE orders SET clientId = IFNULL(?, clientId), trainerId = IFNULL(?, trainerId), exercises = IFNULL(?, exercises), nutrition = IFNULL(?, nutrition), startDate = IFNULL(?, startDate), endDate = IFNULL(?, endDate), price = IFNULL(?, price), clientComment = IFNULL(?, clientComment), status = IFNULL(?, status) WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE orders SET active = false WHERE id = ?";
-    private static final String FIND_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+    private static final String FIND_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
             "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
             "WHERE o.id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+    private static final String FIND_ALL_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
             "LEFT JOIN trainers t on o.trainerId = t.trainerId\n";
-    private static final String FIND_ALL_BY_FILTER_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+    private static final String FIND_ALL_BY_FILTER_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
             "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
-            "WHERE c.clientId= IFNULL(?, c.clientId) AND c.name= IFNULL(?, c.name) AND c.lastName = IFNULL(?, c.lastName) AND t.trainerId= IFNULL(?, t.trainerId) AND t.name= IFNULL(?, t.name) AND t.lastName = IFNULL(?, t.lastName) AND startDate >= ? AND endDate <= ? AND price = IFNULL(?, price) AND status = IFNULL(?, status) AND accept = IFNULL(?, accept) AND o.active = ?";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+            "WHERE c.clientId= IFNULL(?, c.clientId) AND c.name= IFNULL(?, c.name) AND c.lastName = IFNULL(?, c.lastName) AND t.trainerId= IFNULL(?, t.trainerId) AND t.name= IFNULL(?, t.name) AND t.lastName = IFNULL(?, t.lastName) AND startDate >= ? AND endDate <= ? AND price = IFNULL(?, price) AND status = IFNULL(?, status) AND o.active = ?";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
             "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
             "WHERE o.active = true ";
-    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
             "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
             "WHERE o.active = true AND o.trainerId = ?";
-    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.accept, o.active  FROM orders o\n" +
+    private static final String FIND_ALL_ACTIVE_BY_CLIENT_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
             "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
             "WHERE o.active = true AND o.clientId = ?";
@@ -62,6 +62,9 @@ public class OrderDaoImpl implements OrderDao {
             statement.setInt(1, order.getClientId());
             statement.setInt(2, order.getTrainerId());
             statement.setString(3, order.getClientComment());
+            statement.setDate(4, Date.valueOf(order.getStartDate()));
+            statement.setDate(5, Date.valueOf(order.getEndDate()));
+            statement.setBigDecimal(6, order.getPrice());
             statement.execute();
 
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -88,50 +91,50 @@ public class OrderDaoImpl implements OrderDao {
             if (order.getClientId() != null) {
                 statement.setInt(1, order.getClientId());
             } else {
-                statement.setString(1, TableColumnName.ORDERS_CLIENT_ID);
+                statement.setNull(1, Types.INTEGER);
             }
             if (order.getTrainerId() != null) {
                 statement.setInt(2, order.getTrainerId());
             } else {
-                statement.setString(2, TableColumnName.ORDERS_TRAINER_ID);
+                statement.setNull(2, Types.INTEGER);
             }
             if (order.getExercises() != null) {
                 statement.setString(3, order.getExercises());
             } else {
-                statement.setString(3, TableColumnName.ORDERS_EXERCISES);
+                statement.setNull(3, Types.VARCHAR);
             }
             if (order.getNutrition() != null) {
                 statement.setString(4, order.getNutrition());
             } else {
-                statement.setString(4, TableColumnName.ORDERS_NUTRITION);
+                statement.setNull(4, Types.VARCHAR);
             }
             if (order.getStartDate() != null) {
                 statement.setDate(5, Date.valueOf(order.getStartDate()));
             } else {
-                statement.setString(5, TableColumnName.ORDERS_START_DATE);
+                statement.setNull(5, Types.DATE);
             }
             if (order.getEndDate() != null) {
                 statement.setDate(6, Date.valueOf(order.getEndDate()));
             } else {
-                statement.setString(6, TableColumnName.ORDERS_END_DATE);
+                statement.setNull(6, Types.DATE);
             }
             if (order.getPrice() != null) {
                 statement.setBigDecimal(7, order.getPrice());
             } else {
-                statement.setString(7, TableColumnName.ORDERS_PRICE);
+                statement.setNull(7, Types.DECIMAL);
             }
             if (order.getClientComment() != null) {
                 statement.setString(8, order.getClientComment());
             } else {
-                statement.setString(8, TableColumnName.ORDERS_CLIENT_COMMENT);
+                statement.setNull(8, Types.VARCHAR);
             }
-            if (order.getAccept() != null) {
-                statement.setBoolean(9, order.getAccept());
+            if (order.getOrderStatus() != null) {
+                statement.setInt(9, order.getOrderStatus().ordinal());
             } else {
-                statement.setString(9, TableColumnName.ORDERS_ACCEPT);
+                statement.setNull(9, Types.INTEGER);
             }
             statement.setInt(10, Objects.requireNonNull(order.getId()));
-            isUpdated = statement.execute();
+            isUpdated = statement.executeUpdate() == 1;
             logger.debug("Order updated, new order - {}", order);
 
         } catch (SQLException e) {
@@ -254,12 +257,7 @@ public class OrderDaoImpl implements OrderDao {
             } else {
                 statement.setNull(10, Types.INTEGER);
             }
-            if (filter.getAccept() != null) {
-                statement.setBoolean(11, filter.getAccept());
-            } else {
-                statement.setNull(11, Types.BOOLEAN);
-            }
-            statement.setBoolean(12, filter.getActive());
+            statement.setBoolean(11, filter.getActive());
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -352,7 +350,6 @@ public class OrderDaoImpl implements OrderDao {
         order.setPrice(resultSet.getBigDecimal(TableColumnName.ORDERS_PRICE));
         order.setClientComment(resultSet.getString(TableColumnName.ORDERS_CLIENT_COMMENT));
         order.setOrderStatus(OrderStatus.values()[resultSet.getInt(TableColumnName.ORDERS_STATUS)]);
-        order.setAccept(resultSet.getBoolean(TableColumnName.ORDERS_ACCEPT));
         order.setActive(resultSet.getBoolean(TableColumnName.ORDERS_ACTIVE));
 
         return order;

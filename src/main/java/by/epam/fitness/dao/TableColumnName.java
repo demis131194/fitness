@@ -44,7 +44,6 @@ public class TableColumnName {
     public static final String ORDERS_PRICE = "price";
     public static final String ORDERS_CLIENT_COMMENT = "clientComment";
     public static final String ORDERS_STATUS = "status";
-    public static final String ORDERS_ACCEPT = "accept";
     public static final String ORDERS_ACTIVE = "active";
 
     public static final String COMMENT_ID = "id";

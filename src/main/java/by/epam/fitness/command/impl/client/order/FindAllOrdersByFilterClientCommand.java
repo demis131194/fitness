@@ -1,8 +1,9 @@
-package by.epam.fitness.command.impl.order;
+package by.epam.fitness.command.impl.client.order;
 
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.PagePath;
+import by.epam.fitness.command.impl.client.order.FindAllOrdersByClientCommand;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
@@ -16,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.util.List;
 
-public class FindAllOrdersByFilterCommand implements Command {
+public class FindAllOrdersByFilterClientCommand implements Command {
     private static Logger logger = LogManager.getLogger(FindAllOrdersByClientCommand.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();
@@ -44,7 +45,7 @@ public class FindAllOrdersByFilterCommand implements Command {
             if (endDate != null && !endDate.isBlank()) {
                 filter.setStartDate(LocalDate.parse(endDate));
             }
-            if (status != null && !status.isBlank() && status.matches("[012]")) {
+            if (status != null && !status.isBlank()) {
                 filter.setOrderStatus(OrderStatus.values()[Integer.parseInt(status)]);
             } else {
                 filter.setOrderStatus(null);

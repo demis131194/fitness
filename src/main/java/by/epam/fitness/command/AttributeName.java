@@ -21,6 +21,7 @@ public class AttributeName {
     public static final String COMMENTS = "comments";
     public static final String COMMENT = "comment";
     public static final String TRAINERS = "trainers";
+    public static final String TRAININGS = "trainings";
 
     public static final String USER_AUTHORIZATION = "authorization";
     public static final String COMMAND = "command";
@@ -34,6 +35,7 @@ public class AttributeName {
     public static final String START_DATE = "startDate";
     public static final String END_DATE = "endDate";
     public static final String STATUS = "status";
+    public static final String DURATION = "duration";
 
 
     private AttributeName() {}

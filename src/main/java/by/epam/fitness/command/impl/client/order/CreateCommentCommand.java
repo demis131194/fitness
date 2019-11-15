@@ -1,4 +1,4 @@
-package by.epam.fitness.command.impl.order;
+package by.epam.fitness.command.impl.client.order;
 
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
@@ -6,21 +6,16 @@ import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
-import by.epam.fitness.model.Order;
-import by.epam.fitness.model.OrderStatus;
-import by.epam.fitness.service.OrderService;
-import by.epam.fitness.service.impl.OrderServiceImpl;
+import by.epam.fitness.model.Comment;
+import by.epam.fitness.service.CommentService;
+import by.epam.fitness.service.impl.CommentServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+public class CreateCommentCommand implements Command {
+    private static Logger logger = LogManager.getLogger(CreateCommentCommand.class);
 
-public class CreateOrderCommand implements Command {
-    private static Logger logger = LogManager.getLogger(CreateOrderCommand.class);
-
-    private OrderService orderService = OrderServiceImpl.getInstance();
+    private CommentService commentService = CommentServiceImpl.getInstance();
 
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {
@@ -29,13 +24,15 @@ public class CreateOrderCommand implements Command {
             int clientId = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID);
             int trainerId = Integer.parseInt(requestContent.getParameterByName(AttributeName.TRAINER_ID));
             String clientComment = requestContent.getParameterByName(AttributeName.COMMENT);
-            Order order = new Order();
-            order.setClientId(clientId);
-            order.setTrainerId(trainerId);
-            order.setClientComment(clientComment);
 
-            orderService.create(order);
-            page = PagePath.CLIENT_ORDER_CREATED;
+            Comment comment = new Comment();
+            comment.setClientId(clientId);
+            comment.setTrainerId(trainerId);
+            comment.setComment(clientComment);
+
+
+            commentService.create(comment);
+            page = PagePath.CLIENT_COMMENT_CREATED;
 
         } catch (ServiceException e) {
             throw new CommandException(e);

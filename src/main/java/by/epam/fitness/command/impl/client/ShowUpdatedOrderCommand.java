@@ -1,4 +1,4 @@
-package by.epam.fitness.command.impl.order;
+package by.epam.fitness.command.impl.client;
 
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
@@ -12,10 +12,8 @@ import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
-public class FindAllOrdersByClientCommand implements Command {
-    private static Logger logger = LogManager.getLogger(FindAllOrdersByClientCommand.class);
+public class ShowUpdatedOrderCommand implements Command {
+    private static Logger logger = LogManager.getLogger(ShowUpdatedOrderCommand.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();
 
@@ -23,18 +21,10 @@ public class FindAllOrdersByClientCommand implements Command {
     public String execute(SessionRequestContent requestContent) throws CommandException {
         String page;
         try {
-            Object obj = requestContent.getSessionAttributeByName(AttributeName.USER_ID);
-            if (obj != null && obj.getClass() == Integer.class) {
-                int userId = (Integer) obj;
-
-                List<Order> orders;
-
-                orders = orderService.findAllActiveByClient(userId);
-                page = PagePath.CLIENT_ORDERS_PATH;
-                requestContent.putAttribute(AttributeName.ORDERS, orders);
-            } else {
-                throw new CommandException("No user in session");
-            }
+            int id = Integer.parseInt(requestContent.getParameterByName(AttributeName.ORDER_ID));
+            Order order = orderService.find(id);
+            page = PagePath.CLIENT_UPDATE_ORDER;
+            requestContent.putAttribute(AttributeName.ORDER, order);
 
         } catch (ServiceException e) {
             throw new CommandException(e);

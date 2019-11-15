@@ -8,6 +8,8 @@
 <fmt:message key="account.menu.profile" bundle="${rb}" var="profile"/>
 <fmt:message key="account.menu.orders" bundle="${rb}" var="orders"/>
 <fmt:message key="account.menu.create.order" bundle="${rb}" var="newOrder"/>
+<fmt:message key="account.menu.create.comment" bundle="${rb}" var="createComment"/>
+<fmt:message key="account.menu.deposit" bundle="${rb}" var="deposit"/>
 
 <html>
 <head>
@@ -35,7 +37,8 @@
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/client/account/profile.jsp">${profile}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=find_all_orders_by_client">${orders}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=show_new_order_page">${newOrder}</a></li>
-                <li><a href="#">О наc</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=show_new_comment_page">${createComment}</a></li>
+                <li><a href="#">${deposit}</a></li>
             </c:when>
         </c:choose>
     </ul>

@@ -18,6 +18,7 @@
 <fmt:message key="orders.status" bundle="${rb}" var="status"/>
 <fmt:message key="orders.accept" bundle="${rb}" var="accept"/>
 <fmt:message key="orders.detail" bundle="${rb}" var="detail"/>
+<fmt:message key="orders.update.order" bundle="${rb}" var="response"/>
 
 <fmt:message key="orders.filter.show.filter" bundle="${rb}" var="showFilter"/>
 <fmt:message key="orders.filter.trainer.name" bundle="${rb}" var="trainerName"/>
@@ -25,6 +26,12 @@
 <fmt:message key="orders.filter.start.date" bundle="${rb}" var="filterSartDate"/>
 <fmt:message key="orders.filter.end.date" bundle="${rb}" var="filterEndDate"/>
 <fmt:message key="orders.filter.status" bundle="${rb}" var="filterStatus"/>
+<fmt:message key="orders.filter.status.new" bundle="${rb}" var="statusNew"/>
+<fmt:message key="orders.filter.status.reviewed" bundle="${rb}" var="statusReviewed"/>
+<fmt:message key="orders.filter.status.rejected" bundle="${rb}" var="statusRejected"/>
+<fmt:message key="orders.filter.status.accepted" bundle="${rb}" var="statusAccepted"/>
+<fmt:message key="orders.filter.status.process" bundle="${rb}" var="statusInProcess"/>
+<fmt:message key="orders.filter.status.terminated" bundle="${rb}" var="statusTerminated"/>
 <fmt:message key="orders.filter.btn.filter" bundle="${rb}" var="btnFilter"/>
 
 
@@ -79,9 +86,12 @@
                             <div class="form-group col-md-4">
                                 <label for="inputStatus">${filterStatus}</label>
                                 <select id="inputStatus" class="form-control" name="status">
-                                    <option value="0">NEW</option>
-                                    <option value="1">IN_PROCESS</option>
-                                    <option value="2">TERMINATED</option>
+                                    <option value="0">${statusNew}</option>
+                                    <option value="1">${statusReviewed}</option>
+                                    <option value="2">${statusRejected}</option>
+                                    <option value="3">${statusAccepted}</option>
+                                    <option value="4">${statusInProcess}</option>
+                                    <option value="5">${statusTerminated}</option>
                                     <option selected value="null">ANY</option>
                                 </select>
                             </div>
@@ -114,7 +124,16 @@
                                             <td>${order.startDate}</td>
                                             <td>${order.endDate}</td>
                                             <td>${order.orderStatus}</td>
-                                            <td><a href="${pageContext.request.contextPath}/controller?command=find_order&orderId=${order.id}">${detail}</a></td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${order.orderStatus.ordinal() == 1}">
+                                                        <a href="${pageContext.request.contextPath}/controller?command=SHOW_UPDATED_ORDER&orderId=${order.id}">${response}</a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a href="${pageContext.request.contextPath}/controller?command=find_order&orderId=${order.id}">${detail}</a>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
                                         </tr>
                                     </table>
                                 </td>

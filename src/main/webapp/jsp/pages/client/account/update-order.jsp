@@ -17,6 +17,18 @@
 <fmt:message key="account.order.client.comment" bundle="${rb}" var="clientComment"/>
 <fmt:message key="account.order.price" bundle="${rb}" var="price"/>
 <fmt:message key="account.order.status" bundle="${rb}" var="status"/>
+<fmt:message key="create.order.form.comment" bundle="${rb}" var="formComment"/>
+<fmt:message key="create.order.form.start.date" bundle="${rb}" var="formStartDate"/>
+
+<fmt:message key="create.order.form.duration" bundle="${rb}" var="formDuration"/>
+<fmt:message key="create.order.form.training.duration.day" bundle="${rb}" var="trainingDurationDay"/>
+<fmt:message key="create.order.form.training.duration.week" bundle="${rb}" var="trainingDurationWeek"/>
+<fmt:message key="create.order.form.training.duration.month" bundle="${rb}" var="trainingDurationMonth"/>
+<fmt:message key="create.order.form.training.duration.three.months" bundle="${rb}" var="trainingDurationThreeMonths"/>
+<fmt:message key="create.order.form.training.duration.half.year" bundle="${rb}" var="trainingDurationHalfYear"/>
+<fmt:message key="orders.status.accept" bundle="${rb}" var="statusAccept"/>
+<fmt:message key="orders.status.reject" bundle="${rb}" var="statusReject"/>
+<fmt:message key="update.order.form.submit" bundle="${rb}" var="formSubmit"/>
 
 <html>
 <head>
@@ -78,10 +90,6 @@
                                 <td class="order-table-td-value">${order.endDate}</td>
                             </tr>
                             <tr>
-                                <td class="order-table-td-key">${clientComment}</td>
-                                <td class="order-table-td-value">${order.clientComment}</td>
-                            </tr>
-                            <tr>
                                 <td class="order-table-td-key">${price}</td>
                                 <td class="order-table-td-value">${order.price}</td>
                             </tr>
@@ -90,12 +98,36 @@
                                 <td class="order-table-td-value">${order.orderStatus.name()}</td>
                             </tr>
                         </table>
+
+                        <form name="createOrderForm" action="${pageContext.request.contextPath}/controller" method="POST">
+                            <input type="hidden" name="command" value="UPDATE_ORDER_BY_CLIENT">
+                            <input type="hidden" name="orderId" value="${order.id}">
+
+                            <div class="form-group">
+                                <label for="input-comment">${formComment}</label>
+                                <textarea name="comment" class="form-control" id="input-comment">${order.clientComment}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="status-accept" value="3" checked>
+                                    <label class="form-check-label" for="status-accept">${statusAccept}</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="status-reject" value="2">
+                                    <label class="form-check-label" for="status-reject">${statusReject}</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">${formSubmit}</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
+
 <c:import url="/jsp/fragment/footer.jsp"/>
 </body>
 </html>
