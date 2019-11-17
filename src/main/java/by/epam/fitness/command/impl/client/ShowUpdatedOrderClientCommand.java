@@ -12,8 +12,8 @@ import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ShowUpdatedOrderCommand implements Command {
-    private static Logger logger = LogManager.getLogger(ShowUpdatedOrderCommand.class);
+public class ShowUpdatedOrderClientCommand implements Command {
+    private static Logger logger = LogManager.getLogger(ShowUpdatedOrderClientCommand.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();
 

@@ -1,10 +1,16 @@
 package by.epam.fitness.command;
 
 import by.epam.fitness.command.impl.*;
-import by.epam.fitness.command.impl.client.*;
 import by.epam.fitness.command.impl.client.ShowCreateCommentPageCommand;
+import by.epam.fitness.command.impl.client.ShowCreateOrderPageCommand;
+import by.epam.fitness.command.impl.client.ShowUpdatedOrderClientCommand;
+import by.epam.fitness.command.impl.client.comment.CreateCommentCommand;
 import by.epam.fitness.command.impl.client.order.*;
 import by.epam.fitness.command.impl.locale.LocaleCommand;
+import by.epam.fitness.command.impl.trainer.ShowUpdatedOrderTrainerCommand;
+import by.epam.fitness.command.impl.trainer.order.FindAllOrdersByTrainerCommand;
+import by.epam.fitness.command.impl.trainer.order.FindOrderByTrainerCommand;
+import by.epam.fitness.command.impl.trainer.order.UpdateOrderByTrainerCommand;
 
 public enum CommandType {
     LOGIN(new LoginCommand()),
@@ -13,14 +19,18 @@ public enum CommandType {
     FIND_ALL_TRAINERS(new FindAllTrainersCommand()),
     SIGN_UP(new SignUpCommand()),
     FIND_ALL_COMMENTS(new FindAllCommentsCommand()),
-    FIND_ORDER(new FindOrderCommand()),
+    FIND_ORDER_BY_CLIENT(new FindOrderByClientCommand()),
+    FIND_ORDER_BY_TRAINER(new FindOrderByTrainerCommand()),
     FIND_ORDERS_BY_FILTER(new FindAllOrdersByFilterClientCommand()),
     CREATE_NEW_ORDER(new CreateOrderCommand()),
     CREATE_NEW_COMMENT(new CreateCommentCommand()),
     SHOW_NEW_ORDER_PAGE(new ShowCreateOrderPageCommand()),
-    SHOW_UPDATED_ORDER(new ShowUpdatedOrderCommand()),
+    CLIENT_SHOW_UPDATED_ORDER(new ShowUpdatedOrderClientCommand()),
+    TRAINER_SHOW_UPDATED_ORDER(new ShowUpdatedOrderTrainerCommand()),
     SHOW_NEW_COMMENT_PAGE(new ShowCreateCommentPageCommand()),
     UPDATE_ORDER_BY_CLIENT(new UpdateOrderByClientCommand()),
+    UPDATE_ORDER_BY_TRAINER(new UpdateOrderByTrainerCommand()),
+    FIND_ALL_ORDERS_BY_TRAINER(new FindAllOrdersByTrainerCommand()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandType(Command command) {

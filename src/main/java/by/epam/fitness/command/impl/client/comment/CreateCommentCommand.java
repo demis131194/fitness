@@ -1,4 +1,4 @@
-package by.epam.fitness.command.impl.client.order;
+package by.epam.fitness.command.impl.client.comment;
 
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;

@@ -7,7 +7,7 @@
 
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="orders.title" bundle="${rb}" var="title"/>
-<fmt:message key="orders.trainer.fio" bundle="${rb}" var="trainerFio"/>
+<fmt:message key="orders.client.fio" bundle="${rb}" var="clientFio"/>
 <fmt:message key="orders.register.date" bundle="${rb}" var="registerDate"/>
 <fmt:message key="orders.exercises" bundle="${rb}" var="exercises"/>
 <fmt:message key="orders.nutrition" bundle="${rb}" var="nutrition"/>
@@ -21,8 +21,8 @@
 <fmt:message key="orders.update.order" bundle="${rb}" var="response"/>
 
 <fmt:message key="orders.filter.show.filter" bundle="${rb}" var="showFilter"/>
-<fmt:message key="orders.filter.trainer.name" bundle="${rb}" var="trainerName"/>
-<fmt:message key="orders.filter.trainer.last.name" bundle="${rb}" var="trainerLastName"/>
+<fmt:message key="orders.filter.client.name" bundle="${rb}" var="clientName"/>
+<fmt:message key="orders.filter.client.last.name" bundle="${rb}" var="clientLastName"/>
 <fmt:message key="orders.filter.start.date" bundle="${rb}" var="filterSartDate"/>
 <fmt:message key="orders.filter.end.date" bundle="${rb}" var="filterEndDate"/>
 <fmt:message key="orders.filter.status" bundle="${rb}" var="filterStatus"/>
@@ -65,12 +65,12 @@
                         <input type="hidden" name="command" value="FIND_ORDERS_BY_FILTER">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputTrainerName">${trainerName}</label>
-                                <input type="text" class="form-control" id="inputTrainerName" name="trainerName" placeholder="Name">
+                                <label for="inputClientName">${clientName}</label>
+                                <input type="text" class="form-control" id="inputClientName" name="clientName" placeholder="Name">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputTrainerLastName">${trainerLastName}</label>
-                                <input type="text" class="form-control" id="inputTrainerLastName" name="trainerLastName" placeholder="Last name">
+                                <label for="inputTrainerLastName">${clientLastName}</label>
+                                <input type="text" class="form-control" id="inputTrainerLastName" name="clientLastName" placeholder="Last name">
                             </div>
                         </div>
 
@@ -108,7 +108,7 @@
                                     <table>
                                         <tr>
                                             <th>${registerDate}</th>
-                                            <th>${trainerFio}</th>
+                                            <th>${clientFio}</th>
                                             <th>${startDate}</th>
                                             <th>${endDate}</th>
                                             <th>${status}</th>
@@ -120,17 +120,17 @@
                                                 <fmt:formatDate value="${parsedDate}" pattern="dd.MM.yyyy HH:mm:ss" var="regDate" />
                                                     ${regDate}
                                             </td>
-                                            <td>${order.trainerName} ${order.trainerLastName}</td>
+                                            <td>${order.clientName} ${order.clientLastName}</td>
                                             <td>${order.startDate}</td>
                                             <td>${order.endDate}</td>
                                             <td>${order.orderStatus}</td>
                                             <td>
                                                 <c:choose>
-                                                    <c:when test="${order.orderStatus.ordinal() == 1}">
-                                                        <a href="${pageContext.request.contextPath}/controller?command=CLIENT_SHOW_UPDATED_ORDER&orderId=${order.id}">${response}</a>
+                                                    <c:when test="${order.orderStatus.ordinal() >= 0 && order.orderStatus.ordinal() <= 2}">
+                                                        <a href="${pageContext.request.contextPath}/controller?command=TRAINER_SHOW_UPDATED_ORDER&orderId=${order.id}">${response}</a>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_CLIENT&orderId=${order.id}">${detail}</a>
+                                                        <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_TRAINER&orderId=${order.id}">${detail}</a>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
@@ -149,53 +149,3 @@
 <c:import url="/jsp/fragment/footer.jsp"/>
 </body>
 </html>
-
-<%--<html>--%>
-<%--<head>--%>
-<%--    <title>${title}</title>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--<c:import url="/jsp/fragment/header.jsp"/>--%>
-<%--<h1>CLIENT WELCOME</h1>--%>
-<%--<section>--%>
-<%--    <h3><a href="${pageContext.request.contextPath}">${home}</a></h3>--%>
-<%--    <hr/>--%>
-<%--    <h2>${orders}</h2>--%>
-<%--    <table border="1" cellpadding="8" cellspacing="0">--%>
-<%--        <thead>--%>
-<%--        <tr>--%>
-<%--            <th>${orderId}</th>--%>
-<%--            <th>${clientId}</th>--%>
-<%--            <th>${trainerId}</th>--%>
-<%--            <th>${registerDate}</th>--%>
-<%--            <th>${exercises}</th>--%>
-<%--            <th>${nutrition}</th>--%>
-<%--            <th>${startDate}</th>--%>
-<%--            <th>${endDate}</th>--%>
-<%--            <th>${price}</th>--%>
-<%--            <th>${clientComment}</th>--%>
-<%--            <th>${status}</th>--%>
-<%--            <th>${accept}</th>--%>
-<%--        </tr>--%>
-<%--        </thead>--%>
-<%--        <c:forEach items="${requestScope.orders}" var="order">--%>
-<%--            <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>--%>
-<%--            <tr bgcolor="${order.isActive() ? "green": "red"}">--%>
-<%--                <td>${order.id}</td>--%>
-<%--                <td>${order.clientId}</td>--%>
-<%--                <td>${order.trainerId}</td>--%>
-<%--                <td>${order.registerDate}</td>--%>
-<%--                <td>${order.exercises}</td>--%>
-<%--                <td>${order.nutrition}</td>--%>
-<%--                <td>${order.startDate}</td>--%>
-<%--                <td>${order.endDate}</td>--%>
-<%--                <td>${order.price}</td>--%>
-<%--                <td>${order.clientComment}</td>--%>
-<%--                <td>${order.orderStatus.name()}</td>--%>
-<%--                <td>${order.isAccept()}</td>--%>
-<%--            </tr>--%>
-<%--        </c:forEach>--%>
-<%--    </table>--%>
-<%--</section>--%>
-<%--</body>--%>
-<%--</html>--%>

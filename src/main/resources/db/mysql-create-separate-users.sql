@@ -82,8 +82,7 @@ CREATE TABLE orders
     endDate         DATE 	        DEFAULT NULL,
     price           DECIMAL(6,2)    DEFAULT NULL CHECK (price >= 0),
     clientComment   TEXT            DEFAULT NULL,
-    status          INT             NOT NULL DEFAULT 0 CHECK (status >=0 AND status <=3),
-    accept          BOOLEAN         NOT NULL DEFAULT 0 CHECK (accept >=-1 AND accept <=1),
+    status          INT             NOT NULL DEFAULT 0 CHECK (status >=0 AND status <=5),
     active          BOOLEAN         NOT NULL DEFAULT true,
     PRIMARY KEY (id),
     FOREIGN KEY (clientId) REFERENCES clients (clientId) ON DELETE CASCADE,
@@ -107,17 +106,17 @@ CREATE EVENT orders_change_status_1_event
     ON SCHEDULE EVERY 1 DAY
     STARTS TIME('00:00:30')
     DO
-    UPDATE orders SET status = 2 WHERE accept = true AND status = 1 AND CURRENT_DATE BETWEEN startDate AND endDate;
+    UPDATE orders SET status = 4 WHERE accept = true AND status = 3 AND CURRENT_DATE BETWEEN startDate AND endDate;
 
 CREATE EVENT orders_change_status_2_event
     ON SCHEDULE EVERY 1 DAY
         STARTS TIME('00:00:35')
     DO
-    UPDATE orders SET status = 3 WHERE accept = true AND status = 2 AND CURRENT_DATE > endDate;
+    UPDATE orders SET status = 5 WHERE accept = true AND status = 4 AND CURRENT_DATE > endDate;
 
 CREATE TRIGGER change_discount_level_1 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
-    IF NEW.status = 3 THEN
+    IF NEW.status = 5 THEN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 1
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 3
@@ -128,7 +127,7 @@ END;
 
 CREATE TRIGGER change_discount_level_2 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
-    IF NEW.status = 3 THEN
+    IF NEW.status = 5 THEN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 2
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 6
@@ -139,7 +138,7 @@ END;
 
 CREATE TRIGGER change_discount_level_3 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
-    IF NEW.status = 3 THEN
+    IF NEW.status = 5 THEN
         UPDATE clients SET clients.discount = clients.discount + 10, clients.discountLevel = 3
         WHERE clients.clientId =  OLD.clientId
           AND (SELECT COUNT(orders.clientId) FROM orders WHERE orders.clientId = OLD.clientId AND status = 2) = 10
@@ -198,10 +197,10 @@ VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 10, '111-11-11'),
        (6, 'Pasha', 'Pavel', '2016-02-21 10:28:02', 5, '333-33-33'),
        (7, 'Dima', 'Dmitry', '2016-05-27 09:51:22', 0, '444-44-44');
 
-INSERT INTO orders(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, accept, active)
-VALUES (4, 2, '2015-08-21 10:16:43', 'Training-1! cl-tr : 4-2', 'Nutrition-1', '2015-08-21', '2016-08-21', 100, 'Comment-1', 0, default, 1),
-       (6, 3, '2016-03-21 10:28:02', 'Training-2! cl-tr : 6-3', 'Nutrition-2', '2016-03-21', '2017-03-21', 250, 'Comment-2', 1, false, 1),
-       (7, 3, '2016-06-01 09:51:22', 'Training-3! cl-tr : 7-3', 'Nutrition-3', '2016-06-01', '2017-06-01', 150, 'Comment-3', 2, true, 1);
+INSERT INTO orders(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, active)
+VALUES (4, 2, '2015-08-21 10:16:43', 'Training-1! cl-tr : 4-2', 'Nutrition-1', '2015-08-21', '2016-08-21', 100, 'Comment-1', 0, 1),
+       (6, 3, '2016-03-21 10:28:02', 'Training-2! cl-tr : 6-3', 'Nutrition-2', '2016-03-21', '2017-03-21', 250, 'Comment-2', 1, 1),
+       (7, 3, '2016-06-01 09:51:22', 'Training-3! cl-tr : 7-3', 'Nutrition-3', '2016-06-01', '2017-06-01', 150, 'Comment-3', 2, 1);
 
 INSERT INTO comments(clientId, trainerId, registerDate, comment)
 VALUES (4, 2, '2015-09-22 10:16:43', 'BEST!'),

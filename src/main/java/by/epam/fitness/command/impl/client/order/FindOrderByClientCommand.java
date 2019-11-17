@@ -3,7 +3,6 @@ package by.epam.fitness.command.impl.client.order;
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.PagePath;
-import by.epam.fitness.command.impl.client.order.FindAllOrdersByClientCommand;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
@@ -13,7 +12,7 @@ import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class FindOrderCommand implements Command {
+public class FindOrderByClientCommand implements Command {
     private static Logger logger = LogManager.getLogger(FindAllOrdersByClientCommand.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();

@@ -36,6 +36,8 @@ public class AttributeName {
     public static final String END_DATE = "endDate";
     public static final String STATUS = "status";
     public static final String DURATION = "duration";
+    public static final String EXERCISES = "exercises";
+    public static final String NUTRITION = "nutrition";
 
 
     private AttributeName() {}
