@@ -12,6 +12,5 @@ public interface TrainerDao {
     Trainer find(int trainerId) throws DaoException;
     List<Trainer> findAllActive() throws DaoException;
     List<Trainer> findAll() throws DaoException;
-    List<Trainer> findAllActiveByName(String name) throws DaoException;
-    List<Trainer> findAllActiveByLastName(String lastName) throws DaoException;
+    List<Trainer> findAllActiveByNameAndLastName(String name, String lastNme) throws DaoException;
 }

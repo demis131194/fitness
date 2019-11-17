@@ -92,7 +92,7 @@
                                     <option value="3">${statusAccepted}</option>
                                     <option value="4">${statusInProcess}</option>
                                     <option value="5">${statusTerminated}</option>
-                                    <option selected value="null">ANY</option>
+                                    <option selected value="">ANY</option>
                                 </select>
                             </div>
                         </div>
@@ -149,53 +149,3 @@
 <c:import url="/jsp/fragment/footer.jsp"/>
 </body>
 </html>
-
-<%--<html>--%>
-<%--<head>--%>
-<%--    <title>${title}</title>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--<c:import url="/jsp/fragment/header.jsp"/>--%>
-<%--<h1>CLIENT WELCOME</h1>--%>
-<%--<section>--%>
-<%--    <h3><a href="${pageContext.request.contextPath}">${home}</a></h3>--%>
-<%--    <hr/>--%>
-<%--    <h2>${orders}</h2>--%>
-<%--    <table border="1" cellpadding="8" cellspacing="0">--%>
-<%--        <thead>--%>
-<%--        <tr>--%>
-<%--            <th>${orderId}</th>--%>
-<%--            <th>${clientId}</th>--%>
-<%--            <th>${trainerId}</th>--%>
-<%--            <th>${registerDate}</th>--%>
-<%--            <th>${exercises}</th>--%>
-<%--            <th>${nutrition}</th>--%>
-<%--            <th>${startDate}</th>--%>
-<%--            <th>${endDate}</th>--%>
-<%--            <th>${price}</th>--%>
-<%--            <th>${clientComment}</th>--%>
-<%--            <th>${status}</th>--%>
-<%--            <th>${accept}</th>--%>
-<%--        </tr>--%>
-<%--        </thead>--%>
-<%--        <c:forEach items="${requestScope.orders}" var="order">--%>
-<%--            <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>--%>
-<%--            <tr bgcolor="${order.isActive() ? "green": "red"}">--%>
-<%--                <td>${order.id}</td>--%>
-<%--                <td>${order.clientId}</td>--%>
-<%--                <td>${order.trainerId}</td>--%>
-<%--                <td>${order.registerDate}</td>--%>
-<%--                <td>${order.exercises}</td>--%>
-<%--                <td>${order.nutrition}</td>--%>
-<%--                <td>${order.startDate}</td>--%>
-<%--                <td>${order.endDate}</td>--%>
-<%--                <td>${order.price}</td>--%>
-<%--                <td>${order.clientComment}</td>--%>
-<%--                <td>${order.orderStatus.name()}</td>--%>
-<%--                <td>${order.isAccept()}</td>--%>
-<%--            </tr>--%>
-<%--        </c:forEach>--%>
-<%--    </table>--%>
-<%--</section>--%>
-<%--</body>--%>
-<%--</html>--%>

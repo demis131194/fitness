@@ -14,6 +14,5 @@ public interface ClientService {
     Client find(int clientId) throws ServiceException;
     List<Client> findAllActive() throws ServiceException;
     List<Client> findAll() throws ServiceException;
-    List<Client> findAllActiveByName(String name) throws ServiceException;
-    List<Client> findAllActiveByLastName(String lastName) throws ServiceException;
+    List<Client> findAllActiveByNameAndLastName(String name, String lastName) throws ServiceException;
 }

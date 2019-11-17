@@ -4,9 +4,9 @@ import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.dao.ClientDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.user.Client;
+import by.epam.fitness.model.user.UserRole;
 import by.epam.fitness.pool.ConnectionPool;
 ;
-import com.mysql.cj.MysqlType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,13 +21,12 @@ public class ClientDaoImpl implements ClientDao {
 
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
     private static final String INSERT_CLIENTS_QUERY = "INSERT INTO clients (clientId, name, lastName, phone) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE clients SET name = ?, lastName = ?, phone = ? WHERE clientId = ?";
+    private static final String UPDATE_QUERY = "UPDATE clients SET name = IFNULL(?, name), lastName = IFNULL(?, lastName), phone = IFNULL(?, phone), discount = IFNULL(?, discount), discountLevel = IFNULL(?, discountLevel) WHERE clientId = ?";
     private static final String DEPOSIT_CASH_QUERY = "UPDATE clients SET cash = cash + ? WHERE clientId = ?";
     private static final String FIND_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE clientId = ?";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE active = true";
     private static final String FIND_ALL_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients";
-    private static final String FIND_ALL_BY_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE name = ?";
-    private static final String FIND_ALL_BY_LAST_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE lastName = ?";
+    private static final String FIND_ALL_BY_NAME_AND_LAST_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE name = IFNULL(?, name) AND lastName = IFNULL(?, lastName)";
 
     private static ClientDao clientDao = new ClientDaoImpl();
 
@@ -86,16 +85,34 @@ public class ClientDaoImpl implements ClientDao {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setString(1, client.getName());
-            statement.setString(2, client.getLastName());
+            if (client.getName() != null) {
+                statement.setString(1, client.getName());
+            } else {
+                statement.setNull(1, Types.VARCHAR);
+            }
+            if (client.getLastName() != null) {
+                statement.setString(2, client.getLastName());
+            } else {
+                statement.setNull(2, Types.VARCHAR);
+            }
             if (client.getPhone() != null) {
                 statement.setString(3, client.getPhone());
             } else {
-                statement.setNull(3, MysqlType.NULL.getJdbcType());
+                statement.setNull(3, Types.VARCHAR);
             }
-            statement.setInt(4, client.getId());
+            if (client.getDiscount() != null) {
+                statement.setInt(4, client.getDiscount());
+            } else {
+                statement.setNull(4, Types.INTEGER);
+            }
+            if (client.getDiscountLevel() != null) {
+                statement.setInt(5, client.getDiscountLevel());
+            } else {
+                statement.setNull(5, Types.INTEGER);
+            }
+            statement.setInt(6, client.getId());
 
-            isUpdated = statement.execute();
+            isUpdated = statement.executeUpdate() == 1;
             logger.debug("Client updated, new client - {}", client);
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -175,11 +192,21 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public List<Client> findAllActiveByName(String name) throws DaoException {
+    public List<Client> findAllActiveByNameAndLastName(String name, String lastName) throws DaoException {
         List<Client> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_NAME_QUERY)) {
-            statement.setString(1, Objects.requireNonNull(name));
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_NAME_AND_LAST_NAME_QUERY)) {
+            if (name != null) {
+                statement.setString(1, name);
+            } else {
+                statement.setNull(1, Types.VARCHAR);
+            }
+            if (lastName != null) {
+                statement.setString(2, lastName);
+            } else {
+                statement.setNull(2, Types.VARCHAR);
+            }
+
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -187,25 +214,6 @@ public class ClientDaoImpl implements ClientDao {
                 result.add(client);
             }
             logger.debug("FindAllActiveByName, clients - {}", result);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return result;
-    }
-
-    @Override
-    public List<Client> findAllActiveByLastName(String lastName) throws DaoException {
-        List<Client> result = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_LAST_NAME_QUERY)) {
-            statement.setString(1, Objects.requireNonNull(lastName));
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Client client = getClientFromResultSet(resultSet);
-                result.add(client);
-            }
-            logger.debug("FindAllActiveByLastName, clients - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -223,6 +231,7 @@ public class ClientDaoImpl implements ClientDao {
         client.setCash(resultSet.getBigDecimal(TableColumnName.CLIENT_CASH));
         client.setDiscountLevel(resultSet.getInt(TableColumnName.CLIENT_DISCOUNT_LEVEL));
         client.setActive(resultSet.getBoolean(TableColumnName.CLIENT_ACTIVE));
+        client.setRole(UserRole.CLIENT);
         return client;
     }
 

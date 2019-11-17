@@ -82,21 +82,10 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public List<Trainer> findAllActiveByName(String name) throws ServiceException {
+    public List<Trainer> findAllActiveByNameAndLastName(String name, String lastName) throws ServiceException {
         List<Trainer> trainers;
         try {
-            trainers = trainerDao.findAllActiveByName(name);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return trainers;
-    }
-
-    @Override
-    public List<Trainer> findAllActiveByLastName(String lastName) throws ServiceException {
-        List<Trainer> trainers;
-        try {
-            trainers = trainerDao.findAllActiveByLastName(lastName);
+            trainers = trainerDao.findAllActiveByNameAndLastName(name, lastName);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

@@ -10,6 +10,8 @@
 <fmt:message key="account.menu.create.order" bundle="${rb}" var="newOrder"/>
 <fmt:message key="account.menu.create.comment" bundle="${rb}" var="createComment"/>
 <fmt:message key="account.menu.deposit" bundle="${rb}" var="deposit"/>
+<fmt:message key="account.menu.users" bundle="${rb}" var="users"/>
+<fmt:message key="account.menu.comments" bundle="${rb}" var="comments"/>
 
 <html>
 <head>
@@ -23,9 +25,9 @@
         <c:choose>
             <c:when test="${sessionScope.userRole == 'ADMIN'}">
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile.jsp">${profile}</a></li>
-                <li><a href="#">Новости</a></li>
-                <li><a href="#">Контакты</a></li>
-                <li><a href="#">О наc</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=find_all_users_by_admin">${users}</a></li>
+                <li><a href="#">${orders}</a></li>
+                <li><a href="#">${comments}</a></li>
             </c:when>
             <c:when test="${sessionScope.userRole == 'TRAINER'}">
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/trainer/account/profile.jsp">${profile}</a></li>

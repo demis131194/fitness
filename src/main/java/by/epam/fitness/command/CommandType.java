@@ -1,6 +1,7 @@
 package by.epam.fitness.command;
 
 import by.epam.fitness.command.impl.*;
+import by.epam.fitness.command.impl.admin.user.*;
 import by.epam.fitness.command.impl.client.ShowCreateCommentPageCommand;
 import by.epam.fitness.command.impl.client.ShowCreateOrderPageCommand;
 import by.epam.fitness.command.impl.client.ShowUpdatedOrderClientCommand;
@@ -31,6 +32,14 @@ public enum CommandType {
     UPDATE_ORDER_BY_CLIENT(new UpdateOrderByClientCommand()),
     UPDATE_ORDER_BY_TRAINER(new UpdateOrderByTrainerCommand()),
     FIND_ALL_ORDERS_BY_TRAINER(new FindAllOrdersByTrainerCommand()),
+    FIND_ALL_USERS_BY_ADMIN(new FindAllUsersByAdminCommand()),
+    FIND_USER_BY_ADMIN(new FindUserByAdmin()),
+    UPDATE_USER_BY_ADMIN(new UpdateUserByAdminCommand()),
+    UPDATE_TRAINER_BY_ADMIN(new UpdateTrainerByAdminCommand()),
+    UPDATE_CLIENT_BY_ADMIN(new UpdateClientByAdminCommand()),
+    DELETE_USER_BY_ADMIN(new DeleteUserByAdminCommand()),
+    RESTORE_USER_BY_ADMIN(new RestoreUserByAdminCommand()),
+    FIND_USERS_BY_FILTER(new FindUsersByFilter()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandType(Command command) {

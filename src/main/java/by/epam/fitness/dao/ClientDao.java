@@ -14,6 +14,5 @@ public interface ClientDao {
     Client find(int clientId) throws DaoException;
     List<Client> findAllActive() throws DaoException;
     List<Client> findAll() throws DaoException;
-    List<Client> findAllActiveByName(String name) throws DaoException;
-    List<Client> findAllActiveByLastName(String lastName) throws DaoException;
+    List<Client> findAllActiveByNameAndLastName(String name, String lastName) throws DaoException;
 }

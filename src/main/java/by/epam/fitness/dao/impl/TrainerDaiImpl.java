@@ -4,6 +4,7 @@ import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.dao.TrainerDao;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.user.Trainer;
+import by.epam.fitness.model.user.UserRole;
 import by.epam.fitness.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,12 +18,11 @@ public class TrainerDaiImpl implements TrainerDao {
 
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
     private static final String INSERT_TRAINER_QUERY = "INSERT INTO trainers (trainerId, name, lastName, phone) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE trainers SET name = ?, lastName = ?, phone = ? WHERE trainerId = ?";
+    private static final String UPDATE_QUERY = "UPDATE trainers SET name = IFNULL(?, name), lastName = IFNULL(?, lastName), phone = IFNULL(?, phone) WHERE trainerId = ?";
     private static final String FIND_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE trainerId = ?";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE active = true";
     private static final String FIND_ALL_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers";
-    private static final String FIND_ALL_ACTIVE_BY_NAME_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE active = true AND name = ?";
-    private static final String FIND_ALL_ACTIVE_BY_LAST_NAME_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE active = true AND lastName = ?";
+    private static final String FIND_ALL_ACTIVE_BY_NAME_AND_LAST_NAME_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE name = IFNULL(?, name) AND lastName = IFNULL(?, lastName)";
 
     private static TrainerDao adminDao = new TrainerDaiImpl();
 
@@ -75,9 +75,21 @@ public class TrainerDaiImpl implements TrainerDao {
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setString(1, trainer.getName());
-            statement.setString(2, trainer.getLastName());
-            statement.setString(3, trainer.getPhone());
+            if (trainer.getName() != null) {
+                statement.setString(1, trainer.getName());
+            } else {
+                statement.setNull(1, Types.VARCHAR);
+            }
+            if (trainer.getLastName() != null) {
+                statement.setString(2, trainer.getLastName());
+            } else {
+                statement.setNull(2, Types.VARCHAR);
+            }
+            if (trainer.getPhone() != null) {
+                statement.setString(3, trainer.getPhone());
+            } else {
+                statement.setNull(3, Types.VARCHAR);
+            }
             statement.setInt(4, trainer.getId());
 
             isUpdated = statement.execute();
@@ -146,11 +158,20 @@ public class TrainerDaiImpl implements TrainerDao {
     }
 
     @Override
-    public List<Trainer> findAllActiveByName(String name) throws DaoException {
+    public List<Trainer> findAllActiveByNameAndLastName(String name, String lastNme) throws DaoException {
         List<Trainer> result = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_NAME_QUERY)) {
-            statement.setString(1, name);
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_NAME_AND_LAST_NAME_QUERY)) {
+            if (name != null) {
+                statement.setString(1, name);
+            } else {
+                statement.setNull(1, Types.VARCHAR);
+            }
+            if (lastNme != null) {
+                statement.setString(2, lastNme);
+            } else {
+                statement.setNull(2, Types.VARCHAR);
+            }
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -158,25 +179,6 @@ public class TrainerDaiImpl implements TrainerDao {
                 result.add(trainer);
             }
             logger.debug("FindAllActiveByName, trainer - {}", result);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return result;
-    }
-
-    @Override
-    public List<Trainer> findAllActiveByLastName(String lastName) throws DaoException {
-        List<Trainer> result = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_LAST_NAME_QUERY)) {
-            statement.setString(1, lastName);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Trainer trainer = getTrainerFromResultSet(resultSet);
-                result.add(trainer);
-            }
-            logger.debug("FindAllActiveByLastName, trainer - {}", result);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -191,6 +193,7 @@ public class TrainerDaiImpl implements TrainerDao {
         trainer.setRegisterDateTime(resultSet.getTimestamp(TableColumnName.TRAINER_REGISTER_DATE).toLocalDateTime());
         trainer.setPhone(resultSet.getString(TableColumnName.TRAINER_PHONE));
         trainer.setActive(resultSet.getBoolean(TableColumnName.TRAINER_ACTIVE));
+        trainer.setRole(UserRole.TRAINER);
         return trainer;
     }
 }

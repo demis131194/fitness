@@ -12,6 +12,5 @@ public interface TrainerService {
     Trainer find(int trainerId) throws ServiceException;
     List<Trainer> findAllActive() throws ServiceException;
     List<Trainer> findAll() throws ServiceException;
-    List<Trainer> findAllActiveByName(String name) throws ServiceException;
-    List<Trainer> findAllActiveByLastName(String lastName) throws ServiceException;
+    List<Trainer> findAllActiveByNameAndLastName(String name, String lastName) throws ServiceException;
 }

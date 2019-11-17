@@ -94,21 +94,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> findAllActiveByName(String name) throws ServiceException {
+    public List<Client> findAllActiveByNameAndLastName(String name, String lastName) throws ServiceException {
         List<Client> clients;
         try {
-            clients = clientDao.findAllActiveByName(name);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return clients;
-    }
-
-    @Override
-    public List<Client> findAllActiveByLastName(String lastName) throws ServiceException {
-        List<Client> clients;
-        try {
-            clients = clientDao.findAllActiveByLastName(lastName);
+            clients = clientDao.findAllActiveByNameAndLastName(name, lastName);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

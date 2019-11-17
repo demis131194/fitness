@@ -22,6 +22,9 @@ public class AttributeName {
     public static final String COMMENT = "comment";
     public static final String TRAINERS = "trainers";
     public static final String TRAININGS = "trainings";
+    public static final String USERS = "users";
+    public static final String USER = "user";
+
 
     public static final String USER_AUTHORIZATION = "authorization";
     public static final String COMMAND = "command";
