@@ -12,6 +12,10 @@ public class AttributeName {
     public static final String USER_DISCOUNT = "userDiscount";
     public static final String USER_DISCOUNT_LEVEL = "userDiscountLevel";
     public static final String USER_CASH = "userCash";
+    public static final String USER_LOGIN = "userLogin";
+    public static final String USER_PASSWORD = "userPassword";
+    public static final String REPEAT_PASSWORD = "repeatPassword";
+
 
     public static final String ORDERS = "orders";
     public static final String ORDER = "order";

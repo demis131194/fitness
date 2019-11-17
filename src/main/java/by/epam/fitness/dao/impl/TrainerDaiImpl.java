@@ -56,10 +56,13 @@ public class TrainerDaiImpl implements TrainerDao {
                 trainerStatement.setString(3, trainer.getLastName());
                 trainerStatement.setString(4, trainer.getPhone());
 
-                usersStatement.execute();
+                trainerStatement.execute();
 
                 connection.commit();
                 logger.debug("Trainer created = {}", trainer);
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
             } finally {
                 connection.setAutoCommit(true);
             }

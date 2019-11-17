@@ -11,6 +11,7 @@
 <fmt:message key="account.menu.create.comment" bundle="${rb}" var="createComment"/>
 <fmt:message key="account.menu.deposit" bundle="${rb}" var="deposit"/>
 <fmt:message key="account.menu.users" bundle="${rb}" var="users"/>
+<fmt:message key="account.menu.create.trainer" bundle="${rb}" var="createTrainer"/>
 <fmt:message key="account.menu.comments" bundle="${rb}" var="comments"/>
 
 <html>
@@ -26,6 +27,7 @@
             <c:when test="${sessionScope.userRole == 'ADMIN'}">
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile.jsp">${profile}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=find_all_users_by_admin">${users}</a></li>
+                <li><a href="${pageContext.request.contextPath}/jsp/pages/admin/account/create-trainer.jsp">${createTrainer}</a></li>
                 <li><a href="#">${orders}</a></li>
                 <li><a href="#">${comments}</a></li>
             </c:when>

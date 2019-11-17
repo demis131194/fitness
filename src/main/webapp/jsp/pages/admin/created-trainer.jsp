@@ -6,8 +6,8 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <c:set var="authorization" value="${sessionScope.authorization}"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
-<fmt:message key="user.updated.title" bundle="${rb}" var="userUpdatedTitle"/>
-<fmt:message key="user.updated.text" bundle="${rb}" var="userUpdatedText"/>
+<fmt:message key="trainer.created.title" bundle="${rb}" var="trainerCreatedTitle"/>
+<fmt:message key="trainer.created.text" bundle="${rb}" var="trainerCreatedText"/>
 <fmt:message key="account.menu.users" bundle="${rb}" var="users"/>
 
 <html>
@@ -24,10 +24,10 @@
 <div class="main">
     <div class="container">
         <div class="main-section">
-            <div class="user-created">
+            <div class="order-created">
                 <div class="col-lg-10 offset-lg-1">
-                    <h2 class="user-created-title">${userUpdatedTitle}</h2>
-                    <p>${userUpdatedText}</p>
+                    <h2 class="order-created-title">${trainerCreatedTitle}</h2>
+                    <p>${trainerCreatedText}</p>
                     <a href="${pageContext.request.contextPath}/controller?command=find_all_users_by_admin">${users}</a>
                 </div>
             </div>
