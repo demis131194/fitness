@@ -38,13 +38,16 @@ public class AttributeName {
 
     public static final String TRAINER_ID = "trainerId";
     public static final String TRAINER_NAME = "trainerName";
+    public static final String CLIENT_NAME = "clientName";
     public static final String TRAINER_LAST_NAME = "trainerLastName";
+    public static final String CLIENT_LAST_NAME = "clientLastName";
     public static final String START_DATE = "startDate";
     public static final String END_DATE = "endDate";
     public static final String STATUS = "status";
     public static final String DURATION = "duration";
     public static final String EXERCISES = "exercises";
     public static final String NUTRITION = "nutrition";
+    public static final String ACTIVE = "active";
 
 
     private AttributeName() {}

@@ -7,6 +7,7 @@
 
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="orders.title" bundle="${rb}" var="title"/>
+<fmt:message key="orders.trainer.fio" bundle="${rb}" var="trainerFio"/>
 <fmt:message key="orders.client.fio" bundle="${rb}" var="clientFio"/>
 <fmt:message key="orders.register.date" bundle="${rb}" var="registerDate"/>
 <fmt:message key="orders.exercises" bundle="${rb}" var="exercises"/>
@@ -16,12 +17,17 @@
 <fmt:message key="orders.price" bundle="${rb}" var="price"/>
 <fmt:message key="orders.client.comment" bundle="${rb}" var="clientComment"/>
 <fmt:message key="orders.status" bundle="${rb}" var="status"/>
-<fmt:message key="orders.accept" bundle="${rb}" var="accept"/>
+<fmt:message key="orders.active" bundle="${rb}" var="active"/>
+<fmt:message key="orders.inactive" bundle="${rb}" var="unactive"/>
 <fmt:message key="orders.detail" bundle="${rb}" var="detail"/>
+<fmt:message key="orders.delete" bundle="${rb}" var="delete"/>
+<fmt:message key="orders.restore" bundle="${rb}" var="restore"/>
 <fmt:message key="orders.update.order" bundle="${rb}" var="response"/>
 
 <fmt:message key="orders.filter.show.filter" bundle="${rb}" var="showFilter"/>
+<fmt:message key="orders.filter.trainer.name" bundle="${rb}" var="trainerName"/>
 <fmt:message key="orders.filter.client.name" bundle="${rb}" var="clientName"/>
+<fmt:message key="orders.filter.trainer.last.name" bundle="${rb}" var="trainerLastName"/>
 <fmt:message key="orders.filter.client.last.name" bundle="${rb}" var="clientLastName"/>
 <fmt:message key="orders.filter.start.date" bundle="${rb}" var="filterSartDate"/>
 <fmt:message key="orders.filter.end.date" bundle="${rb}" var="filterEndDate"/>
@@ -62,7 +68,18 @@
 
                     <button type="button" class="btn btn-info filter-button-show" onclick="clickFilter()">${showFilter}</button>
                     <form class="filter-form" id="filterButton" action="${pageContext.request.contextPath}/controller" method="POST">
-                        <input type="hidden" name="command" value="FIND_ORDERS_BY_FILTER">
+                        <input type="hidden" name="command" value="FIND_ORDERS_BY_FILTER_BY_ADMIN">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputTrainerName">${trainerName}</label>
+                                <input type="text" class="form-control" id="inputTrainerName" name="trainerName" placeholder="Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputTrainerLastName">${trainerLastName}</label>
+                                <input type="text" class="form-control" id="inputTrainerLastName" name="trainerLastName" placeholder="Last name">
+                            </div>
+                        </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputClientName">${clientName}</label>
@@ -75,15 +92,15 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="inputStartDate">${filterSartDate}</label>
                                 <input type="date" class="form-control" id="inputStartDate" name="startDate" placeholder="Start date">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="inputEndDate">${filterEndDate}</label>
                                 <input type="date" class="form-control" id="inputEndDate" name="endDate" placeholder="End date">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="inputStatus">${filterStatus}</label>
                                 <select id="inputStatus" class="form-control" name="status">
                                     <option value="0">${statusNew}</option>
@@ -92,7 +109,15 @@
                                     <option value="3">${statusAccepted}</option>
                                     <option value="4">${statusInProcess}</option>
                                     <option value="5">${statusTerminated}</option>
-                                    <option selected value="null">ANY</option>
+                                    <option selected value="">ANY</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputActive">${filterStatus}</label>
+                                <select id="inputActive" class="form-control" name="active">
+                                    <option value="true">${active}</option>
+                                    <option value="false">${unactive}</option>
+                                    <option value="" selected>ANY</option>
                                 </select>
                             </div>
                         </div>
@@ -108,10 +133,13 @@
                                     <table>
                                         <tr>
                                             <th>${registerDate}</th>
+                                            <th>${trainerFio}</th>
                                             <th>${clientFio}</th>
                                             <th>${startDate}</th>
                                             <th>${endDate}</th>
                                             <th>${status}</th>
+                                            <th>${active}</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                         <tr>
@@ -120,17 +148,20 @@
                                                 <fmt:formatDate value="${parsedDate}" pattern="dd.MM.yyyy HH:mm:ss" var="regDate" />
                                                     ${regDate}
                                             </td>
+                                            <td>${order.trainerName} ${order.trainerLastName}</td>
                                             <td>${order.clientName} ${order.clientLastName}</td>
                                             <td>${order.startDate}</td>
                                             <td>${order.endDate}</td>
                                             <td>${order.orderStatus}</td>
+                                            <td>${order.active}</td>
+                                            <td><a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_ADMIN&orderId=${order.id}">${detail}</a></td>
                                             <td>
                                                 <c:choose>
-                                                    <c:when test="${order.orderStatus.ordinal() >= 0 && order.orderStatus.ordinal() <= 2}">
-                                                        <a href="${pageContext.request.contextPath}/controller?command=TRAINER_SHOW_UPDATED_ORDER&orderId=${order.id}">${response}</a>
+                                                    <c:when test="${order.active}">
+                                                        <a href="${pageContext.request.contextPath}/controller?command=DELETE_ORDER_BY_ADMIN&orderId=${order.id}">${delete}</a>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_TRAINER&orderId=${order.id}">${detail}</a>
+                                                        <a href="${pageContext.request.contextPath}/controller?command=RESTORE_ORDER_BY_ADMIN&orderId=${order.id}">${restore}</a>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>

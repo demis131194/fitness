@@ -22,7 +22,9 @@
 
 <fmt:message key="orders.filter.show.filter" bundle="${rb}" var="showFilter"/>
 <fmt:message key="orders.filter.trainer.name" bundle="${rb}" var="trainerName"/>
+<fmt:message key="orders.filter.client.name" bundle="${rb}" var="clientName"/>
 <fmt:message key="orders.filter.trainer.last.name" bundle="${rb}" var="trainerLastName"/>
+<fmt:message key="orders.filter.client.last.name" bundle="${rb}" var="clientLastName"/>
 <fmt:message key="orders.filter.start.date" bundle="${rb}" var="filterSartDate"/>
 <fmt:message key="orders.filter.end.date" bundle="${rb}" var="filterEndDate"/>
 <fmt:message key="orders.filter.status" bundle="${rb}" var="filterStatus"/>

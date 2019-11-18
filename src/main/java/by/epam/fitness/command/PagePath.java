@@ -15,6 +15,9 @@ public class PagePath {
     public static final String ADMIN_UPDATE_USER_PATH = "jsp/pages/admin/account/update-user.jsp";
     public static final String ADMIN_USER_UPDATED_PATH = "jsp/pages/admin/updated-user.jsp";
     public static final String ADMIN_TRAINER_CREATED = "jsp/pages/admin/created-trainer.jsp";
+    public static final String ADMIN_FIND_ORDER_PATH = "jsp/pages/admin/account/order.jsp";
+    public static final String ADMIN_ORDER_DELETED_PATH = "jsp/pages/admin/deleted-order.jsp";
+    public static final String ADMIN_ORDER_RESTORED_PATH = "jsp/pages/admin/restored-order.jsp";
 
     public static final String TRAINER_ORDERS_PATH = "jsp/pages/trainer/account/orders.jsp";
     public static final String TRAINER_ACCOUNT_PATH = "jsp/pages/trainer/profile.jsp";
@@ -40,6 +43,7 @@ public class PagePath {
 
     public static final String CLIENT_CREATED = "jsp/pages/client-created.jsp";
     public static final String COMMENTS_PATH = "jsp/pages/comments.jsp";
+
 
     private PagePath(){}
 }

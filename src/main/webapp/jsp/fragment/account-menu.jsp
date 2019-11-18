@@ -28,7 +28,7 @@
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile.jsp">${profile}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=find_all_users_by_admin">${users}</a></li>
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/admin/account/create-trainer.jsp">${createTrainer}</a></li>
-                <li><a href="#">${orders}</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=find_all_orders">${orders}</a></li>
                 <li><a href="#">${comments}</a></li>
             </c:when>
             <c:when test="${sessionScope.userRole == 'TRAINER'}">

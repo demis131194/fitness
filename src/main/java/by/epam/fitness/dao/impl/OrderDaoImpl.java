@@ -17,7 +17,7 @@ import java.util.Objects;
 public class OrderDaoImpl implements OrderDao {
     private static Logger logger = LogManager.getLogger(OrderDaoImpl.class);
     private static final String INSERT_QUERY = "INSERT INTO orders (clientId, trainerId, clientComment, startDate, endDate, price) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE orders SET clientId = IFNULL(?, clientId), trainerId = IFNULL(?, trainerId), exercises = IFNULL(?, exercises), nutrition = IFNULL(?, nutrition), startDate = IFNULL(?, startDate), endDate = IFNULL(?, endDate), price = IFNULL(?, price), clientComment = IFNULL(?, clientComment), status = IFNULL(?, status) WHERE id = ?";
+    private static final String UPDATE_QUERY = "UPDATE orders SET clientId = IFNULL(?, clientId), trainerId = IFNULL(?, trainerId), exercises = IFNULL(?, exercises), nutrition = IFNULL(?, nutrition), startDate = IFNULL(?, startDate), endDate = IFNULL(?, endDate), price = IFNULL(?, price), clientComment = IFNULL(?, clientComment), status = IFNULL(?, status), active = IFNULL(?, active) WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE orders SET active = false WHERE id = ?";
     private static final String FIND_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
@@ -29,7 +29,7 @@ public class OrderDaoImpl implements OrderDao {
     private static final String FIND_ALL_BY_FILTER_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
             "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
-            "WHERE c.clientId= IFNULL(?, c.clientId) AND c.name= IFNULL(?, c.name) AND c.lastName = IFNULL(?, c.lastName) AND t.trainerId= IFNULL(?, t.trainerId) AND t.name= IFNULL(?, t.name) AND t.lastName = IFNULL(?, t.lastName) AND startDate >= ? AND endDate <= ? AND price = IFNULL(?, price) AND status = IFNULL(?, status) AND o.active = ?";
+            "WHERE c.clientId= IFNULL(?, c.clientId) AND c.name= IFNULL(?, c.name) AND c.lastName = IFNULL(?, c.lastName) AND t.trainerId= IFNULL(?, t.trainerId) AND t.name= IFNULL(?, t.name) AND t.lastName = IFNULL(?, t.lastName) AND startDate >= IFNULL(?, startDate) AND endDate <= IFNULL(?, endDate) AND price = IFNULL(?, price) AND status = IFNULL(?, status) AND o.active = IFNULL(?, o.active)";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT o.id, o.clientId, c.name AS clientName, c.lastName AS clientLastName, o.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, o.registerDate, o.exercises, o.nutrition, o.startDate, o.endDate, o.price, o.clientComment, o.status, o.active  FROM orders o\n" +
             "LEFT JOIN clients c on o.clientId = c.clientId\n" +
             "LEFT JOIN trainers t on o.trainerId = t.trainerId\n" +
@@ -133,7 +133,12 @@ public class OrderDaoImpl implements OrderDao {
             } else {
                 statement.setNull(9, Types.INTEGER);
             }
-            statement.setInt(10, Objects.requireNonNull(order.getId()));
+            if (order.getActive() != null) {
+                statement.setBoolean(10, order.getActive());
+            } else {
+                statement.setNull(10, Types.INTEGER);
+            }
+            statement.setInt(11, Objects.requireNonNull(order.getId()));
             isUpdated = statement.executeUpdate() == 1;
             logger.debug("Order updated, new order - {}", order);
 
@@ -240,12 +245,12 @@ public class OrderDaoImpl implements OrderDao {
             if (filter.getStartDate() != null) {
                 statement.setDate(7, Date.valueOf(filter.getStartDate()));
             } else {
-                statement.setDate(7, Date.valueOf("1970-01-01"));
+                statement.setNull(7, Types.DATE);
             }
             if (filter.getEndDate() != null) {
                 statement.setDate(8, Date.valueOf(filter.getEndDate()));
             } else {
-                statement.setDate(8, Date.valueOf("2100-01-01"));
+                statement.setNull(8, Types.DATE);
             }
             if (filter.getPrice() != null) {
                 statement.setBigDecimal(9, filter.getPrice());
@@ -257,7 +262,12 @@ public class OrderDaoImpl implements OrderDao {
             } else {
                 statement.setNull(10, Types.INTEGER);
             }
-            statement.setBoolean(11, filter.getActive());
+            if (filter.getActive() != null) {
+                statement.setBoolean(11, filter.getActive());
+            } else {
+                statement.setNull(11, Types.BOOLEAN);
+            }
+
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
