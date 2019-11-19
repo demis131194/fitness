@@ -5,9 +5,9 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
-<fmt:message key="order.restored.title" bundle="${rb}" var="orderRestoredTitle"/>
-<fmt:message key="order.restored.text" bundle="${rb}" var="orderRestoredText"/>
-<fmt:message key="account.menu.orders" bundle="${rb}" var="orders"/>
+<fmt:message key="comment.deleted.title" bundle="${rb}" var="commentDeletedTitle"/>
+<fmt:message key="comment.deleted.text" bundle="${rb}" var="commentDeletedText"/>
+<fmt:message key="account.menu.comments" bundle="${rb}" var="comments"/>
 
 <html>
 <head>
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
-    <meta http-equiv="refresh" content="5;${pageContext.request.contextPath}/controller?command=find_all_orders">
+    <meta http-equiv="refresh" content="5;${pageContext.request.contextPath}/controller?command=FIND_ALL_COMMENTS_BY_ADMIN">
 </head>
 <body>
 <c:import url="/jsp/fragment/header.jsp"/>
@@ -23,11 +23,11 @@
 <div class="main">
     <div class="container">
         <div class="main-section">
-            <div class="order-deleted">
+            <div class="сщььуте-deleted">
                 <div class="col-lg-10 offset-lg-1">
-                    <h2 class="order-deleted-title">${orderRestoredTitle}</h2>
-                    <p>${orderRestoredText} ${requestScope.orderId}</p>
-                    <a href="${pageContext.request.contextPath}/controller?command=find_all_orders">${orders}</a>
+                    <h2 class="order-deleted-title">${commentDeletedTitle}</h2>
+                    <p>${commentDeletedText} ${requestScope.commentId}</p>
+                    <a href="${pageContext.request.contextPath}/controller?command=FIND_ALL_COMMENTS_BY_ADMIN">${comments}</a>
                 </div>
             </div>
         </div>

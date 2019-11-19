@@ -18,6 +18,12 @@ public class PagePath {
     public static final String ADMIN_FIND_ORDER_PATH = "jsp/pages/admin/account/order.jsp";
     public static final String ADMIN_ORDER_DELETED_PATH = "jsp/pages/admin/deleted-order.jsp";
     public static final String ADMIN_ORDER_RESTORED_PATH = "jsp/pages/admin/restored-order.jsp";
+    public static final String ADMIN_COMMENTS_PATH = "jsp/pages/admin/account/comments.jsp";
+    public static final String ADMIN_COMMENT_DELETED_PATH = "jsp/pages/admin/deleted-comment.jsp";
+    public static final String ADMIN_COMMENT_RESTORED_PATH = "jsp/pages/admin/restored-comment.jsp";
+
+
+
 
     public static final String TRAINER_ORDERS_PATH = "jsp/pages/trainer/account/orders.jsp";
     public static final String TRAINER_ACCOUNT_PATH = "jsp/pages/trainer/profile.jsp";

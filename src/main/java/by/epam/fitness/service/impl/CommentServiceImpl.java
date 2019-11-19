@@ -73,6 +73,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> findAllByFilter(Comment comment) throws ServiceException {
+        logger.trace("In service method findAllByFilter.");
+        List<Comment> comments;
+        try {
+            comments = commentDao.findAllByFilter(comment);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return comments;
+    }
+
+    @Override
     public List<Comment> findAllActive() throws ServiceException {
         logger.trace("In service method findAllActive.");
         List<Comment> comments;

@@ -2,6 +2,10 @@ package by.epam.fitness.command;
 
 import by.epam.fitness.command.impl.*;
 import by.epam.fitness.command.impl.admin.CreateTrainerCommand;
+import by.epam.fitness.command.impl.admin.comment.DeleteCommentByAdmin;
+import by.epam.fitness.command.impl.admin.comment.FindAllCommentsByAdmin;
+import by.epam.fitness.command.impl.admin.comment.FindCommentsByFilterByAdmin;
+import by.epam.fitness.command.impl.admin.comment.RestoreCommentByAdmin;
 import by.epam.fitness.command.impl.admin.order.*;
 import by.epam.fitness.command.impl.admin.user.*;
 import by.epam.fitness.command.impl.client.ShowCreateCommentPageCommand;
@@ -44,10 +48,14 @@ public enum CommandType {
     FIND_USERS_BY_FILTER(new FindUsersByFilter()),
     CREATE_NEW_TRAINER(new CreateTrainerCommand()),
     FIND_ALL_ORDERS(new FindAllOrders()),
-    FIND_ORDERS_BY_FILTER_BY_ADMIN(new FindUsersByFilterByAdmin()),
+    FIND_ORDERS_BY_FILTER_BY_ADMIN(new FindOrdersByFilterByAdmin()),
     FIND_ORDER_BY_ADMIN(new FindOrderByAdmin()),
     DELETE_ORDER_BY_ADMIN(new DeleteOrderByAdmin()),
     RESTORE_ORDER_BY_ADMIN(new RestoreOrderByAdmin()),
+    FIND_ALL_COMMENTS_BY_ADMIN(new FindAllCommentsByAdmin()),
+    DELETE_COMMENT_BY_ADMIN(new DeleteCommentByAdmin()),
+    RESTORE_COMMENT_BY_ADMIN(new RestoreCommentByAdmin()),
+    FIND_COMMENTS_BY_FILTER_BY_ADMIN(new FindCommentsByFilterByAdmin()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandType(Command command) {

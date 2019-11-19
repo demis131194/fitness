@@ -11,6 +11,7 @@ public interface CommentService {
     boolean update(Comment comment) throws ServiceException;
     boolean delete(int commentId) throws ServiceException;
     Comment find(int commentId) throws ServiceException;
+    List<Comment> findAllByFilter(Comment comment) throws ServiceException;
     List<Comment> findAllActive() throws ServiceException;
     List<Comment> findAllActiveByTrainer(int trainerId) throws ServiceException;
     List<Comment> findAll() throws ServiceException;

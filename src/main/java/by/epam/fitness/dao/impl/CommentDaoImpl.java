@@ -11,17 +11,22 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CommentDaoImpl implements CommentDao {
     private static Logger logger = LogManager.getLogger(CommentDaoImpl.class);
 
     private static final String INSERT_QUERY = "INSERT INTO comments (clientId, trainerId, comment) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE comments SET clientId = ?, trainerId = ?, comment = ? WHERE id = ?";
+    private static final String UPDATE_QUERY = "UPDATE comments SET clientId = IFNULL(?, clientId), trainerId = IFNULL(?, trainerId), comment = IFNULL(?, comment), active = IFNULL(?, active) WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE comments SET active = false WHERE id = ?";
     private static final String FIND_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
             "WHERE comments.id = ?";
+    private static final String FIND_ALL_BY_FILTER_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "WHERE c.name = IFNULL(?, c.name) AND c.lastName = IFNULL(?, c.lastName) AND t.name = IFNULL(?, t.name) AND t.lastName = IFNULL(?, t.lastName) AND CAST(comments.registerDate AS DATE) = IFNULL(?, CAST(comments.registerDate AS DATE)) AND comments.active = IFNULL(?, comments.active)";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
@@ -75,9 +80,27 @@ public class CommentDaoImpl implements CommentDao {
 
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setInt(1, comment.getClientId());
-            statement.setInt(2, comment.getTrainerId());
-            statement.setString(3, comment.getComment());
+            if (comment.getClientId() != null) {
+                statement.setInt(1, comment.getClientId());
+            } else {
+                statement.setNull(1, Types.INTEGER);
+            }
+            if (comment.getTrainerId() != null) {
+                statement.setInt(2, comment.getTrainerId());
+            } else {
+                statement.setNull(2, Types.INTEGER);
+            }
+            if (comment.getComment() != null) {
+                statement.setString(3, comment.getComment());
+            } else {
+                statement.setNull(3, Types.VARCHAR);
+            }
+            if (comment.getActive() != null) {
+                statement.setBoolean(4, comment.getActive());;
+            } else {
+                statement.setNull(4, Types.BOOLEAN);
+            }
+            statement.setInt(5, comment.getId());
 
             isUpdated = statement.execute();
             logger.debug("Comment updated, new comment - {}", comment);
@@ -136,6 +159,55 @@ public class CommentDaoImpl implements CommentDao {
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_QUERY)) {
 
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Comment comment = getCommentFromResultSet(resultSet);
+                comments.add(comment);
+            }
+            logger.debug("FindAllActive comments - {}", comments);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public List<Comment> findAllByFilter(Comment filter) throws DaoException {
+        List<Comment> comments = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_FILTER_QUERY)) {
+            if (filter.getClientName() != null) {
+                statement.setString(1, filter.getClientName());
+            } else {
+                statement.setNull(1, Types.VARCHAR);
+            }
+            if (filter.getClientLastName() != null) {
+                statement.setString(2, filter.getClientLastName());
+            } else {
+                statement.setNull(2, Types.VARCHAR);
+            }
+            if (filter.getTrainerName() != null) {
+                statement.setString(3, filter.getTrainerName());
+            } else {
+                statement.setNull(3, Types.VARCHAR);
+            }
+            if (filter.getTrainerLastName() != null) {
+                statement.setString(4, filter.getTrainerLastName());
+            } else {
+                statement.setNull(4, Types.VARCHAR);
+            }
+            if (filter.getRegisterDate() != null) {
+                statement.setDate(5, Date.valueOf(filter.getRegisterDate().toLocalDate()));
+            } else {
+                statement.setNull(5, Types.DATE);
+            }
+            if (filter.getActive() != null) {
+                statement.setBoolean(6, filter.getActive());
+            } else {
+                statement.setNull(6, Types.INTEGER);
+            }
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {

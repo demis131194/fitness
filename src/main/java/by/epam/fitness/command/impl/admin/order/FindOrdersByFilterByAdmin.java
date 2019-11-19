@@ -16,8 +16,8 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.util.List;
 
-public class FindUsersByFilterByAdmin implements Command {
-    private static Logger logger = LogManager.getLogger(FindUsersByFilterByAdmin.class);
+public class FindOrdersByFilterByAdmin implements Command {
+    private static Logger logger = LogManager.getLogger(FindOrdersByFilterByAdmin.class);
 
     private OrderService orderService = OrderServiceImpl.getInstance();
 

@@ -21,6 +21,8 @@ public class AttributeName {
     public static final String ORDER = "order";
     public static final String ORDER_ID = "orderId";
 
+    public static final String COMMENT_ID = "commentId";
+
 
     public static final String COMMENTS = "comments";
     public static final String COMMENT = "comment";
@@ -48,6 +50,7 @@ public class AttributeName {
     public static final String EXERCISES = "exercises";
     public static final String NUTRITION = "nutrition";
     public static final String ACTIVE = "active";
+    public static final String REGISTER_DATE = "registerDate";
 
 
     private AttributeName() {}

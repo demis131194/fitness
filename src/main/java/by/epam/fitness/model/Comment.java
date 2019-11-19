@@ -12,7 +12,7 @@ public class Comment extends AbstractBaseEntity {
     private String trainerLastName;
     private LocalDateTime registerDate;
     private String comment;
-    private boolean active;
+    private Boolean active;
 
     public Integer getClientId() {
         return clientId;
@@ -78,11 +78,11 @@ public class Comment extends AbstractBaseEntity {
         this.comment = comment;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
