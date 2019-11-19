@@ -38,7 +38,6 @@ public class CreateOrderCommand implements Command {
             LocalDate endDate = startDate.plus(training.getDurationDay(), ChronoUnit.DAYS);
             BigDecimal price = training.getPrice().multiply(new BigDecimal(1d - 1d/discount), MathContext.DECIMAL32);
 
-
             Order order = new Order();
             order.setClientId(clientId);
             order.setTrainerId(trainerId);

@@ -27,6 +27,7 @@ public enum CommandType {
     SIGN_UP(new SignUpCommand()),
     FIND_ALL_COMMENTS(new FindAllCommentsCommand()),
     FIND_ORDER_BY_CLIENT(new FindOrderByClientCommand()),
+    DELETE_ORDER_BY_CLIENT(new DeleteOrderByClient()),
     FIND_ORDER_BY_TRAINER(new FindOrderByTrainerCommand()),
     FIND_ORDERS_BY_FILTER(new FindAllOrdersByFilterClientCommand()),
     CREATE_NEW_ORDER(new CreateOrderCommand()),

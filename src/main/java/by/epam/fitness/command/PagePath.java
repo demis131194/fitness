@@ -35,6 +35,7 @@ public class PagePath {
     public static final String CLIENT_ORDERS_PATH = "jsp/pages/client/account/orders.jsp";
     public static final String CLIENT_UPDATE_ORDER = "jsp/pages/client/account/update-order.jsp";
     public static final String CLIENT_CREATE_ORDER = "jsp/pages/client/account/new-order.jsp";
+    public static final String CLIENT_ORDER_DELETED_PATH = "jsp/pages/client/deleted-order.jsp";
     public static final String CLIENT_CREATE_COMMENT = "jsp/pages/client/account/new-comment.jsp";
     public static final String CLIENT_FIND_ORDER_PATH = "jsp/pages/client/account/order.jsp";
     public static final String CLIENT_ACCOUNT_PATH = "jsp/pages/client/account/profile.jsp";

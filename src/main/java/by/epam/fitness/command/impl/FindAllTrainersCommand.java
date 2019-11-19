@@ -1,5 +1,6 @@
 package by.epam.fitness.command.impl;
 
+import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
@@ -23,7 +24,7 @@ public class FindAllTrainersCommand implements Command {
         try {
             List<Trainer> trainers = orderService.findAll();
 
-            requestContent.putAttribute("trainers", trainers);
+            requestContent.putAttribute(AttributeName.TRAINERS, trainers);
 
         } catch (ServiceException e) {
             throw new CommandException(e);

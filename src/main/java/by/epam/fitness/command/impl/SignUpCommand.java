@@ -6,7 +6,6 @@ import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
-import by.epam.fitness.exception.ValidatorExcepton;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.ClientService;
 import by.epam.fitness.service.impl.user.ClientServiceImpl;
@@ -39,28 +38,30 @@ public class SignUpCommand implements Command {
         String phone = requestContent.getParameterByName(PARAM_PHONE);
 
         try {
+            if (Validator.checkLogin(login)
+                    && Validator.checkPassword(password, repeatedPassword)
+                    && Validator.checkName(name)
+                    && Validator.checkLastName(lastName)
+                    && Validator.checkPhone(phone)) {
 
-            Validator.checkLogin(login);
-            Validator.checkPassword(password, repeatedPassword);
-            Validator.checkName(name);
-            Validator.checkLastName(lastName);
-            Validator.checkPhone(phone);
+                Client client = new Client();
+                client.setLogin(login);
+                client.setPassword(password);
+                client.setName(name);
+                client.setLastName(lastName);
+                client.setPhone(phone);
 
-            Client client = new Client();
-            client.setLogin(login);
-            client.setPassword(password);
-            client.setName(name);
-            client.setLastName(lastName);
-            client.setPhone(phone);
+                clientService.create(client);
+                page = PagePath.CLIENT_CREATED;
+            } else {
+                page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
+                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrMessageKey.INCORRECT_INPUT_DATA);
+            }
 
-            clientService.create(client);
-            page = PagePath.CLIENT_CREATED;
+
         } catch (ServiceException e) {
+            page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
             requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrMessageKey.LOGIN_ALREADY_EXIST);
-            page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
-        } catch (ValidatorExcepton validatorExcepton) {
-            page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
-            requestContent.putAttribute(AttributeName.ERR_MESSAGE, validatorExcepton.getMessage());
         }
         return page;
     }

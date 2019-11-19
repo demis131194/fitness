@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="input-start-date">${formStartDate}</label>
-                                <input type="date" name="startDate" class="form-control" id="input-start-date">
+                                <input type="date" name="startDate" class="form-control create-order-form-date" id="input-start-date">
                             </div>
                             <div class="form-group">
                                 <label for="duration">${formDuration}</label>

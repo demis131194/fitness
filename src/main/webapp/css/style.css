@@ -149,6 +149,9 @@
 .create-order-form {
   padding-left: 20px;
 }
+.create-order-form-date {
+  max-width: 200px;
+}
 .create-order-form textarea {
   width: 600px;
   height: 200px;

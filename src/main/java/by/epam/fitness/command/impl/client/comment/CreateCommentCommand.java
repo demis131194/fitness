@@ -9,6 +9,7 @@ import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Comment;
 import by.epam.fitness.service.CommentService;
 import by.epam.fitness.service.impl.CommentServiceImpl;
+import by.epam.fitness.util.ErrMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +30,6 @@ public class CreateCommentCommand implements Command {
             comment.setClientId(clientId);
             comment.setTrainerId(trainerId);
             comment.setComment(clientComment);
-
 
             commentService.create(comment);
             page = PagePath.CLIENT_COMMENT_CREATED;

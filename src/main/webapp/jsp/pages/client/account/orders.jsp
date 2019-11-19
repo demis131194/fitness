@@ -19,6 +19,7 @@
 <fmt:message key="orders.accept" bundle="${rb}" var="accept"/>
 <fmt:message key="orders.detail" bundle="${rb}" var="detail"/>
 <fmt:message key="orders.update.order" bundle="${rb}" var="response"/>
+<fmt:message key="orders.delete" bundle="${rb}" var="delete"/>
 
 <fmt:message key="orders.filter.show.filter" bundle="${rb}" var="showFilter"/>
 <fmt:message key="orders.filter.trainer.name" bundle="${rb}" var="trainerName"/>
@@ -135,6 +136,9 @@
                                                         <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_CLIENT&orderId=${order.id}">${detail}</a>
                                                     </c:otherwise>
                                                 </c:choose>
+                                                <c:if test="${order.orderStatus.ordinal() <= 2}">
+                                                    <a href="${pageContext.request.contextPath}/controller?command=DELETE_ORDER_BY_CLIENT&orderId=${order.id}">${delete}</a>
+                                                </c:if>
                                             </td>
                                         </tr>
                                     </table>
