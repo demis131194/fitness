@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS clients;
 DROP TABLE IF EXISTS trainers;
 DROP TABLE IF EXISTS admins;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS cards;
 
 DROP EVENT IF EXISTS orders_change_status_1_event;
 DROP EVENT IF EXISTS orders_change_status_2_event;
@@ -100,6 +101,13 @@ CREATE TABLE comments
     PRIMARY KEY (id),
     FOREIGN KEY (clientId) REFERENCES clients (clientId) ON DELETE CASCADE,
     FOREIGN KEY (trainerId) REFERENCES trainers (trainerId) ON DELETE CASCADE
+);
+
+CREATE TABLE cards
+(
+  cardNumber        VARCHAR(20)     NOT NULL CHECK (cardNumber LIKE '________________'),
+  account           DECIMAL(12,2)   NOT NULL DEFAULT 0,
+  PRIMARY KEY (cardNumber)
 );
 
 CREATE EVENT orders_change_status_1_event

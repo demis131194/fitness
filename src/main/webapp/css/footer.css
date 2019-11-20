@@ -1,5 +1,5 @@
 .footer {
   background-color: #129ef4;
-  height: 70px;
+  min-height: 100px;
   vertical-align: center;
 }
