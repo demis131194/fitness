@@ -11,6 +11,7 @@ import by.epam.fitness.command.impl.admin.user.*;
 import by.epam.fitness.command.impl.client.ShowCreateCommentPageCommand;
 import by.epam.fitness.command.impl.client.ShowCreateOrderPageCommand;
 import by.epam.fitness.command.impl.client.ShowUpdatedOrderClientCommand;
+import by.epam.fitness.command.impl.client.cash.DepositByClientCommand;
 import by.epam.fitness.command.impl.client.comment.CreateCommentCommand;
 import by.epam.fitness.command.impl.client.order.*;
 import by.epam.fitness.command.impl.locale.LocaleCommand;
@@ -34,6 +35,7 @@ public enum CommandType {
     CREATE_NEW_COMMENT(new CreateCommentCommand()),
     SHOW_NEW_ORDER_PAGE(new ShowCreateOrderPageCommand()),
     CLIENT_SHOW_UPDATED_ORDER(new ShowUpdatedOrderClientCommand()),
+    DEPOSIT_BY_CLIENT(new DepositByClientCommand()),
     TRAINER_SHOW_UPDATED_ORDER(new ShowUpdatedOrderTrainerCommand()),
     SHOW_NEW_COMMENT_PAGE(new ShowCreateCommentPageCommand()),
     UPDATE_ORDER_BY_CLIENT(new UpdateOrderByClientCommand()),

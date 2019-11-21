@@ -10,7 +10,7 @@ public interface ClientDao {
 
     Client create(Client client) throws DaoException;
     boolean update(Client client) throws DaoException;
-    boolean updateCash(int clientId, BigDecimal depositedCash) throws DaoException;
+    boolean updateCash(int clientId, BigDecimal depositedCash, String card) throws DaoException;
     Client find(int clientId) throws DaoException;
     List<Client> findAllActive() throws DaoException;
     List<Client> findAll() throws DaoException;

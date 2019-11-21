@@ -53,7 +53,7 @@ public class ClientServiceImpl implements ClientService {
     public boolean updateCash(int clientId, BigDecimal depositedCash) throws ServiceException {
         boolean isUpdated;
         try {
-            isUpdated = clientDao.updateCash(clientId, depositedCash);
+            isUpdated = clientDao.updateCash(clientId, depositedCash, );
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

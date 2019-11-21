@@ -106,7 +106,7 @@ CREATE TABLE comments
 CREATE TABLE cards
 (
   cardNumber        VARCHAR(20)     NOT NULL CHECK (cardNumber LIKE '________________'),
-  account           DECIMAL(12,2)   NOT NULL DEFAULT 0,
+  account           DECIMAL(12,2)   NOT NULL DEFAULT 0 CHECK (account >= 0),
   PRIMARY KEY (cardNumber)
 );
 
@@ -214,3 +214,7 @@ INSERT INTO comments(clientId, trainerId, registerDate, comment)
 VALUES (4, 2, '2015-09-22 10:16:43', 'BEST!'),
        (6, 3, '2016-04-24 10:16:43', 'NORM!'),
        (7, 3, '2016-07-04 14:18:43', 'BAD!');
+
+INSERT INTO cards(cardNumber, account)
+VALUES ('1111222233334444', 1500.25),
+       ('5555666677778888', 200);

@@ -48,7 +48,7 @@
                             <input type="password" name="Password" class="form-control" id="input-password" placeholder="${passwordPlaceholder}">
                         </div>
                         <c:if test="${requestScope.errMessage != null}">
-                        <div class="alert alert-danger ">
+                        <div class="alert alert-danger">
                             <span><fmt:message key="${requestScope.errMessage}" bundle="${err_rb}"/></span>
                         </div>
                         </c:if>

@@ -40,7 +40,7 @@
                 <li><a href="${pageContext.request.contextPath}/controller?command=find_all_orders_by_client">${orders}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=show_new_order_page">${newOrder}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=show_new_comment_page">${createComment}</a></li>
-                <li><a href="#">${deposit}</a></li>
+                <li><a href="${pageContext.request.contextPath}/jsp/pages/client/account/deposit.jsp">${deposit}</a></li>
             </c:when>
         </c:choose>
     </ul>
