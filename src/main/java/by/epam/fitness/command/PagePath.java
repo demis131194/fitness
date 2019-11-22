@@ -30,6 +30,11 @@ public class PagePath {
     public static final String TRAINER_UPDATE_ORDER = "jsp/pages/trainer/account/update-order.jsp";
     public static final String TRAINER_FIND_ORDER_PATH = "jsp/pages/trainer/account/order.jsp";
     public static final String TRAINER_ORDER_UPDATED = "jsp/pages/trainer/order-updated.jsp";
+    public static final String TRAINER_EDIT_PASSWORD_PATH = "jsp/pages/trainer/account/password-edit.jsp";
+    public static final String TRAINER_SUCCESS_CHANGE_PASSWORD_PATH = "jsp/pages/trainer/password-success.jsp";
+    public static final String TRAINER_PROFILE_PATH = "jsp/pages/trainer/account/profile.jsp";
+    public static final String TRAINER_PROFILE_EDIT_PATH = "jsp/pages/trainer/account/profile-edit.jsp";
+
 
 
     public static final String CLIENT_ORDERS_PATH = "jsp/pages/client/account/orders.jsp";
@@ -58,6 +63,7 @@ public class PagePath {
 
     public static final String CLIENT_CREATED = "jsp/pages/client-created.jsp";
     public static final String COMMENTS_PATH = "jsp/pages/comments.jsp";
+
 
 
     private PagePath(){}

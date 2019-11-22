@@ -13,7 +13,9 @@ import by.epam.fitness.command.impl.client.cash.DepositByClientCommand;
 import by.epam.fitness.command.impl.client.comment.CreateCommentCommand;
 import by.epam.fitness.command.impl.client.order.*;
 import by.epam.fitness.command.impl.locale.LocaleCommand;
+import by.epam.fitness.command.impl.trainer.EditPasswordByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.ShowUpdatedOrderTrainerCommand;
+import by.epam.fitness.command.impl.trainer.UpdateProfileByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.order.FindAllOrdersByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.order.FindOrderByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.order.UpdateOrderByTrainerCommand;
@@ -59,6 +61,8 @@ public enum CommandType {
     RESTORE_COMMENT_BY_ADMIN(new RestoreCommentByAdmin()),
     FIND_COMMENTS_BY_FILTER_BY_ADMIN(new FindCommentsByFilterByAdmin()),
     EDIT_PASSWORD_BY_CLIENT(new EditPasswordByClientCommand()),
+    EDIT_PASSWORD_BY_TRAINER(new EditPasswordByTrainerCommand()),
+    EDIT_PROFILE_BY_TRAINER(new UpdateProfileByTrainerCommand()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandType(Command command) {

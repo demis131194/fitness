@@ -10,6 +10,8 @@
 <fmt:message key="account.profile.name" bundle="${rb}" var="name"/>
 <fmt:message key="account.profile.last.name" bundle="${rb}" var="lastName"/>
 <fmt:message key="account.profile.reg.date" bundle="${rb}" var="registrDate"/>
+<fmt:message key="account.profile.edit.button" bundle="${rb}" var="editProfile"/>
+<fmt:message key="account.profile.change.password" bundle="${rb}" var="changePassword"/>
 <fmt:message key="phone" bundle="${rb}" var="phone"/>
 
 <html>
@@ -58,6 +60,8 @@
                                 <td class="profile-table-td-value">${sessionScope.userPhone}</td>
                             </tr>
                         </table>
+                        <a href="${pageContext.request.contextPath}/jsp/pages/trainer/account/profile-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${editProfile}</a>
+                        <a href="${pageContext.request.contextPath}/jsp/pages/trainer/account/password-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${changePassword}</a>
                     </div>
                 </div>
             </div>
