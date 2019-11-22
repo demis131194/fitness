@@ -14,6 +14,7 @@
 <fmt:message key="account.profile.phone" bundle="${rb}" var="phone"/>
 <fmt:message key="account.profile.cash" bundle="${rb}" var="cash"/>
 <fmt:message key="account.profile.edit.button" bundle="${rb}" var="editProfile"/>
+<fmt:message key="account.profile.change.password" bundle="${rb}" var="changePassword"/>
 
 <html>
 <head>
@@ -69,7 +70,8 @@
                                 <td class="profile-table-td-value">${sessionScope.userCash}</td>
                             </tr>
                         </table>
-                        <a href="#" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${editProfile}</a>
+                        <a href="${pageContext.request.contextPath}/jsp/pages/client/account/profile-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${editProfile}</a>
+                        <a href="${pageContext.request.contextPath}/jsp/pages/client/account/password-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${changePassword}</a>
                     </div>
                 </div>
             </div>

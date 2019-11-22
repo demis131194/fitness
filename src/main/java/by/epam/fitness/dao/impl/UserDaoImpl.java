@@ -16,8 +16,9 @@ import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDao {
     private static Logger logger = LogManager.getLogger(TrainerDaiImpl.class);
-    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, role FROM users WHERE login = ? AND password = ? AND active = true";
-    private static final String UPDATE_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE id = ?";
+    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, password, role FROM users WHERE login = ? AND password = ? AND active = true";
+    private static final String FIND_QUERY = "SELECT id, login, password, role FROM users WHERE id = ? AND active = true";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET password = IFNULL(?, password) WHERE id = ?";
     private static final String DELETE_QUERY = "UPDATE users SET active = false WHERE id = ?";
     private static final String RESTORE_QUERY = "UPDATE users SET active = true WHERE id = ?";
 
@@ -28,6 +29,24 @@ public class UserDaoImpl implements UserDao {
 
     public static UserDao getInstance() {
         return userDao;
+    }
+
+    @Override
+    public User find(int userId) throws DaoException {
+        User user = null;
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_QUERY)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.first()) {
+                user = getUserFromResultSet(resultSet);
+                logger.debug("Find user by id - {}", user);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return user;
     }
 
     @Override
@@ -53,19 +72,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updatePassword(int userId, String password) throws DaoException {
+    public boolean updateUser(User user) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_PASSWORD_QUERY)) {
-            statement.setString(1, password);
-            statement.setInt(2, userId);
+             PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY)) {
+            statement.setString(1, user.getPassword());
+            statement.setInt(2, user.getId());
 
-            isUpdated = statement.execute();
+            isUpdated = statement.executeUpdate() == 1;
 
             if (isUpdated) {
-                logger.debug("Password updated for user id - {}", userId);
+                logger.debug("Password updated for user id - {}", user.getId());
             } else {
-                logger.debug("Can't update password for user id - {}", userId);
+                logger.debug("Can't update password for user id - {}", user.getId());
             }
 
         } catch (SQLException e) {
@@ -119,6 +138,8 @@ public class UserDaoImpl implements UserDao {
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt(TableColumnName.USERS_ID));
+        user.setLogin(resultSet.getString(TableColumnName.USERS_LOGIN));
+        user.setPassword(resultSet.getString(TableColumnName.USERS_PASSWORD));
         user.setRole(UserRole.valueOf(resultSet.getString(TableColumnName.USERS_ROLE).toUpperCase()));
         return user;
     }

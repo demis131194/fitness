@@ -8,9 +8,7 @@ import by.epam.fitness.command.impl.admin.comment.FindCommentsByFilterByAdmin;
 import by.epam.fitness.command.impl.admin.comment.RestoreCommentByAdmin;
 import by.epam.fitness.command.impl.admin.order.*;
 import by.epam.fitness.command.impl.admin.user.*;
-import by.epam.fitness.command.impl.client.ShowCreateCommentPageCommand;
-import by.epam.fitness.command.impl.client.ShowCreateOrderPageCommand;
-import by.epam.fitness.command.impl.client.ShowUpdatedOrderClientCommand;
+import by.epam.fitness.command.impl.client.*;
 import by.epam.fitness.command.impl.client.cash.DepositByClientCommand;
 import by.epam.fitness.command.impl.client.comment.CreateCommentCommand;
 import by.epam.fitness.command.impl.client.order.*;
@@ -34,6 +32,7 @@ public enum CommandType {
     CREATE_NEW_ORDER(new CreateOrderCommand()),
     CREATE_NEW_COMMENT(new CreateCommentCommand()),
     SHOW_NEW_ORDER_PAGE(new ShowCreateOrderPageCommand()),
+    EDIT_PROFILE_BY_CLIENT(new UpdateProfileByClientCommand()),
     CLIENT_SHOW_UPDATED_ORDER(new ShowUpdatedOrderClientCommand()),
     DEPOSIT_BY_CLIENT(new DepositByClientCommand()),
     TRAINER_SHOW_UPDATED_ORDER(new ShowUpdatedOrderTrainerCommand()),
@@ -59,6 +58,7 @@ public enum CommandType {
     DELETE_COMMENT_BY_ADMIN(new DeleteCommentByAdmin()),
     RESTORE_COMMENT_BY_ADMIN(new RestoreCommentByAdmin()),
     FIND_COMMENTS_BY_FILTER_BY_ADMIN(new FindCommentsByFilterByAdmin()),
+    EDIT_PASSWORD_BY_CLIENT(new EditPasswordByClientCommand()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandType(Command command) {

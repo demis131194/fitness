@@ -25,6 +25,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User find(int userId) throws ServiceException {
+        User user;
+        try {
+            user = userDao.find(userId);
+        } catch (DaoException e) {
+            logger.warn(e);
+            throw new ServiceException(e);
+        }
+        return user;
+    }
+
+    @Override
     public User findByLoginAndPassword(String login, String password) throws ServiceException {
         User user;
         try {
@@ -38,11 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updatePassword(int userId, String password) throws ServiceException {
+    public boolean updateUser(User user) throws ServiceException {
         boolean isUpdated;
         try {
-            String encodedPassword = PasswordEncoder.encode(password);
-            isUpdated = userDao.updatePassword(userId, encodedPassword);
+            user.setPassword(PasswordEncoder.encode(user.getPassword()));
+            isUpdated = userDao.updateUser(user);
         } catch (DaoException e) {
             logger.warn(e);
             throw new ServiceException(e);

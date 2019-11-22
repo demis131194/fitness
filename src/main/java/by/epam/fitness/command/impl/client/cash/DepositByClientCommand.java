@@ -26,7 +26,7 @@ public class DepositByClientCommand implements Command {
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {
         String page;
-        boolean validParameters = true;
+        boolean isValidParameters = true;
         try {
             int clientId = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID);
             String cashAmount = requestContent.getParameterByName(AttributeName.CASH_AMOUNT).strip();
@@ -34,20 +34,20 @@ public class DepositByClientCommand implements Command {
 
             if (!Validator.checkCardNumber(cardNumber)) {
                 requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INCORRECT_CARD_NUMBER);
-                validParameters = false;
+                isValidParameters = false;
             }
-            if (!Validator.checkCashAmount(cashAmount) && validParameters) {
+            if (!Validator.checkCashAmount(cashAmount) && isValidParameters) {
                 requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INCORRECT_CASH_AMOUNT);
-                validParameters = false;
+                isValidParameters = false;
             }
 
-            if (validParameters) {
+            if (isValidParameters) {
                 BigDecimal cash = new BigDecimal(requestContent.getParameterByName(AttributeName.CASH_AMOUNT), MathContext.DECIMAL32);
 
                 Card card = new Card();
                 card.setCardNumber(cardNumber);
 
-                boolean isUpdated =  clientService.depositCash(clientId, cash, card);
+                boolean isUpdated = clientService.depositCash(clientId, cash, card);
                 if (isUpdated) {
                     requestContent.putAttribute(AttributeName.CASH_AMOUNT, cash.doubleValue());
                     Client client = clientService.find(clientId);

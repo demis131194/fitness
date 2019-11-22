@@ -38,12 +38,17 @@ public class PagePath {
     public static final String CLIENT_ORDER_DELETED_PATH = "jsp/pages/client/deleted-order.jsp";
     public static final String CLIENT_CREATE_COMMENT = "jsp/pages/client/account/new-comment.jsp";
     public static final String CLIENT_FIND_ORDER_PATH = "jsp/pages/client/account/order.jsp";
-    public static final String CLIENT_ACCOUNT_PATH = "jsp/pages/client/account/profile.jsp";
+    public static final String CLIENT_PROFILE_PATH = "jsp/pages/client/account/profile.jsp";
+    public static final String CLIENT_PROFILE_EDIT_PATH = "jsp/pages/client/account/profile-edit.jsp";
     public static final String CLIENT_ORDER_CREATED = "jsp/pages/client/order-created.jsp";
     public static final String CLIENT_ORDER_UPDATED = "jsp/pages/client/order-updated.jsp";
     public static final String CLIENT_COMMENT_CREATED = "jsp/pages/client/comment-created.jsp";
     public static final String CLIENT_DEPOSIT_PATH = "jsp/pages/client/account/deposit.jsp";
     public static final String CLIENT_DEPOSIT_SUCCESS_PATH = "jsp/pages/client/deposit-success.jsp";
+    public static final String CLIENT_EDIT_PASSWORD_PATH = "jsp/pages/client/account/password-edit.jsp";
+    public static final String CLIENT_SUCCESS_CHANGE_PASSWORD_PATH = "jsp/pages/client/password-success.jsp";
+
+
 
 
 
