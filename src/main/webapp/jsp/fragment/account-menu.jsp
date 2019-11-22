@@ -13,6 +13,7 @@
 <fmt:message key="account.menu.users" bundle="${rb}" var="users"/>
 <fmt:message key="account.menu.create.trainer" bundle="${rb}" var="createTrainer"/>
 <fmt:message key="account.menu.comments" bundle="${rb}" var="comments"/>
+<fmt:message key="account.menu.clients" bundle="${rb}" var="clients"/>
 
 <html>
 <head>
@@ -34,6 +35,7 @@
             <c:when test="${sessionScope.userRole == 'TRAINER'}">
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/trainer/account/profile.jsp">${profile}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=find_all_orders_by_trainer">${orders}</a></li>
+                <li><a href="#">${clients}</a></li>
             </c:when>
             <c:when test="${sessionScope.userRole == 'CLIENT'}">
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/client/account/profile.jsp">${profile}</a></li>

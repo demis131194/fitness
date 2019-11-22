@@ -4,6 +4,7 @@
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
+<fmt:setBundle basename="bundle/err" var="err_rb"/>
 <c:set var="authorization" value="${sessionScope.authorization}"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="account.order.title" bundle="${rb}" var="title"/>
@@ -118,6 +119,11 @@
                                     <label class="form-check-label" for="status-reject">${statusReject}</label>
                                 </div>
                             </div>
+                            <c:if test="${requestScope.errMessage != null}">
+                                <div class="alert alert-danger">
+                                    <span><fmt:message key="${requestScope.errMessage}" bundle="${err_rb}"/></span>
+                                </div>
+                            </c:if>
                             <button type="submit" class="btn btn-primary">${formSubmit}</button>
                         </form>
                     </div>

@@ -167,13 +167,14 @@ public class ClientDaoImpl implements ClientDao {
             try {
                 connection.setAutoCommit(false);
 
-                updateCardStatement.setBigDecimal(1, cash);
-                updateCardStatement.setString(2, card.getCardNumber());
-                isUpdated = updateCardStatement.executeUpdate() == 1;
-
                 updateClientStatement.setBigDecimal(1, cash.negate());
                 updateClientStatement.setInt(2, clientId);
-                isUpdated &= updateClientStatement.executeUpdate() == 1;
+                isUpdated = updateClientStatement.executeUpdate() == 1;
+
+                updateCardStatement.setBigDecimal(1, cash);
+                updateCardStatement.setString(2, card.getCardNumber());
+                isUpdated &= updateCardStatement.executeUpdate() == 1;
+
 
                 if (!isUpdated) {
                     connection.rollback();

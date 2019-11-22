@@ -23,6 +23,7 @@ public class ErrorMessageKey {
     public static final String INVALID_USER_NAME = "invalid.user.name";
     public static final String INVALID_USER_LAST_NAME = "invalid.user.last.name";
     public static final String INVALID_USER_PHONE = "invalid.user.phone";
+    public static final String ACCOUNT_NOT_ENOUGH_AMOUNT = "account.not.enough.amount";
 
     private ErrorMessageKey() {}
 }
