@@ -13,6 +13,7 @@
 <fmt:message key="account.profile.discount" bundle="${rb}" var="discount"/>
 <fmt:message key="account.profile.phone" bundle="${rb}" var="phone"/>
 <fmt:message key="account.profile.cash" bundle="${rb}" var="cash"/>
+<fmt:message key="account.profile.edit.button" bundle="${rb}" var="editProfile"/>
 
 <html>
 <head>
@@ -68,6 +69,7 @@
                                 <td class="profile-table-td-value">${sessionScope.userCash}</td>
                             </tr>
                         </table>
+                        <a href="#" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${editProfile}</a>
                     </div>
                 </div>
             </div>

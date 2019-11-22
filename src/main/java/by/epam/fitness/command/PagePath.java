@@ -42,6 +42,9 @@ public class PagePath {
     public static final String CLIENT_ORDER_CREATED = "jsp/pages/client/order-created.jsp";
     public static final String CLIENT_ORDER_UPDATED = "jsp/pages/client/order-updated.jsp";
     public static final String CLIENT_COMMENT_CREATED = "jsp/pages/client/comment-created.jsp";
+    public static final String CLIENT_DEPOSIT_PATH = "jsp/pages/client/account/deposit.jsp";
+    public static final String CLIENT_DEPOSIT_SUCCESS_PATH = "jsp/pages/client/deposit-success.jsp";
+
 
 
     public static final String ERROR_PATH = "jsp/pages/err/error.jsp";

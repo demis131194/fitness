@@ -4,6 +4,7 @@ import by.epam.fitness.dao.ClientDao;
 import by.epam.fitness.dao.impl.ClientDaoImpl;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.exception.ServiceException;
+import by.epam.fitness.model.Card;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.ClientService;
 import by.epam.fitness.util.PasswordEncoder;
@@ -50,10 +51,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean updateCash(int clientId, BigDecimal depositedCash) throws ServiceException {
+    public boolean depositCash(int clientId, BigDecimal depositedCash, Card card) throws ServiceException {
         boolean isUpdated;
         try {
-            isUpdated = clientDao.updateCash(clientId, depositedCash, );
+            isUpdated = clientDao.depositCash(clientId, depositedCash, card);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean withdrawCash(int clientId, BigDecimal depositedCash, Card card) throws ServiceException {
+        boolean isUpdated;
+        try {
+            isUpdated = clientDao.withdrawCash(clientId, depositedCash, card);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

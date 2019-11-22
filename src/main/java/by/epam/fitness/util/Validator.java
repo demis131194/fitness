@@ -5,7 +5,8 @@ public class Validator {
     private static final String PASSWORD_REGEX = "^[\\w_]{5,18}$";
     private static final String NAME_LAST_NAME_REGEX = "^[\\p{IsAlphabetic}\\-]{3,20}$";
     private static final String PHONE_REGEX = "^\\+?\\d{7,20}$";
-    private static final String MONEY_VALUE_REGEX = "^\\d{1,4}(\\.\\d{2})?$";
+    private static final String CARD_NUMBER_REGEX = "^\\d{16}$";
+    private static final String CASH_AMOUNT_REGEX = "^\\d{1,4}(\\.\\d{2})?$";
 
     private Validator(){}
 
@@ -33,7 +34,11 @@ public class Validator {
         return phone == null || phone.matches(PHONE_REGEX);
     }
 
-    public static boolean checkMoneyValue(String moneyValue) {
-        return moneyValue.matches(MONEY_VALUE_REGEX);
+    public static boolean checkCardNumber(String cardNumber) {
+        return cardNumber.matches(CARD_NUMBER_REGEX);
+    }
+
+    public static boolean checkCashAmount(String cashAmount) {
+        return cashAmount.matches(CASH_AMOUNT_REGEX);
     }
 }

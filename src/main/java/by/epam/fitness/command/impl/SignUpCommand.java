@@ -9,7 +9,7 @@ import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.ClientService;
 import by.epam.fitness.service.impl.user.ClientServiceImpl;
-import by.epam.fitness.util.ErrMessageKey;
+import by.epam.fitness.util.ErrorMessageKey;
 import by.epam.fitness.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,13 +55,13 @@ public class SignUpCommand implements Command {
                 page = PagePath.CLIENT_CREATED;
             } else {
                 page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
-                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrMessageKey.INCORRECT_INPUT_DATA);
+                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INCORRECT_INPUT_DATA);
             }
 
 
         } catch (ServiceException e) {
             page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
-            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrMessageKey.LOGIN_ALREADY_EXIST);
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.LOGIN_ALREADY_EXIST);
         }
         return page;
     }

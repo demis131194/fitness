@@ -51,6 +51,8 @@ public class AttributeName {
     public static final String NUTRITION = "nutrition";
     public static final String ACTIVE = "active";
     public static final String REGISTER_DATE = "registerDate";
+    public static final String CARD_NUMBER = "cardNumber";
+    public static final String CASH_AMOUNT = "cashAmount";
 
 
     private AttributeName() {}

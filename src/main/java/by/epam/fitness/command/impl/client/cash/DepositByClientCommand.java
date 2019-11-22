@@ -6,8 +6,12 @@ import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
+import by.epam.fitness.model.Card;
+import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.ClientService;
 import by.epam.fitness.service.impl.user.ClientServiceImpl;
+import by.epam.fitness.util.ErrorMessageKey;
+import by.epam.fitness.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,39 +21,52 @@ import java.math.MathContext;
 public class DepositByClientCommand implements Command {
     private static Logger logger = LogManager.getLogger(DepositByClientCommand.class);
 
-    private ClientService orderService = ClientServiceImpl.getInstance();
+    private ClientService clientService = ClientServiceImpl.getInstance();
 
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {
         String page;
-//        try {
-//            int clientId = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID);
-//            int discount = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_DISCOUNT);
-//            int trainerId = Integer.parseInt(requestContent.getParameterByName(AttributeName.TRAINER_ID));
-//            String clientComment = requestContent.getParameterByName(AttributeName.COMMENT);
-//            String date = requestContent.getParameterByName(AttributeName.START_DATE);
-//            LocalDate startDate = LocalDate.parse(date);
-//            String duration = requestContent.getParameterByName(AttributeName.DURATION);
-//            TrainingDuration training = TrainingDuration.values()[Integer.parseInt(duration)];
-//            LocalDate endDate = startDate.plus(training.getDurationDay(), ChronoUnit.DAYS);
-//            BigDecimal price = training.getPrice().multiply(new BigDecimal(1d - 1d/discount), MathContext.DECIMAL32);
-//
-//            Order order = new Order();
-//            order.setClientId(clientId);
-//            order.setTrainerId(trainerId);
-//            order.setClientComment(clientComment);
-//            order.setStartDate(startDate);
-//            order.setEndDate(endDate);
-//            order.setPrice(price);
-//
-//            orderService.create(order);
-//            page = PagePath.CLIENT_ORDER_CREATED;
-//
-//        } catch (ServiceException e) {
-//            throw new CommandException(e);
-//        }
+        boolean validParameters = true;
+        try {
+            int clientId = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID);
+            String cashAmount = requestContent.getParameterByName(AttributeName.CASH_AMOUNT).strip();
+            String cardNumber = requestContent.getParameterByName(AttributeName.CARD_NUMBER).strip();
 
-//        return page;
-        return null;
+            if (!Validator.checkCardNumber(cardNumber)) {
+                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INCORRECT_CARD_NUMBER);
+                validParameters = false;
+            }
+            if (!Validator.checkCashAmount(cashAmount) && validParameters) {
+                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INCORRECT_CASH_AMOUNT);
+                validParameters = false;
+            }
+
+            if (validParameters) {
+                BigDecimal cash = new BigDecimal(requestContent.getParameterByName(AttributeName.CASH_AMOUNT), MathContext.DECIMAL32);
+
+                Card card = new Card();
+                card.setCardNumber(cardNumber);
+
+                boolean isUpdated =  clientService.depositCash(clientId, cash, card);
+                if (isUpdated) {
+                    requestContent.putAttribute(AttributeName.CASH_AMOUNT, cash.doubleValue());
+                    Client client = clientService.find(clientId);
+                    requestContent.putSessionAttribute(AttributeName.USER_CASH, client.getCash());
+                    page = PagePath.CLIENT_DEPOSIT_SUCCESS_PATH;
+                } else {
+                    requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.CARD_NOT_EXISTS);
+                    page = PagePath.CLIENT_DEPOSIT_PATH;
+                }
+
+            } else {
+                page = PagePath.CLIENT_DEPOSIT_PATH;
+            }
+
+        } catch (ServiceException e) {
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.CARD_NOT_ENOUGH_AMOUNT);
+            page = PagePath.CLIENT_DEPOSIT_PATH;
+        }
+
+        return page;
     }
 }

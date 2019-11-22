@@ -11,8 +11,7 @@
 <fmt:message key="create.deposit.form.title" bundle="${rb}" var="formTitle"/>
 <fmt:message key="deposit.form.card.name" bundle="${rb}" var="formCard"/>
 <fmt:message key="deposit.form.cash.amount" bundle="${rb}" var="formAmount"/>
-<fmt:message key="create.comment.form.placeholder.comment" bundle="${rb}" var="formPlaceholderComment"/>
-<fmt:message key="create.comment.form.submit" bundle="${rb}" var="formSubmit"/>
+<fmt:message key="create.deposit.form.submit" bundle="${rb}" var="formSubmit"/>
 
 
 <html>
@@ -43,20 +42,21 @@
                             <input type="hidden" name="command" value="deposit_by_client">
                             <div class="form-group row">
                                 <label for="inputCardNumber" class="col-form-label col-lg-2">${formCard}</label>
-                                <div>
-                                    <input type="number" id="inputCardNumber" name="cardNumber" class="col-lg-9">
+                                <div class="col-lg-3">
+                                    <input type="text" id="inputCardNumber" name="cardNumber" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputAmount" class="col-form-label col-lg-2">${formAmount}</label>
-                                <div>
-                                    <input type="number" id="inputAmount" name="cashAmount" class="col-lg-9">
+                                <div class="col-lg-3">
+                                    <input type="number" id="inputAmount" name="cashAmount" class="form-control" step=".01">
                                 </div>
                             </div>
-                            <div>
-                                <div class="alert alert-danger">
+                            <c:if test="${requestScope.errMessage != null}">
+                                <div class="alert alert-danger col-lg-7">
                                     <span><fmt:message key="${requestScope.errMessage}" bundle="${err_rb}"/></span>
                                 </div>
+                            </c:if>
                             </div>
                             <button type="submit" class="btn btn-primary">${formSubmit}</button>
                         </form>

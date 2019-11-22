@@ -1,6 +1,6 @@
 package by.epam.fitness.util;
 
-public class ErrMessageKey {
+public class ErrorMessageKey {
     public static final String INVALID_LOGIN_OR_PASSWORD = "invalid.login.or.password";
     public static final String WRONG_LOGIN_OR_PASSWORD = "wrong.login.or.password";
     public static final String INVALID_LOGIN = "invalid.login";
@@ -13,6 +13,10 @@ public class ErrMessageKey {
     public static final String LOGIN_ALREADY_EXIST = "login.already.exist";
     public static final String INVALID_LENGTH_OF_PASSWORD = "invalid.length.password";
     public static final String INCORRECT_INPUT_DATA = "incorrect.input.data";
+    public static final String INCORRECT_CASH_AMOUNT = "incorrect.cash.amount";
+    public static final String INCORRECT_CARD_NUMBER = "incorrect.card.number";
+    public static final String CARD_NOT_EXISTS = "card.not.exists";
+    public static final String CARD_NOT_ENOUGH_AMOUNT = "card.not.enough.amount";
 
-    private ErrMessageKey() {}
+    private ErrorMessageKey() {}
 }

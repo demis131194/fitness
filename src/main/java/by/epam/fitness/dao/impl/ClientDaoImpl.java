@@ -3,6 +3,7 @@ package by.epam.fitness.dao.impl;
 import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.dao.ClientDao;
 import by.epam.fitness.exception.DaoException;
+import by.epam.fitness.model.Card;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.model.user.UserRole;
 import by.epam.fitness.pool.ConnectionPool;
@@ -14,7 +15,6 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ClientDaoImpl implements ClientDao {
     private static Logger logger = LogManager.getLogger(ClientDaoImpl.class);
@@ -23,8 +23,7 @@ public class ClientDaoImpl implements ClientDao {
     private static final String INSERT_CLIENTS_QUERY = "INSERT INTO clients (clientId, name, lastName, phone) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE clients SET name = IFNULL(?, name), lastName = IFNULL(?, lastName), phone = IFNULL(?, phone), discount = IFNULL(?, discount), discountLevel = IFNULL(?, discountLevel) WHERE clientId = ?";
     private static final String UPDATE_CLIENT_CASH_QUERY = "UPDATE clients SET cash = cash + ? WHERE clientId = ?";
-    private static final String FIND_CARD_QUERY = "SELECT cards.account FROM cards WHERE cardNumber = ?";
-    private static final String UPDATE_CARD_QUERY = "SELECT cards.account FROM cards WHERE cardNumber = ?";
+    private static final String UPDATE_CARD_QUERY = "UPDATE cards SET account = account + ? WHERE cardNumber = ?";
     private static final String FIND_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE clientId = ?";
     private static final String FIND_ALL_ACTIVE_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE active = true";
     private static final String FIND_ALL_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients";
@@ -123,48 +122,74 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public boolean updateCash(int clientId, BigDecimal cash, String card) throws DaoException {
-        boolean isUpdated = false;
-        //TODO
-//        try (Connection connection = ConnectionPool.getInstance().takeConnection();
-//             PreparedStatement cardAmountStatement = connection.prepareStatement(FIND_CARD_QUERY);
-//             PreparedStatement updateCardStatement = connection.prepareStatement(UPDATE_CARD_QUERY);
-//             PreparedStatement clientStatement = connection.prepareStatement(UPDATE_CLIENT_CASH_QUERY)) {
-//
-//            try {
-//                connection.setAutoCommit(false);
-//
-//                cardAmountStatement.setString(1, card);
-//
-//                ResultSet resultSet = cardAmountStatement.executeQuery();
-//
-//                if (resultSet.first()) {
-//                    BigDecimal cardAmount = resultSet.getBigDecimal(1);
-//
-//                }
-//
-//                cardAmountStatement.setBigDecimal(1, Objects.requireNonNull(cash));
-//                cardAmountStatement.setInt(2, clientId);
-//
-//                if (client.getPhone() != null) {
-//                    clientStatement.setString(4, client.getPhone());
-//                } else {
-//                    clientStatement.setNull(4, Types.NULL);
-//                }
-//
-//                clientStatement.execute();
-//
-//                connection.commit();
-//                logger.debug("Client cash updated, value = {}", client);
-//            } catch (SQLException e) {
-//                connection.rollback();
-//                throw new SQLException(e);
-//            } finally {
-//                connection.setAutoCommit(true);
-//            }
-//        } catch (SQLException e) {
-//            throw new DaoException(e);
-//        }
+    public boolean depositCash(int clientId, BigDecimal cash, Card card) throws DaoException {
+        boolean isUpdated;
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement updateCardStatement = connection.prepareStatement(UPDATE_CARD_QUERY);
+             PreparedStatement updateClientStatement = connection.prepareStatement(UPDATE_CLIENT_CASH_QUERY)) {
+
+            try {
+                connection.setAutoCommit(false);
+
+                updateCardStatement.setBigDecimal(1, cash.negate());
+                updateCardStatement.setString(2, card.getCardNumber());
+                isUpdated = updateCardStatement.executeUpdate() == 1;
+
+                updateClientStatement.setBigDecimal(1, cash);
+                updateClientStatement.setInt(2, clientId);
+                isUpdated &= updateClientStatement.executeUpdate() == 1;
+
+                if (!isUpdated) {
+                    connection.rollback();
+                }
+
+                connection.commit();
+                logger.debug("Client cash updated, deposit sum - {}", cash.doubleValue());
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new SQLException(e);
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean withdrawCash(int clientId, BigDecimal cash, Card card) throws DaoException {
+        boolean isUpdated;
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement updateCardStatement = connection.prepareStatement(UPDATE_CARD_QUERY);
+             PreparedStatement updateClientStatement = connection.prepareStatement(UPDATE_CLIENT_CASH_QUERY)) {
+
+            try {
+                connection.setAutoCommit(false);
+
+                updateCardStatement.setBigDecimal(1, cash);
+                updateCardStatement.setString(2, card.getCardNumber());
+                isUpdated = updateCardStatement.executeUpdate() == 1;
+
+                updateClientStatement.setBigDecimal(1, cash.negate());
+                updateClientStatement.setInt(2, clientId);
+                isUpdated &= updateClientStatement.executeUpdate() == 1;
+
+                if (!isUpdated) {
+                    connection.rollback();
+                }
+
+                connection.commit();
+                logger.debug("Client cash updated, deposit sum - {}", cash.doubleValue());
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new SQLException(e);
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
         return isUpdated;
     }
 

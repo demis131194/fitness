@@ -18,7 +18,7 @@ import by.epam.fitness.service.impl.user.AdminServiceImpl;
 import by.epam.fitness.service.impl.user.ClientServiceImpl;
 import by.epam.fitness.service.impl.user.TrainerServiceImpl;
 import by.epam.fitness.service.impl.user.UserServiceImpl;
-import by.epam.fitness.util.ErrMessageKey;
+import by.epam.fitness.util.ErrorMessageKey;
 import by.epam.fitness.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -82,11 +82,11 @@ public class LoginCommand implements Command {
                     requestContent.putSessionAttribute(AttributeName.USER_AUTHORIZATION, true);
                 } else {
                     page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
-                    requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrMessageKey.WRONG_LOGIN_OR_PASSWORD);
+                    requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.WRONG_LOGIN_OR_PASSWORD);
                 }
 
             } else {
-                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrMessageKey.INVALID_LOGIN_OR_PASSWORD);
+                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_LOGIN_OR_PASSWORD);
                 page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
             }
 
