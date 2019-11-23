@@ -5,6 +5,8 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
 <c:set var="authorization" value="${sessionScope.authorization}"/>
+<fmt:message key="account.profile.edit.button" bundle="${rb}" var="editProfile"/>
+<fmt:message key="account.profile.change.password" bundle="${rb}" var="changePassword"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="account.profile.title" bundle="${rb}" var="title"/>
 <fmt:message key="account.profile.name" bundle="${rb}" var="name"/>
@@ -43,6 +45,8 @@
                                 <td class="profile-table-td-value">${sessionScope.userLastName}</td>
                             </tr>
                         </table>
+                        <a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${editProfile}</a>
+                        <a href="${pageContext.request.contextPath}/jsp/pages/admin/account/password-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${changePassword}</a>
                     </div>
                 </div>
             </div>

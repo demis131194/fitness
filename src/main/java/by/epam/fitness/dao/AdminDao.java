@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AdminDao {
 
-    boolean updateAdmin(Admin admin) throws DaoException;
+    boolean update(Admin admin) throws DaoException;
     boolean updateAdminPassword(int adminId, String password) throws DaoException;
     Admin find(int adminId) throws DaoException;
     List<Admin> findAll() throws DaoException;

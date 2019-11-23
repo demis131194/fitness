@@ -21,6 +21,11 @@ public class PagePath {
     public static final String ADMIN_COMMENTS_PATH = "jsp/pages/admin/account/comments.jsp";
     public static final String ADMIN_COMMENT_DELETED_PATH = "jsp/pages/admin/deleted-comment.jsp";
     public static final String ADMIN_COMMENT_RESTORED_PATH = "jsp/pages/admin/restored-comment.jsp";
+    public static final String ADMIN_PROFILE_PATH = "jsp/pages/admin/account/profile.jsp";
+    public static final String ADMIN_PROFILE_EDIT_PATH = "jsp/pages/admin/account/profile-edit.jsp";
+    public static final String ADMIN_SUCCESS_CHANGE_PASSWORD_PATH = "jsp/pages/admin/password-success.jsp";
+    public static final String ADMIN_EDIT_PASSWORD_PATH = "jsp/pages/admin/account/password-edit.jsp";
+
 
 
 
@@ -63,7 +68,6 @@ public class PagePath {
 
     public static final String CLIENT_CREATED = "jsp/pages/client-created.jsp";
     public static final String COMMENTS_PATH = "jsp/pages/comments.jsp";
-
 
 
     private PagePath(){}

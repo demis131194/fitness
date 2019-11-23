@@ -26,10 +26,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean updateAdmin(Admin admin) throws ServiceException {
+    public boolean update(Admin admin) throws ServiceException {
         boolean isUpdated;
         try {
-            adminDao.updateAdmin(admin);
+            adminDao.update(admin);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

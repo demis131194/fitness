@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AdminService {
 
-    boolean updateAdmin(Admin admin) throws ServiceException;
+    boolean update(Admin admin) throws ServiceException;
     boolean updateAdminPassword(int adminId, String password) throws ServiceException;
     Admin find(int adminId) throws ServiceException;
     List<Admin> findAll() throws ServiceException;

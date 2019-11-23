@@ -2,6 +2,8 @@ package by.epam.fitness.command;
 
 import by.epam.fitness.command.impl.*;
 import by.epam.fitness.command.impl.admin.CreateTrainerCommand;
+import by.epam.fitness.command.impl.admin.EditPasswordByAdminCommand;
+import by.epam.fitness.command.impl.admin.UpdateProfileByAdminCommand;
 import by.epam.fitness.command.impl.admin.comment.DeleteCommentByAdmin;
 import by.epam.fitness.command.impl.admin.comment.FindAllCommentsByAdmin;
 import by.epam.fitness.command.impl.admin.comment.FindCommentsByFilterByAdmin;
@@ -63,6 +65,8 @@ public enum CommandType {
     EDIT_PASSWORD_BY_CLIENT(new EditPasswordByClientCommand()),
     EDIT_PASSWORD_BY_TRAINER(new EditPasswordByTrainerCommand()),
     EDIT_PROFILE_BY_TRAINER(new UpdateProfileByTrainerCommand()),
+    EDIT_PROFILE_BY_ADMIN(new UpdateProfileByAdminCommand()),
+    EDIT_PASSWORD_BY_ADMIN(new EditPasswordByAdminCommand()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandType(Command command) {

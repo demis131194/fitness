@@ -8,17 +8,14 @@ import by.epam.fitness.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdminDaoImpl implements AdminDao {
     private static Logger logger = LogManager.getLogger(AdminDaoImpl.class);
     private static final String USERS_UPDATE_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE id = ?";
-    private static final String ADMINS_UPDATE_QUERY = "UPDATE admins SET name = ?, lastName = ? WHERE adminId = ?";
+    private static final String ADMINS_UPDATE_QUERY = "UPDATE admins SET name = IFNULL(?, name), lastName = IFNULL(?, lastName) WHERE adminId = ?";
     private static final String FIND_QUERY = "SELECT adminId, name, lastName FROM admins WHERE adminId = ?";
     private static final String FIND_ALL_QUERY = "SELECT adminId, name, lastName FROM admins";
 
@@ -32,12 +29,20 @@ public class AdminDaoImpl implements AdminDao {
     }
 
     @Override
-    public boolean updateAdmin(Admin admin) throws DaoException {
+    public boolean update(Admin admin) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(ADMINS_UPDATE_QUERY)) {
-            statement.setString(1, admin.getName());
-            statement.setString(2, admin.getLastName());
+            if (admin.getName() != null) {
+                statement.setString(1, admin.getName());
+            } else {
+                statement.setNull(1, Types.VARCHAR);
+            }
+            if (admin.getLastName() != null) {
+                statement.setString(2, admin.getLastName());
+            } else {
+                statement.setNull(2, Types.VARCHAR);
+            }
             statement.setInt(3, admin.getId());
             isUpdated = statement.executeUpdate() == 1;
             logger.debug("UpdateAdmin, admin - {}", admin);
