@@ -11,6 +11,7 @@
 <fmt:message key="orders.filter.client.name" bundle="${rb}" var="clientName"/>
 <fmt:message key="orders.filter.client.last.name" bundle="${rb}" var="clientLastNameName"/>
 <fmt:message key="form.phone" bundle="${rb}" var="clientPhone"/>
+<fmt:message key="form.mail" bundle="${rb}" var="clientEmail"/>
 <fmt:message key="users.role" bundle="${rb}" var="role"/>
 <fmt:message key="users.active" bundle="${rb}" var="active"/>
 
@@ -52,12 +53,14 @@
                                             <th>${clientName}</th>
                                             <th>${clientLastNameName}</th>
                                             <th>${clientPhone}</th>
+                                            <th>${clientEmail}</th>
                                         </tr>
                                         <tr>
                                             <td>${user.id}</td>
                                             <td>${user.name}</td>
                                             <td>${user.lastName}</td>
                                             <td>${user.phone}</td>
+                                            <td>${user.mail}</td>
                                         </tr>
                                     </table>
                                 </td>

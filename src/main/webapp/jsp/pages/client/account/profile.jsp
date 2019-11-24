@@ -12,6 +12,7 @@
 <fmt:message key="account.profile.reg.date" bundle="${rb}" var="registrDate"/>
 <fmt:message key="account.profile.discount" bundle="${rb}" var="discount"/>
 <fmt:message key="account.profile.phone" bundle="${rb}" var="phone"/>
+<fmt:message key="account.profile.email" bundle="${rb}" var="email"/>
 <fmt:message key="account.profile.cash" bundle="${rb}" var="cash"/>
 <fmt:message key="account.profile.edit.button" bundle="${rb}" var="editProfile"/>
 <fmt:message key="account.profile.change.password" bundle="${rb}" var="changePassword"/>
@@ -64,6 +65,10 @@
                             <tr>
                                 <td class="profile-table-td-key">${phone}</td>
                                 <td class="profile-table-td-value">${sessionScope.userPhone}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-td-key">${email}</td>
+                                <td class="profile-table-td-value">${sessionScope.userMail}</td>
                             </tr>
                             <tr>
                                 <td class="profile-table-td-key">${cash}</td>

@@ -11,6 +11,7 @@
 <fmt:message key="account.profile.last.name" bundle="${rb}" var="userLastName"/>
 <fmt:message key="account.profile.phone" bundle="${rb}" var="userPhone"/>
 <fmt:message key="account.profile.edit.title" bundle="${rb}" var="formTitle"/>
+<fmt:message key="account.profile.email" bundle="${rb}" var="userEmail"/>
 
 <fmt:message key="update.user.form.submit" bundle="${rb}" var="submit"/>
 
@@ -52,6 +53,12 @@
                                 <label for="input-last-name" class="col-lg-2 col-form-label">${userLastName}</label>
                                 <div class="col-lg-4">
                                     <input type="text" name="userLastName" class="form-control" id="input-last-name" value="${sessionScope.userLastName}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="input-email" class="col-lg-2 col-form-label">${userEmail}</label>
+                                <div class="col-lg-4">
+                                    <input type="email" name="userMail" class="form-control" id="input-email" value="${sessionScope.userMail}">
                                 </div>
                             </div>
                             <c:if test="${requestScope.errMessage != null}">

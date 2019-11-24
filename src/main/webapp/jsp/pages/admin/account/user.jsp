@@ -17,6 +17,8 @@
 <fmt:message key="account.profile.discount" bundle="${rb}" var="discount"/>
 <fmt:message key="account.user.discount.level" bundle="${rb}" var="discountLevel"/>
 <fmt:message key="account.user.cash" bundle="${rb}" var="cash"/>
+<fmt:message key="account.user.email" bundle="${rb}" var="email"/>
+
 
 <html>
 <head>
@@ -69,6 +71,10 @@
                                         <td class="user-table-td-value">${trainer.phone}</td>
                                     </tr>
                                     <tr>
+                                        <td class="user-table-td-key">${email}</td>
+                                        <td class="user-table-td-value">${trainer.mail}</td>
+                                    </tr>
+                                    <tr>
                                         <td class="user-table-td-key">${active}</td>
                                         <td class="user-table-td-value">${trainer.active}</td>
                                     </tr>
@@ -100,6 +106,10 @@
                                     <tr>
                                         <td class="user-table-td-key">${phone}</td>
                                         <td class="user-table-td-value">${client.phone}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="user-table-td-key">${email}</td>
+                                        <td class="user-table-td-value">${client.mail}</td>
                                     </tr>
                                     <tr>
                                         <td class="user-table-td-key">${discount}</td>

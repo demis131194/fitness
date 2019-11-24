@@ -46,4 +46,12 @@ public class Validator {
     public static boolean checkEmail(String mail) {
         return mail.matches(EMAIL_REGEX);
     }
+
+    public static boolean checkDiscount(Integer discount) {
+        return discount>=0 && discount <=100;
+    }
+
+    public static boolean checkDiscountLevel(Integer discountLevel) {
+        return discountLevel>=0 && discountLevel <=3;
+    }
 }

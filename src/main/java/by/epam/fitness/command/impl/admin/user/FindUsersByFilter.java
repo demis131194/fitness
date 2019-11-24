@@ -30,18 +30,14 @@ public class FindUsersByFilter implements Command {
         List<User> users = new ArrayList<>();
 
         try {
-            String userName = requestContent.getParameterByName(AttributeName.USER_NAME);
-            String userLastName = requestContent.getParameterByName(AttributeName.USER_LAST_NAME);
-            String userRole = requestContent.getParameterByName(AttributeName.USER_ROLE);
+            String userName = requestContent.getParameterByName(AttributeName.USER_NAME).strip();
+            String userLastName = requestContent.getParameterByName(AttributeName.USER_LAST_NAME).strip();
+            String userRole = requestContent.getParameterByName(AttributeName.USER_ROLE).strip();
 
-            if (userName != null && !userName.isBlank()) {
-                userName = userName.strip();
-            } else {
+            if (userName.isBlank()) {
                 userName = null;
             }
-            if (userLastName != null && !userLastName.isBlank()) {
-                userLastName = userLastName.strip();
-            } else {
+            if (userLastName.isBlank()) {
                 userLastName = null;
             }
 

@@ -28,6 +28,7 @@ public class UpdateProfileByAdminCommand implements Command {
             int clientId = Integer.parseInt(requestContent.getParameterByName(AttributeName.USER_ID));
             String userName = requestContent.getParameterByName(AttributeName.USER_NAME).strip();
             String userLastName = requestContent.getParameterByName(AttributeName.USER_LAST_NAME).strip();
+            String userEmail = requestContent.getParameterByName(AttributeName.USER_MAIL).strip();
 
 
             if (!Validator.checkName(userName)) {
@@ -38,6 +39,10 @@ public class UpdateProfileByAdminCommand implements Command {
                 isValidParameters = false;
                 requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_USER_LAST_NAME);
             }
+            if (!Validator.checkEmail(userEmail) && isValidParameters) {
+                isValidParameters = false;
+                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_EMAIL);
+            }
 
             if (isValidParameters) {
                 Admin admin = new Admin();
@@ -45,11 +50,13 @@ public class UpdateProfileByAdminCommand implements Command {
                 admin.setId(clientId);
                 admin.setName(userName);
                 admin.setLastName(userLastName);
+                admin.setMail(userEmail);
                 adminService.update(admin);
 
                 admin = adminService.find(clientId);
                 requestContent.putSessionAttribute(AttributeName.USER_NAME, admin.getName());
                 requestContent.putSessionAttribute(AttributeName.USER_LAST_NAME, admin.getLastName());
+                requestContent.putSessionAttribute(AttributeName.USER_MAIL, admin.getMail());
                 page = PagePath.ADMIN_PROFILE_PATH;
             } else {
                 page = PagePath.ADMIN_PROFILE_EDIT_PATH;

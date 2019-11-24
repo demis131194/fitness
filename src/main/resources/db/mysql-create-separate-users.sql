@@ -200,14 +200,14 @@ INSERT INTO admins(adminId, name, lastName, mail)
 VALUES (1, 'Денис', 'Кацук', 'admin@gmail.com');
 
 INSERT INTO trainers(trainerId, name, lastName, registerDate, phone, mail)
-VALUES (2, 'Павел', 'Бегун', '2014-08-01 20:01:17', '222-33-22', 'trainer1@gmail.com'),
-       (3, 'Oliver', 'Might', '2014-08-01 20:16:43', '222-44-77', 'trainer2@gmail.com');
+VALUES (2, 'Павел', 'Бегун', '2014-08-01 20:01:17', '2223322', 'trainer1@gmail.com'),
+       (3, 'Oliver', 'Might', '2014-08-01 20:16:43', '2224477', 'trainer2@gmail.com');
 
 INSERT INTO clients(clientId, name, lastName, registerDate, discount, phone, mail, active)
-VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 10, '111-11-11', 'client1@gmail.com', true),
+VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 10, '1111111', 'client1@gmail.com', true),
        (5, 'Ghost', 'Ghostman', '2015-10-04 15:20:41', default, default, 'client2@gmail.com', true),
-       (6, 'Pasha', 'Pavel', '2016-02-21 10:28:02', 5, '333-33-33', 'client3@gmail.com', true),
-       (7, 'Dima', 'Dmitry', '2016-05-27 09:51:22', 0, '444-44-44', 'client4@gmail.com', true);
+       (6, 'Pasha', 'Pavel', '2016-02-21 10:28:02', 5, '3333333', 'client3@gmail.com', true),
+       (7, 'Dima', 'Dmitry', '2016-05-27 09:51:22', 0, '4444444', 'client4@gmail.com', true);
 
 INSERT INTO orders(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, active)
 VALUES (4, 2, '2015-08-21 10:16:43', 'Training-1! cl-tr : 4-2', 'Nutrition-1', '2015-08-21', '2016-08-21', 100, 'Comment-1', 0, 1),

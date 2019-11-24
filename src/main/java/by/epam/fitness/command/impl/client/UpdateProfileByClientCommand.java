@@ -29,6 +29,7 @@ public class UpdateProfileByClientCommand implements Command {
             String userName = requestContent.getParameterByName(AttributeName.USER_NAME).strip();
             String userLastName = requestContent.getParameterByName(AttributeName.USER_LAST_NAME).strip();
             String userPhone = requestContent.getParameterByName(AttributeName.USER_PHONE).strip();
+            String userEmail = requestContent.getParameterByName(AttributeName.USER_MAIL).strip();
 
 
             if (!Validator.checkName(userName)) {
@@ -43,6 +44,10 @@ public class UpdateProfileByClientCommand implements Command {
                 isValidParameters = false;
                 requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_USER_PHONE);
             }
+            if (!Validator.checkEmail(userEmail) && isValidParameters) {
+                isValidParameters = false;
+                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_EMAIL);
+            }
 
 
             if (isValidParameters) {
@@ -52,12 +57,14 @@ public class UpdateProfileByClientCommand implements Command {
                 client.setName(userName);
                 client.setLastName(userLastName);
                 client.setPhone(userPhone);
+                client.setMail(userEmail);
                 clientService.update(client);
 
                 client = clientService.find(clientId);
                 requestContent.putSessionAttribute(AttributeName.USER_NAME, client.getName());
                 requestContent.putSessionAttribute(AttributeName.USER_LAST_NAME, client.getLastName());
                 requestContent.putSessionAttribute(AttributeName.USER_PHONE, client.getPhone());
+                requestContent.putSessionAttribute(AttributeName.USER_MAIL, client.getMail());
                 page = PagePath.CLIENT_PROFILE_PATH;
             } else {
                 page = PagePath.CLIENT_PROFILE_EDIT_PATH;

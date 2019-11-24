@@ -53,6 +53,7 @@ public class LoginCommand implements Command {
                             requestContent.putSessionAttribute(AttributeName.USER_ROLE, admin.getRole().name());
                             requestContent.putSessionAttribute(AttributeName.USER_NAME, admin.getName());
                             requestContent.putSessionAttribute(AttributeName.USER_LAST_NAME, admin.getLastName());
+                            requestContent.putSessionAttribute(AttributeName.USER_MAIL, admin.getMail());
                             page = PagePath.WELCOME_PATH;
                             break;
                         case TRAINER:
@@ -62,6 +63,7 @@ public class LoginCommand implements Command {
                             requestContent.putSessionAttribute(AttributeName.USER_LAST_NAME, trainer.getLastName());
                             requestContent.putSessionAttribute(AttributeName.USER_REGISTER_DATE, trainer.getRegisterDateTime());
                             requestContent.putSessionAttribute(AttributeName.USER_PHONE, trainer.getPhone());
+                            requestContent.putSessionAttribute(AttributeName.USER_MAIL, trainer.getMail());
                             page = PagePath.WELCOME_PATH;
                             break;
                         case CLIENT:
@@ -74,6 +76,7 @@ public class LoginCommand implements Command {
                             requestContent.putSessionAttribute(AttributeName.USER_DISCOUNT_LEVEL, client.getDiscountLevel());
                             requestContent.putSessionAttribute(AttributeName.USER_PHONE, client.getPhone());
                             requestContent.putSessionAttribute(AttributeName.USER_CASH, client.getCash());
+                            requestContent.putSessionAttribute(AttributeName.USER_MAIL, client.getMail());
                             page = PagePath.WELCOME_PATH;
                             break;
                         default:

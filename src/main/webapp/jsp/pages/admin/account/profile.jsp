@@ -11,6 +11,7 @@
 <fmt:message key="account.profile.title" bundle="${rb}" var="title"/>
 <fmt:message key="account.profile.name" bundle="${rb}" var="name"/>
 <fmt:message key="account.profile.last.name" bundle="${rb}" var="lastName"/>
+<fmt:message key="account.profile.email" bundle="${rb}" var="email"/>
 
 <html>
 <head>
@@ -43,6 +44,10 @@
                             <tr>
                                 <td class="profile-table-td-key">${lastName}</td>
                                 <td class="profile-table-td-value">${sessionScope.userLastName}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-td-key">${email}</td>
+                                <td class="profile-table-td-value">${sessionScope.userMail}</td>
                             </tr>
                         </table>
                         <a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${editProfile}</a>

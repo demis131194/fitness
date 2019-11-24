@@ -13,6 +13,7 @@
 <fmt:message key="project.navigation.account" bundle="${rb}" var="account"/>
 <fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
 <fmt:message key="user.box.role" bundle="${rb}" var="role"/>
+<fmt:message key="user.box.cash" bundle="${rb}" var="cash"/>
 <fmt:message key="user.box.sign.in" bundle="${rb}" var="signIn"/>
 <fmt:message key="user.box.sign.up" bundle="${rb}" var="signUp"/>
 <fmt:message key="user.box.logout" bundle="${rb}" var="logOut"/>
@@ -74,6 +75,9 @@
                     <div>
                         <strong>${role} : ${sessionScope.userRole}</strong>
                     </div>
+                    <c:if test="${sessionScope.userRole == 'CLIENT'}">
+                        <strong>${cash} ${sessionScope.userCash}</strong>
+                    </c:if>
                     <div>
                         <strong><a href="${pageContext.request.contextPath}/controller?command=Logout">${logOut}</a></strong>
                     </div>
