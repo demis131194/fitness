@@ -35,7 +35,7 @@
             <c:when test="${sessionScope.userRole == 'TRAINER'}">
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/trainer/account/profile.jsp">${profile}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=find_all_orders_by_trainer">${orders}</a></li>
-                <li><a href="#">${clients}</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=find_all_clients_by_trainer">${clients}</a></li>
             </c:when>
             <c:when test="${sessionScope.userRole == 'CLIENT'}">
                 <li><a href="${pageContext.request.contextPath}/jsp/pages/client/account/profile.jsp">${profile}</a></li>

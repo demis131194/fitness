@@ -14,6 +14,7 @@
 <fmt:message key="form.name" bundle="${rb}" var="formName"/>
 <fmt:message key="form.last.name" bundle="${rb}" var="formLastName"/>
 <fmt:message key="form.phone" bundle="${rb}" var="formPhone"/>
+<fmt:message key="form.mail" bundle="${rb}" var="formMail"/>
 <fmt:message key="login.button.login" bundle="${rb}" var="buttonLogin"/>
 <fmt:message key="project.navigation.home" bundle="${rb}" var="home"/>
 <fmt:message key="form.login.placeholder" bundle="${rb}" var="loginPlaceholder"/>
@@ -22,6 +23,7 @@
 <fmt:message key="form.password.placeholder" bundle="${rb}" var="passwordPlaceholder"/>
 <fmt:message key="form.repeat.password.placeholder" bundle="${rb}" var="passwordRepeatPlaceholder"/>
 <fmt:message key="form.phone.placeholder" bundle="${rb}" var="phonePlaceholder"/>
+<fmt:message key="form.mail.placeholder" bundle="${rb}" var="mailPlaceholder"/>
 <fmt:message key="form.sign.up.submit" bundle="${rb}" var="submit"/>
 
 
@@ -50,37 +52,43 @@
                         <div class="form-group row">
                             <label for="input-login" class="col-lg-2 col-form-label">${formLogin}</label>
                             <div class="col-lg-10">
-                                <input type="text" name="Login" class="form-control" id="input-login" placeholder="${loginPlaceholder}">
+                                <input type="text" name="userLogin" class="form-control" id="input-login" placeholder="${loginPlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-name" class="col-lg-2 col-form-label">${formName}</label>
                             <div class="col-lg-10">
-                                <input type="text" name="Name" class="form-control" id="input-name" placeholder="${namePlaceholder}">
+                                <input type="text" name="userName" class="form-control" id="input-name" placeholder="${namePlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-last-name" class="col-lg-2 col-form-label">${formLastName}</label>
                             <div class="col-lg-10">
-                                <input type="text" name="LastName" class="form-control" id="input-last-name" placeholder="${lastNamePlaceholder}">
+                                <input type="text" name="userLastName" class="form-control" id="input-last-name" placeholder="${lastNamePlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-phone" class="col-lg-2 col-form-label">${formPhone}</label>
                             <div class="col-lg-10">
-                                <input type="text" name="Phone" class="form-control" id="input-phone" placeholder="${phonePlaceholder}">
+                                <input type="text" name="userPhone" class="form-control" id="input-phone" placeholder="${phonePlaceholder}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="input-mail" class="col-lg-2 col-form-label">${formMail}</label>
+                            <div class="col-lg-10">
+                                <input type="email" name="userMail" class="form-control" id="input-mail" placeholder="${mailPlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-password" class="col-lg-2 col-form-label">${formPassword}</label>
                             <div class="col-lg-10">
-                                <input type="password" name="Password" class="form-control" id="input-password" placeholder="${passwordPlaceholder}">
+                                <input type="password" name="userPassword" class="form-control" id="input-password" placeholder="${passwordPlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row in-line">
                             <label for="input-repeat-password" class="col-lg-2 col-form-label">${formPassword}</label>
                             <div class="col-lg-10">
-                                <input type="password" name="RepeatPassword" class="form-control" id="input-repeat-password" placeholder="${passwordRepeatPlaceholder}">
+                                <input type="password" name="repeatPassword" class="form-control" id="input-repeat-password" placeholder="${passwordRepeatPlaceholder}">
                             </div>
                         </div>
                         <c:if test="${requestScope.errMessage != null}">

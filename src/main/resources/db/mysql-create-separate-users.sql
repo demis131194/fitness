@@ -30,7 +30,8 @@ CREATE TABLE users
     login	 	 VARBINARY(50) 				        NOT NULL,
     password 	 VARCHAR(50) 				        NOT NULL,
     role 	     ENUM('ADMIN', 'TRAINER', 'CLIENT') NOT NULL DEFAULT 'CLIENT',
-    active 	     BOOLEAN                            NOT NULL DEFAULT true,
+    verification BOOLEAN 					        NOT NULL DEFAULT false,
+    active 	     BOOLEAN                            NOT NULL DEFAULT false,
     PRIMARY KEY (id),
     UNIQUE KEY login_UNIQUE (login)
 );
@@ -40,6 +41,7 @@ CREATE TABLE admins
     adminId		 INT 							  NOT NULL,
     name	 	 VARCHAR(255) 					  NOT NULL,
     lastName 	 VARCHAR(255) 					  NOT NULL,
+    mail     	 VARCHAR(255) 					  NOT NULL,
     PRIMARY KEY (adminId),
     FOREIGN KEY (adminId) REFERENCES users (id) ON DELETE CASCADE
 );
@@ -49,6 +51,7 @@ CREATE TABLE trainers
     trainerId	 INT 							  NOT NULL,
     name	 	 VARCHAR(255) 					  NOT NULL,
     lastName 	 VARCHAR(255) 					  NOT NULL,
+    mail     	 VARCHAR(255) 					  NOT NULL,
     registerDate DATETIME				          NOT NULL DEFAULT now(),
     phone		 VARCHAR(20)                      NOT NULL,
     active 	     BOOLEAN                          NOT NULL DEFAULT true,
@@ -58,15 +61,16 @@ CREATE TABLE trainers
 
 CREATE TABLE clients
 (
-    clientId	    INT 							 NOT NULL,
-    name	 	    VARCHAR(255) 				     NOT NULL,
-    lastName 	    VARCHAR(255) 					 NOT NULL,
-    registerDate    DATETIME				         NOT NULL DEFAULT now(),
-    discount        INT                              UNSIGNED NOT NULL DEFAULT 0 CHECK (discount >=0 AND discount <=100),
-    phone           VARCHAR(255)                     DEFAULT NULL,
-    cash            DECIMAL(7,2)                     DEFAULT 0 CHECK (cash >= 0),
-    discountLevel   INT                              NOT NULL DEFAULT 0 CHECK (discountLevel >=0 AND discountLevel <=3),
-    active 	        BOOLEAN                          NOT NULL DEFAULT true,
+    clientId	    INT 						NOT NULL,
+    name	 	    VARCHAR(255) 				NOT NULL,
+    lastName 	    VARCHAR(255) 				NOT NULL,
+    registerDate    DATETIME				    NOT NULL DEFAULT now(),
+    discount        INT                         UNSIGNED NOT NULL DEFAULT 0 CHECK (discount >=0 AND discount <=100),
+    phone           VARCHAR(255)                DEFAULT NULL,
+    mail     	    VARCHAR(255) 				NOT NULL,
+    cash            DECIMAL(7,2)                DEFAULT 0 CHECK (cash >= 0),
+    discountLevel   INT                         NOT NULL DEFAULT 0 CHECK (discountLevel >=0 AND discountLevel <=3),
+    active 	        BOOLEAN                     NOT NULL DEFAULT false,
     PRIMARY KEY (clientId),
     FOREIGN KEY (clientId) REFERENCES users (id) ON DELETE CASCADE
 );
@@ -114,13 +118,13 @@ CREATE EVENT orders_change_status_1_event
     ON SCHEDULE EVERY 1 DAY
     STARTS TIME('00:00:30')
     DO
-    UPDATE orders SET status = 4 WHERE accept = true AND status = 3 AND CURRENT_DATE BETWEEN startDate AND endDate;
+    UPDATE orders SET status = 4 WHERE status = 3 AND CURRENT_DATE BETWEEN startDate AND endDate;
 
 CREATE EVENT orders_change_status_2_event
     ON SCHEDULE EVERY 1 DAY
         STARTS TIME('00:00:35')
     DO
-    UPDATE orders SET status = 5 WHERE accept = true AND status = 4 AND CURRENT_DATE > endDate;
+    UPDATE orders SET status = 5 WHERE status = 4 AND CURRENT_DATE > endDate;
 
 CREATE TRIGGER change_discount_level_1 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
@@ -183,27 +187,27 @@ END;
 
 
 
-INSERT INTO users(login, password, role)
-VALUES ('admin', '21232F297A57A5A743894A0E4A801FC3', 'ADMIN'),
-       ('trainer1', '2C065AAE9FCB37B49043A5A2012B3DBF', 'TRAINER'),
-       ('trainer2', '2C065AAE9FCB37B49043A5A2012B3DBF', 'TRAINER'),
-       ('client1', '62608E08ADC29A8D6DBC9754E659F125', default),
-       ('client2', '62608E08ADC29A8D6DBC9754E659F125', default),
-       ('client3', '62608E08ADC29A8D6DBC9754E659F125', default),
-       ('client4', '62608E08ADC29A8D6DBC9754E659F125', default);
+INSERT INTO users(login, password, role, active)
+VALUES ('admin', '21232F297A57A5A743894A0E4A801FC3', 'ADMIN', true),
+       ('trainer1', '2C065AAE9FCB37B49043A5A2012B3DBF', 'TRAINER', true),
+       ('trainer2', '2C065AAE9FCB37B49043A5A2012B3DBF', 'TRAINER', true),
+       ('client1', '62608E08ADC29A8D6DBC9754E659F125', default, true),
+       ('client2', '62608E08ADC29A8D6DBC9754E659F125', default, true),
+       ('client3', '62608E08ADC29A8D6DBC9754E659F125', default, true),
+       ('client4', '62608E08ADC29A8D6DBC9754E659F125', default, true);
 
-INSERT INTO admins(adminId, name, lastName)
-VALUES (1, 'Денис', 'Кацук');
+INSERT INTO admins(adminId, name, lastName, mail)
+VALUES (1, 'Денис', 'Кацук', 'admin@gmail.com');
 
-INSERT INTO trainers(trainerId, name, lastName, registerDate, phone)
-VALUES (2, 'Павел', 'Бегун', '2014-08-01 20:01:17', '222-33-22'),
-       (3, 'Oliver', 'Might', '2014-08-01 20:16:43', '222-44-77');
+INSERT INTO trainers(trainerId, name, lastName, registerDate, phone, mail)
+VALUES (2, 'Павел', 'Бегун', '2014-08-01 20:01:17', '222-33-22', 'trainer1@gmail.com'),
+       (3, 'Oliver', 'Might', '2014-08-01 20:16:43', '222-44-77', 'trainer2@gmail.com');
 
-INSERT INTO clients(clientId, name, lastName, registerDate, discount, phone)
-VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 10, '111-11-11'),
-       (5, 'Ghost', 'Ghostman', '2015-10-04 15:20:41', default, default),
-       (6, 'Pasha', 'Pavel', '2016-02-21 10:28:02', 5, '333-33-33'),
-       (7, 'Dima', 'Dmitry', '2016-05-27 09:51:22', 0, '444-44-44');
+INSERT INTO clients(clientId, name, lastName, registerDate, discount, phone, mail, active)
+VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 10, '111-11-11', 'client1@gmail.com', true),
+       (5, 'Ghost', 'Ghostman', '2015-10-04 15:20:41', default, default, 'client2@gmail.com', true),
+       (6, 'Pasha', 'Pavel', '2016-02-21 10:28:02', 5, '333-33-33', 'client3@gmail.com', true),
+       (7, 'Dima', 'Dmitry', '2016-05-27 09:51:22', 0, '444-44-44', 'client4@gmail.com', true);
 
 INSERT INTO orders(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, active)
 VALUES (4, 2, '2015-08-21 10:16:43', 'Training-1! cl-tr : 4-2', 'Nutrition-1', '2015-08-21', '2016-08-21', 100, 'Comment-1', 0, 1),

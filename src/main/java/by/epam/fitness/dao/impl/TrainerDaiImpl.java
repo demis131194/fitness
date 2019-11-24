@@ -16,13 +16,13 @@ import java.util.List;
 public class TrainerDaiImpl implements TrainerDao {
     private static Logger logger = LogManager.getLogger(TrainerDaiImpl.class);
 
-    private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
-    private static final String INSERT_TRAINER_QUERY = "INSERT INTO trainers (trainerId, name, lastName, phone) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE trainers SET name = IFNULL(?, name), lastName = IFNULL(?, lastName), phone = IFNULL(?, phone) WHERE trainerId = ?";
-    private static final String FIND_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE trainerId = ?";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE active = true";
-    private static final String FIND_ALL_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers";
-    private static final String FIND_ALL_ACTIVE_BY_NAME_AND_LAST_NAME_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, active FROM trainers WHERE name = IFNULL(?, name) AND lastName = IFNULL(?, lastName)";
+    private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role, active) VALUES (?, ?, ?, true)";
+    private static final String INSERT_TRAINER_QUERY = "INSERT INTO trainers (trainerId, name, lastName, phone, mail) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE trainers SET name = IFNULL(?, name), lastName = IFNULL(?, lastName), phone = IFNULL(?, phone), mail = IFNULL(?, mail) WHERE trainerId = ?";
+    private static final String FIND_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, mail, active FROM trainers WHERE trainerId = ?";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, mail, active FROM trainers WHERE active = true";
+    private static final String FIND_ALL_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, mail, active FROM trainers";
+    private static final String FIND_ALL_ACTIVE_BY_NAME_AND_LAST_NAME_QUERY = "SELECT trainerId, name, lastName, registerDate, phone, mail, active FROM trainers WHERE name = IFNULL(?, name) AND lastName = IFNULL(?, lastName)";
 
     private static TrainerDao adminDao = new TrainerDaiImpl();
 
@@ -55,6 +55,7 @@ public class TrainerDaiImpl implements TrainerDao {
                 trainerStatement.setString(2, trainer.getName());
                 trainerStatement.setString(3, trainer.getLastName());
                 trainerStatement.setString(4, trainer.getPhone());
+                trainerStatement.setString(5, trainer.getMail());
 
                 trainerStatement.execute();
 
@@ -93,7 +94,12 @@ public class TrainerDaiImpl implements TrainerDao {
             } else {
                 statement.setNull(3, Types.VARCHAR);
             }
-            statement.setInt(4, trainer.getId());
+            if (trainer.getMail() != null) {
+                statement.setString(4, trainer.getMail());
+            } else {
+                statement.setNull(4, Types.VARCHAR);
+            }
+            statement.setInt(5, trainer.getId());
 
             isUpdated = statement.execute();
             logger.debug("Trainer updated, new trainer - {}", trainer);
@@ -196,6 +202,7 @@ public class TrainerDaiImpl implements TrainerDao {
         trainer.setRegisterDateTime(resultSet.getTimestamp(TableColumnName.TRAINER_REGISTER_DATE).toLocalDateTime());
         trainer.setPhone(resultSet.getString(TableColumnName.TRAINER_PHONE));
         trainer.setActive(resultSet.getBoolean(TableColumnName.TRAINER_ACTIVE));
+        trainer.setMail(resultSet.getString(TableColumnName.TRAINER_MAIL));
         trainer.setRole(UserRole.TRAINER);
         return trainer;
     }

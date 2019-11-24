@@ -7,6 +7,7 @@ import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Card;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.ClientService;
+import by.epam.fitness.util.MailService;
 import by.epam.fitness.util.PasswordEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +34,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             client.setPassword(PasswordEncoder.encode(client.getPassword()));
             createdClient = clientDao.create(client);
+            MailService.sendVerificationMessage(client.getMail(), client.getId());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -44,6 +46,17 @@ public class ClientServiceImpl implements ClientService {
         boolean isUpdated;
         try {
             isUpdated = clientDao.update(client);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean verification(int clientId) throws ServiceException {
+        boolean isUpdated;
+        try {
+            isUpdated = clientDao.verification(clientId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

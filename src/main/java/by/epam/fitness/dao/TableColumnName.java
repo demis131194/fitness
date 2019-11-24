@@ -11,6 +11,7 @@ public class TableColumnName {
     public static final String ADMINS_ID = "adminId";
     public static final String ADMINS_NAME = "name";
     public static final String ADMINS_LAST_NAME = "lastName";
+    public static final String ADMINS_MAIL = "mail";
 
     public static final String TRAINER_ID = "trainerId";
     public static final String TRAINER_NAME = "name";
@@ -18,6 +19,7 @@ public class TableColumnName {
     public static final String TRAINER_REGISTER_DATE = "registerDate";
     public static final String TRAINER_PHONE = "phone";
     public static final String TRAINER_ACTIVE = "active";
+    public static final String TRAINER_MAIL = "mail";
 
     public static final String CLIENT_ID = "clientId";
     public static final String CLIENT_NAME = "name";
@@ -28,6 +30,7 @@ public class TableColumnName {
     public static final String CLIENT_PHONE = "phone";
     public static final String CLIENT_CASH = "cash";
     public static final String CLIENT_ACTIVE = "active";
+    public static final String CLIENT_MAIL = "mail";
 
     public static final String ORDERS_ID = "id";
     public static final String ORDERS_CLIENT_ID = "clientId";
@@ -56,6 +59,7 @@ public class TableColumnName {
     public static final String COMMENT_REGISTER_DATE = "registerDate";
     public static final String COMMENT_COMMENT = "comment";
     public static final String COMMENT_ACTIVE = "active";
+
 
 
     private TableColumnName(){}

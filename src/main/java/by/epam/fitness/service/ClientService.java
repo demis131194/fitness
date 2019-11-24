@@ -11,6 +11,7 @@ public interface ClientService {
 
     Client create(Client client) throws ServiceException;
     boolean update(Client client) throws ServiceException;
+    boolean verification(int clientId) throws ServiceException;
     boolean depositCash(int clientId, BigDecimal depositedCash, Card card) throws ServiceException;
     boolean withdrawCash(int clientId, BigDecimal depositedCash, Card card) throws ServiceException;
     Client find(int clientId) throws ServiceException;

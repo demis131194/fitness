@@ -6,6 +6,7 @@ public class Admin extends User {
 
     private String name;
     private String lastName;
+    private String mail;
 
     public Admin() {
         role = UserRole.ADMIN;
@@ -25,6 +26,14 @@ public class Admin extends User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     @Override

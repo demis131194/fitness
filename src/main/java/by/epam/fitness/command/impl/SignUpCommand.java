@@ -15,14 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SignUpCommand implements Command {
-    private static Logger logger = LogManager.getLogger(LoginCommand.class);
-
-    private static final String PARAM_LOGIN = "Login";
-    private static final String PARAM_PASSWORD = "Password";
-    private static final String PARAM_REPEAT_PASSWORD = "RepeatPassword";
-    private static final String PARAM_NAME = "Name";
-    private static final String PARAM_LAST_NAME = "LastName";
-    private static final String PARAM_PHONE = "Phone";
+    private static Logger logger = LogManager.getLogger(SignUpCommand.class);
 
     private ClientService clientService = ClientServiceImpl.getInstance();
 
@@ -30,37 +23,67 @@ public class SignUpCommand implements Command {
     public String execute(SessionRequestContent requestContent) throws CommandException {
         String page;
 
-        String login = requestContent.getParameterByName(PARAM_LOGIN);
-        String password = requestContent.getParameterByName(PARAM_PASSWORD);
-        String repeatedPassword = requestContent.getParameterByName(PARAM_REPEAT_PASSWORD);
-        String name = requestContent.getParameterByName(PARAM_NAME);
-        String lastName = requestContent.getParameterByName(PARAM_LAST_NAME);
-        String phone = requestContent.getParameterByName(PARAM_PHONE);
+        String login = requestContent.getParameterByName(AttributeName.USER_LOGIN).strip();
+        String password = requestContent.getParameterByName(AttributeName.USER_PASSWORD).strip();
+        String repeatedPassword = requestContent.getParameterByName(AttributeName.REPEAT_PASSWORD).strip();
+        String name = requestContent.getParameterByName(AttributeName.USER_NAME).strip();
+        String lastName = requestContent.getParameterByName(AttributeName.USER_LAST_NAME).strip();
+        String phone = requestContent.getParameterByName(AttributeName.USER_PHONE).strip();
+        String mail = requestContent.getParameterByName(AttributeName.USER_MAIL).strip();
+
+        boolean isValidParameters = true;
+
+        if (!Validator.checkLogin(login)) {
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_LOGIN);
+            isValidParameters = false;
+        }
+        if (!Validator.checkName(name) && isValidParameters) {
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_NAME);
+            isValidParameters = false;
+        }
+        if (!Validator.checkLastName(lastName) && isValidParameters) {
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_LAST_NAME);
+            isValidParameters = false;
+        }
+        if (!Validator.checkPhone(phone) && isValidParameters) {
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_PHONE);
+            isValidParameters = false;
+        }
+        if (!Validator.checkEmail(mail) && isValidParameters) {
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_EMAIL);
+            isValidParameters = false;
+        }
+        if (!Validator.checkPassword(password) && isValidParameters) {
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INVALID_PASSWORD);
+            isValidParameters = false;
+        }
+        if (!repeatedPassword.equals(password) && isValidParameters) {
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.PASSWORDS_NOT_EQUAL);
+            isValidParameters = false;
+        }
 
         try {
-            if (Validator.checkLogin(login)
-                    && Validator.checkPassword(password, repeatedPassword)
-                    && Validator.checkName(name)
-                    && Validator.checkLastName(lastName)
-                    && Validator.checkPhone(phone)) {
 
+            if (isValidParameters) {
                 Client client = new Client();
                 client.setLogin(login);
                 client.setPassword(password);
                 client.setName(name);
                 client.setLastName(lastName);
                 client.setPhone(phone);
+                client.setMail(mail);
 
                 clientService.create(client);
                 page = PagePath.CLIENT_CREATED;
+
             } else {
-                page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
-                requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INCORRECT_INPUT_DATA);
+                page = PagePath.SIGN_UP_PATH;
             }
 
+            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INCORRECT_INPUT_DATA);
 
         } catch (ServiceException e) {
-            page = (String) requestContent.getSessionAttributeByName(AttributeName.CURRENT_PAGE);
+            page = PagePath.SIGN_UP_PATH;
             requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.LOGIN_ALREADY_EXIST);
         }
         return page;

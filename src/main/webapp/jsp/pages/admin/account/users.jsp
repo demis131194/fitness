@@ -8,7 +8,7 @@
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="users.title" bundle="${rb}" var="title"/>
 <fmt:message key="users.id" bundle="${rb}" var="id"/>
-<fmt:message key="users.fio" bundle="${rb}" var="userFio"/>
+<fmt:message key="users.fio" bundle="${rb}" var="clientName"/>
 <fmt:message key="users.role" bundle="${rb}" var="role"/>
 <fmt:message key="users.active" bundle="${rb}" var="active"/>
 
@@ -88,7 +88,7 @@
                                     <table>
                                         <tr>
                                             <th>${id}</th>
-                                            <th>${userFio}</th>
+                                            <th>${clientName}</th>
                                             <th>${role}</th>
                                             <th>${active}</th>
                                             <th></th>

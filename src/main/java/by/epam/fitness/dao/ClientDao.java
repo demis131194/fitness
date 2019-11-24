@@ -11,6 +11,7 @@ public interface ClientDao {
 
     Client create(Client client) throws DaoException;
     boolean update(Client client) throws DaoException;
+    boolean verification(int clientId) throws DaoException;
     boolean depositCash(int clientId, BigDecimal depositedCash, Card card) throws DaoException;
     boolean withdrawCash(int clientId, BigDecimal depositedCash, Card card) throws DaoException;
     Client find(int clientId) throws DaoException;

@@ -7,6 +7,7 @@ public class Validator {
     private static final String PHONE_REGEX = "^\\+?\\d{7,20}$";
     private static final String CARD_NUMBER_REGEX = "^\\d{16}$";
     private static final String CASH_AMOUNT_REGEX = "^\\d{1,4}(\\.\\d{2})?$";
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,4}$";
 
     private Validator(){}
 
@@ -40,5 +41,9 @@ public class Validator {
 
     public static boolean checkCashAmount(String cashAmount) {
         return cashAmount.matches(CASH_AMOUNT_REGEX);
+    }
+
+    public static boolean checkEmail(String mail) {
+        return mail.matches(EMAIL_REGEX);
     }
 }

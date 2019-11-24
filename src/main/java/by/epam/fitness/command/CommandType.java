@@ -18,6 +18,7 @@ import by.epam.fitness.command.impl.locale.LocaleCommand;
 import by.epam.fitness.command.impl.trainer.EditPasswordByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.ShowUpdatedOrderTrainerCommand;
 import by.epam.fitness.command.impl.trainer.UpdateProfileByTrainerCommand;
+import by.epam.fitness.command.impl.trainer.clients.FindAllClientsByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.order.FindAllOrdersByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.order.FindOrderByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.order.UpdateOrderByTrainerCommand;
@@ -67,6 +68,8 @@ public enum CommandType {
     EDIT_PROFILE_BY_TRAINER(new UpdateProfileByTrainerCommand()),
     EDIT_PROFILE_BY_ADMIN(new UpdateProfileByAdminCommand()),
     EDIT_PASSWORD_BY_ADMIN(new EditPasswordByAdminCommand()),
+    FIND_ALL_CLIENTS_BY_TRAINER(new FindAllClientsByTrainerCommand()),
+    VERIFICATION(new VerificationCommand()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandType(Command command) {

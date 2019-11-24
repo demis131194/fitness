@@ -20,14 +20,15 @@ public class ClientDaoImpl implements ClientDao {
     private static Logger logger = LogManager.getLogger(ClientDaoImpl.class);
 
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
-    private static final String INSERT_CLIENTS_QUERY = "INSERT INTO clients (clientId, name, lastName, phone) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE clients SET name = IFNULL(?, name), lastName = IFNULL(?, lastName), phone = IFNULL(?, phone), discount = IFNULL(?, discount), discountLevel = IFNULL(?, discountLevel) WHERE clientId = ?";
+    private static final String INSERT_CLIENTS_QUERY = "INSERT INTO clients (clientId, name, lastName, phone, mail) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE clients SET name = IFNULL(?, name), lastName = IFNULL(?, lastName), phone = IFNULL(?, phone), discount = IFNULL(?, discount), discountLevel = IFNULL(?, discountLevel), mail = IFNULL(?, mail) WHERE clientId = ?";
+    private static final String VERIFICATION_QUERY = "UPDATE users SET active = true, verification = true WHERE id = ? AND verification = false";
     private static final String UPDATE_CLIENT_CASH_QUERY = "UPDATE clients SET cash = cash + ? WHERE clientId = ?";
     private static final String UPDATE_CARD_QUERY = "UPDATE cards SET account = account + ? WHERE cardNumber = ?";
-    private static final String FIND_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE clientId = ?";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE active = true";
-    private static final String FIND_ALL_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients";
-    private static final String FIND_ALL_BY_NAME_AND_LAST_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active FROM clients WHERE name = IFNULL(?, name) AND lastName = IFNULL(?, lastName)";
+    private static final String FIND_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, active, mail FROM clients WHERE clientId = ?";
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, mail, active FROM clients WHERE active = true";
+    private static final String FIND_ALL_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, mail, active FROM clients";
+    private static final String FIND_ALL_BY_NAME_AND_LAST_NAME_QUERY = "SELECT clientId, name, lastName, registerDate, discount, phone, cash, discountLevel, mail, active FROM clients WHERE name = IFNULL(?, name) AND lastName = IFNULL(?, lastName)";
 
     private static ClientDao clientDao = new ClientDaoImpl();
 
@@ -64,6 +65,7 @@ public class ClientDaoImpl implements ClientDao {
                 } else {
                     clientStatement.setNull(4, Types.NULL);
                 }
+                clientStatement.setString(5, client.getMail());
 
                 clientStatement.execute();
 
@@ -111,10 +113,30 @@ public class ClientDaoImpl implements ClientDao {
             } else {
                 statement.setNull(5, Types.INTEGER);
             }
-            statement.setInt(6, client.getId());
+            if (client.getMail() != null) {
+                statement.setString(6, client.getMail());
+            } else {
+                statement.setNull(6, Types.VARCHAR);
+            }
+            statement.setInt(7, client.getId());
 
             isUpdated = statement.executeUpdate() == 1;
             logger.debug("Client updated, new client - {}", client);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean verification(int clientId) throws DaoException {
+        boolean isUpdated;
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(VERIFICATION_QUERY)) {
+            statement.setInt(1, clientId);
+
+            isUpdated = statement.executeUpdate() == 1;
+            logger.debug("Client verification id - {}, result - {}", clientId, isUpdated);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -288,6 +310,7 @@ public class ClientDaoImpl implements ClientDao {
         client.setPhone(resultSet.getString(TableColumnName.CLIENT_PHONE));
         client.setCash(resultSet.getBigDecimal(TableColumnName.CLIENT_CASH));
         client.setDiscountLevel(resultSet.getInt(TableColumnName.CLIENT_DISCOUNT_LEVEL));
+        client.setMail(resultSet.getString(TableColumnName.CLIENT_MAIL));
         client.setActive(resultSet.getBoolean(TableColumnName.CLIENT_ACTIVE));
         client.setRole(UserRole.CLIENT);
         return client;

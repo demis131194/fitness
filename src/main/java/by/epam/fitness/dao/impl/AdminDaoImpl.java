@@ -15,9 +15,9 @@ import java.util.List;
 public class AdminDaoImpl implements AdminDao {
     private static Logger logger = LogManager.getLogger(AdminDaoImpl.class);
     private static final String USERS_UPDATE_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE id = ?";
-    private static final String ADMINS_UPDATE_QUERY = "UPDATE admins SET name = IFNULL(?, name), lastName = IFNULL(?, lastName) WHERE adminId = ?";
-    private static final String FIND_QUERY = "SELECT adminId, name, lastName FROM admins WHERE adminId = ?";
-    private static final String FIND_ALL_QUERY = "SELECT adminId, name, lastName FROM admins";
+    private static final String ADMINS_UPDATE_QUERY = "UPDATE admins SET name = IFNULL(?, name), lastName = IFNULL(?, lastName), mail = IFNULL(?, mail) WHERE adminId = ?";
+    private static final String FIND_QUERY = "SELECT adminId, name, lastName, mail FROM admins WHERE adminId = ?";
+    private static final String FIND_ALL_QUERY = "SELECT adminId, name, lastName, mail FROM admins";
 
     private static AdminDao adminDao = new AdminDaoImpl();;
 
@@ -43,7 +43,12 @@ public class AdminDaoImpl implements AdminDao {
             } else {
                 statement.setNull(2, Types.VARCHAR);
             }
-            statement.setInt(3, admin.getId());
+            if (admin.getMail() != null) {
+                statement.setString(3, admin.getMail());
+            } else {
+                statement.setNull(3, Types.VARCHAR);
+            }
+            statement.setInt(4, admin.getId());
             isUpdated = statement.executeUpdate() == 1;
             logger.debug("UpdateAdmin, admin - {}", admin);
         } catch (SQLException e) {
@@ -110,6 +115,7 @@ public class AdminDaoImpl implements AdminDao {
         admin.setId(resultSet.getInt(TableColumnName.ADMINS_ID));
         admin.setName(resultSet.getString(TableColumnName.ADMINS_NAME));
         admin.setLastName(resultSet.getString(TableColumnName.ADMINS_LAST_NAME));
+        admin.setMail(resultSet.getString(TableColumnName.ADMINS_MAIL));
         return admin;
     }
 }

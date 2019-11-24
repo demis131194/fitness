@@ -9,6 +9,7 @@ public class Trainer extends User {
     private String lastName;
     private LocalDateTime registerDateTime;
     private String phone;
+    private String mail;
 
     public Trainer() {
         role = UserRole.TRAINER;
@@ -44,6 +45,14 @@ public class Trainer extends User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     @Override

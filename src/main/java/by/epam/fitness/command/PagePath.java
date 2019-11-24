@@ -6,6 +6,7 @@ public class PagePath {
     public static final String SIGN_UP_PATH = "jsp/pages/sign-up.jsp";
     public static final String MAIN_PATH = "/jsp/pages/main.jsp";
     public static final String WELCOME_PATH = "jsp/pages/welcome.jsp";
+    public static final String VERIFICATION_PATH = "jsp/pages/verification.jsp";
 
     public static final String ADMIN_ORDERS_PATH = "jsp/pages/admin/account/orders.jsp";
     public static final String ADMIN_USERS_PATH = "jsp/pages/admin/account/users.jsp";
@@ -39,6 +40,7 @@ public class PagePath {
     public static final String TRAINER_SUCCESS_CHANGE_PASSWORD_PATH = "jsp/pages/trainer/password-success.jsp";
     public static final String TRAINER_PROFILE_PATH = "jsp/pages/trainer/account/profile.jsp";
     public static final String TRAINER_PROFILE_EDIT_PATH = "jsp/pages/trainer/account/profile-edit.jsp";
+    public static final String TRAINER_CLIENTS_PATH = "jsp/pages/trainer/account/clients.jsp";
 
 
 
@@ -68,6 +70,7 @@ public class PagePath {
 
     public static final String CLIENT_CREATED = "jsp/pages/client-created.jsp";
     public static final String COMMENTS_PATH = "jsp/pages/comments.jsp";
+
 
 
     private PagePath(){}

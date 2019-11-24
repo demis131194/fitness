@@ -12,6 +12,7 @@ public class Client extends User {
     private Integer discount;
     private Integer discountLevel;
     private String phone;
+    private String mail;
     private BigDecimal cash;
 
     public Client() {
@@ -72,6 +73,14 @@ public class Client extends User {
 
     public void setDiscountLevel(Integer discountLevel) {
         this.discountLevel = discountLevel;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     @Override
