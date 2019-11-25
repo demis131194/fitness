@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="ctg" uri="customtags"%>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
@@ -39,11 +40,7 @@
                         <td>
                             <div class="comment-wrap">
                                 <div class="comment-date">
-                                    <small>
-                                        <fmt:parseDate  value="${comment.registerDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" />
-                                        <fmt:formatDate value="${parsedDate}" pattern="dd.MM.yyyy HH:mm:ss" var="regDate" />
-                                        ${regDate}
-                                    </small>
+                                    <ctg:date-time-parse dateTime="${comment.registerDate}"/>
                                 </div>
                                 <div class="comment-text">
                                     <p>${comment.comment}</p>

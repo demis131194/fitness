@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="ctg" uri="customtags"%>
+
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
@@ -144,9 +146,7 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <fmt:parseDate  value="${order.registerDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" />
-                                                <fmt:formatDate value="${parsedDate}" pattern="dd.MM.yyyy HH:mm:ss" var="regDate" />
-                                                    ${regDate}
+                                                <ctg:date-time-parse dateTime="${order.registerDate}"/>
                                             </td>
                                             <td>${order.trainerName} ${order.trainerLastName}</td>
                                             <td>${order.clientName} ${order.clientLastName}</td>

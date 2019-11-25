@@ -103,35 +103,7 @@
         </div>
     </div>
 </div>
-
+<c:import url="/jsp/fragment/footer.jsp"/>
 </body>
 </html>
 
-<c:import url="/jsp/fragment/footer.jsp"/>
-
-<%--<c:import url="/jsp/fragment/header.jsp"/>--%>
-<%--<a href="${pageContext.request.contextPath}"><fmt:message key="project.home" bundle="${rb}"/></a>--%>
-<%--<br/>--%>
-<%--<br/>--%>
-<%--<form name="signUpForm" method="POST" action="${pageContext.request.contextPath}/controller">--%>
-<%--    <input type="hidden" name="command" value="sign_up"/>--%>
-<%--    <label for="login">${login}</label>--%>
-<%--    <br/>--%>
-<%--    <input id="login" type="text" name="Login" value="" pattern="\w{4,}"/>--%>
-<%--    <br/>--%>
-<%--    ${password}--%>
-<%--    <br/>--%>
-<%--    <input type="password" name="Password" value="" pattern="\w{4,}"/>--%>
-<%--    <br/>--%>
-<%--    Name--%>
-<%--    <br/>--%>
-<%--    <input type="text" name="Name" value=""/>--%>
-<%--    <br/>--%>
-<%--    LastName--%>
-<%--    <br/>--%>
-<%--    <input type="text" name="LastName" value=""/>--%>
-<%--    <br/>--%>
-<%--    <c:if test="${requestScope.wrongLogin}">Invalid Login!</c:if>--%>
-<%--    <br/>--%>
-<%--    <input type="submit" value="Sign up">--%>
-<%--</form>--%>
