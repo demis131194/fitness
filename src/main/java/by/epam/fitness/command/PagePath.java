@@ -7,6 +7,7 @@ public class PagePath {
     public static final String MAIN_PATH = "/jsp/pages/main.jsp";
     public static final String WELCOME_PATH = "jsp/pages/welcome.jsp";
     public static final String VERIFICATION_PATH = "jsp/pages/verification.jsp";
+    public static final String ILLEGAL_ACCESS = "/jsp/pages/illegal-access.jsp";
 
     public static final String ADMIN_ORDERS_PATH = "jsp/pages/admin/account/orders.jsp";
     public static final String ADMIN_USERS_PATH = "jsp/pages/admin/account/users.jsp";
@@ -70,7 +71,6 @@ public class PagePath {
 
     public static final String CLIENT_CREATED = "jsp/pages/client-created.jsp";
     public static final String COMMENTS_PATH = "jsp/pages/comments.jsp";
-
 
 
     private PagePath(){}
