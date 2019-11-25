@@ -117,7 +117,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <c:import url="/jsp/fragment/footer.jsp"/>
