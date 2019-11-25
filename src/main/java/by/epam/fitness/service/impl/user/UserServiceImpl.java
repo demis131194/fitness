@@ -50,11 +50,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUser(User user) throws ServiceException {
+    public boolean updateUserPassword(User user) throws ServiceException {
         boolean isUpdated;
         try {
             user.setPassword(PasswordEncoder.encode(user.getPassword()));
-            isUpdated = userDao.updateUser(user);
+            isUpdated = userDao.updateUserPassword(user);
+        } catch (DaoException e) {
+            logger.warn(e);
+            throw new ServiceException(e);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateUserProfileImg(User user) throws ServiceException {
+        boolean isUpdated;
+        try {
+            isUpdated = userDao.updateUserProfileImg(user);
         } catch (DaoException e) {
             logger.warn(e);
             throw new ServiceException(e);

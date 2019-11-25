@@ -46,6 +46,7 @@ public class LoginCommand implements Command {
                 user = userService.findByLoginAndPassword(login, password);
                 if (user != null) {
                     requestContent.putSessionAttribute(AttributeName.USER_ID, user.getId());
+                    requestContent.putSessionAttribute(AttributeName.USER_PROFILE_IMG_PATH, user.getProfileImagePath());
 
                     switch (user.getRole()) {
                         case ADMIN:

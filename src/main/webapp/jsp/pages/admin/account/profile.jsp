@@ -18,6 +18,7 @@
     <title>${projectName}</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
 </head>
 <body>
 <c:import url="/jsp/fragment/header.jsp"/>
@@ -50,8 +51,21 @@
                                 <td class="profile-table-td-value">${sessionScope.userMail}</td>
                             </tr>
                         </table>
-                        <a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${editProfile}</a>
-                        <a href="${pageContext.request.contextPath}/jsp/pages/admin/account/password-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${changePassword}</a>
+                        <div>
+                            <a href="${pageContext.request.contextPath}/jsp/pages/admin/account/profile-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${editProfile}</a>
+                            <a href="${pageContext.request.contextPath}/jsp/pages/admin/account/password-edit.jsp" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">${changePassword}</a>
+                        </div>
+                        <div>
+                            <form method="post" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data" class="upload-form">
+                                <div class="form-group">
+                                    <label class="col-form-label col-lg-3">Load your own img</label>
+                                    <div class="col-lg-4">
+                                        <input type="file" name="multiPartServlet" id="file" onchange="checkUpload()" accept="image/jpeg,image/png,image/gif"/>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-secondary" disabled id="upload-submit">Upload</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

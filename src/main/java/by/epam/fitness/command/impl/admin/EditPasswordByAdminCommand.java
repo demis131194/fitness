@@ -3,7 +3,6 @@ package by.epam.fitness.command.impl.admin;
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.PagePath;
-import by.epam.fitness.command.impl.client.EditPasswordByClientCommand;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
@@ -52,7 +51,7 @@ public class EditPasswordByAdminCommand implements Command {
                 currentPassword = PasswordEncoder.encode(currentPassword);
                 if (currentPassword.equals(user.getPassword())) {
                     user.setPassword(newPassword);
-                    userService.updateUser(user);
+                    userService.updateUserPassword(user);
                     page = PagePath.ADMIN_SUCCESS_CHANGE_PASSWORD_PATH;
 
                 } else {

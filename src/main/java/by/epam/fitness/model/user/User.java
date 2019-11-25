@@ -10,6 +10,7 @@ public class User extends AbstractBaseEntity {
     protected String password;
     protected UserRole role;
     protected boolean isActive;
+    private String profileImagePath;
     private boolean verification;
 
     public User() {
@@ -37,6 +38,14 @@ public class User extends AbstractBaseEntity {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public String getProfileImagePath() {
+        return profileImagePath;
+    }
+
+    public void setProfileImagePath(String profileImagePath) {
+        this.profileImagePath = profileImagePath;
     }
 
     public boolean isActive() {

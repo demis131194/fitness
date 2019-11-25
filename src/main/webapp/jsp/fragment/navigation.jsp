@@ -69,17 +69,22 @@
         <div class="main-box">
             <c:choose >
                 <c:when test="${sessionScope.authorization}">
-                    <div>
-                        <strong>${fio} : ${sessionScope.userName} ${sessionScope.userLastName}</strong>
+                    <div class="main-box-profile d-inline-block">
+                        <img src="${sessionScope.userImgPath} " alt="Profile image" class="main-box-profile-image rounded mx-auto d-block">
                     </div>
-                    <div>
-                        <strong>${role} : ${sessionScope.userRole}</strong>
-                    </div>
-                    <c:if test="${sessionScope.userRole == 'CLIENT'}">
-                        <strong>${cash} ${sessionScope.userCash}</strong>
-                    </c:if>
-                    <div>
-                        <strong><a href="${pageContext.request.contextPath}/controller?command=Logout">${logOut}</a></strong>
+                    <div class="d-inline-block">
+                        <div>
+                            <strong>${fio} ${sessionScope.userName} ${sessionScope.userLastName}</strong>
+                        </div>
+                        <div>
+                            <strong>${role} ${sessionScope.userRole}</strong>
+                        </div>
+                        <c:if test="${sessionScope.userRole == 'CLIENT'}">
+                            <strong>${cash} ${sessionScope.userCash}</strong>
+                        </c:if>
+                        <div>
+                            <strong><a href="${pageContext.request.contextPath}/controller?command=Logout">${logOut}</a></strong>
+                        </div>
                     </div>
                 </c:when>
                 <c:otherwise>

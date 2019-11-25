@@ -15,10 +15,21 @@
   margin-top: 20px;
   margin-right: 20px;
   min-height: 60px;
+  max-height: 110px;
   min-width: 80px;
   background-color: #ddd9e9;
   border: 3px solid #75b3c8;
   border-radius: 5px;
+  vertical-align: center;
+}
+.main-box-profile {
+  min-height: 100%;
+}
+.main-box-profile-image {
+  margin-bottom: 20%;
+  margin-left: 5px;
+  display: block;
+  width: 52px;
 }
 .main-section {
   padding: 20px auto;
@@ -164,4 +175,7 @@
 .create-order-title {
   text-align: center;
   font-weight: 900;
+}
+.upload-form {
+  border: 1px solid black;
 }

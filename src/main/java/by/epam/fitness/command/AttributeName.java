@@ -15,6 +15,7 @@ public class AttributeName {
     public static final String USER_LOGIN = "userLogin";
     public static final String USER_PASSWORD = "userPassword";
     public static final String USER_MAIL = "userMail";
+    public static final String USER_PROFILE_IMG_PATH = "userImgPath";
     public static final String REPEAT_PASSWORD = "repeatPassword";
     public static final String NEW_PASSWORD = "newPassword";
     public static final String CURRENT_PASSWORD = "currentPassword";

@@ -51,7 +51,7 @@ public class EditPasswordByTrainerCommand implements Command {
                 currentPassword = PasswordEncoder.encode(currentPassword);
                 if (currentPassword.equals(user.getPassword())) {
                     user.setPassword(newPassword);
-                    userService.updateUser(user);
+                    userService.updateUserPassword(user);
                     page = PagePath.TRAINER_SUCCESS_CHANGE_PASSWORD_PATH;
 
                 } else {
