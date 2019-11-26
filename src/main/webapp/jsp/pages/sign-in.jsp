@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <script src="${pageContext.request.contextPath}/js/jquery/jquery-3.4.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.bundle.js"></script>
+    <script src="${pageContext.request.contextPath}/js/validate.js"></script>
 </head>
 <body>
 <c:import url="/jsp/fragment/header.jsp"/>
@@ -52,7 +53,7 @@
                             <span><fmt:message key="${requestScope.errMessage}" bundle="${err_rb}"/></span>
                         </div>
                         </c:if>
-                        <button type="submit" class="btn btn-primary">${submit}</button>
+                        <button type="submit" class="btn btn-primary" id="submit" disabled>${submit}</button>
                     </form>
                 </div>
             </div>

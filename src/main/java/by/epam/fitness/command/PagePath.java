@@ -27,6 +27,8 @@ public class PagePath {
     public static final String ADMIN_PROFILE_EDIT_PATH = "jsp/pages/admin/account/profile-edit.jsp";
     public static final String ADMIN_SUCCESS_CHANGE_PASSWORD_PATH = "jsp/pages/admin/password-success.jsp";
     public static final String ADMIN_EDIT_PASSWORD_PATH = "jsp/pages/admin/account/password-edit.jsp";
+    public static final String ADMIN_CREATE_TRAINER = "jsp/pages/admin/account/create-trainer.jsp";
+
 
 
 

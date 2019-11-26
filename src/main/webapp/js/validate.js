@@ -186,4 +186,17 @@ $(document).ready(function() {
         else
             $('#submit').attr('disabled', false);
     });
+
+    $('.form-group input').on('focusout', function() {
+        let empty = false;
+
+        $('.form-group input').each(function() {
+            empty = $(this).val().length == 0;
+        });
+
+        if (empty)
+            $('#submit').attr('disabled', 'disabled');
+        else
+            $('#submit').attr('disabled', false);
+    });
 });

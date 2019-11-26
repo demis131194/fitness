@@ -126,14 +126,14 @@
                                     <div class="form-group row">
                                         <label for="input-client-discount" class="col-lg-2 col-form-label">${discount}</label>
                                         <div class="col-lg-4">
-                                            <input type="number" name="userDiscount" class="form-control" id="input-client-discount" value="${client.discount}"/>
+                                            <input type="number" name="userDiscount" class="form-control" id="input-client-discount" min="0" max="100" value="${client.discount}"/>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="input-client-discount-level" class="col-lg-2 col-form-label">${discountLevel}</label>
                                         <div class="col-lg-4">
-                                            <input type="number" name="userDiscountLevel" class="form-control" id="input-client-discount-level" value="${client.discountLevel}"/>
+                                            <input type="number" name="userDiscountLevel" class="form-control" min="0" max="3" id="input-client-discount-level" value="${client.discountLevel}"/>
                                         </div>
                                     </div>
                                     <c:if test="${requestScope.errMessage != null}">

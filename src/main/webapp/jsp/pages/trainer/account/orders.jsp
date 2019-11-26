@@ -21,6 +21,7 @@
 <fmt:message key="orders.accept" bundle="${rb}" var="accept"/>
 <fmt:message key="orders.detail" bundle="${rb}" var="detail"/>
 <fmt:message key="orders.update.order" bundle="${rb}" var="response"/>
+<fmt:message key="orders.empty.list" bundle="${rb}" var="emptyList"/>
 
 <fmt:message key="orders.filter.show.filter" bundle="${rb}" var="showFilter"/>
 <fmt:message key="orders.filter.client.name" bundle="${rb}" var="clientName"/>
@@ -62,85 +63,94 @@
                         <h2>${title}</h2>
                     </div>
 
-                    <button type="button" class="btn btn-info filter-button-show" onclick="clickFilter()">${showFilter}</button>
-                    <form class="filter-form" id="filterButton" action="${pageContext.request.contextPath}/controller" method="POST">
-                        <input type="hidden" name="command" value="FIND_ORDERS_BY_FILTER">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputClientName">${clientName}</label>
-                                <input type="text" class="form-control" id="inputClientName" name="clientName" placeholder="Name">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputClientLastName">${clientLastName}</label>
-                                <input type="text" class="form-control" id="inputClientLastName" name="clientLastName" placeholder="Last name">
-                            </div>
-                        </div>
+                    <c:choose>
+                        <c:when test="${requestScope.orders.size() > 0}">
+                            <button type="button" class="btn btn-info filter-button-show" onclick="clickFilter()">${showFilter}</button>
+                            <form class="filter-form" id="filterButton" action="${pageContext.request.contextPath}/controller" method="POST">
+                                <input type="hidden" name="command" value="FIND_ORDERS_BY_FILTER">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputClientName">${clientName}</label>
+                                        <input type="text" class="form-control" id="inputClientName" name="clientName" placeholder="Name">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputClientLastName">${clientLastName}</label>
+                                        <input type="text" class="form-control" id="inputClientLastName" name="clientLastName" placeholder="Last name">
+                                    </div>
+                                </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="inputStartDate">${filterSartDate}</label>
-                                <input type="date" class="form-control" id="inputStartDate" name="startDate" placeholder="Start date">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEndDate">${filterEndDate}</label>
-                                <input type="date" class="form-control" id="inputEndDate" name="endDate" placeholder="End date">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputStatus">${filterStatus}</label>
-                                <select id="inputStatus" class="form-control" name="status">
-                                    <option value="0">${statusNew}</option>
-                                    <option value="1">${statusReviewed}</option>
-                                    <option value="2">${statusRejected}</option>
-                                    <option value="3">${statusAccepted}</option>
-                                    <option value="4">${statusInProcess}</option>
-                                    <option value="5">${statusTerminated}</option>
-                                    <option selected value="null">ANY</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success">${btnFilter}</button>
-                    </form>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputStartDate">${filterSartDate}</label>
+                                        <input type="date" class="form-control" id="inputStartDate" name="startDate" placeholder="Start date">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEndDate">${filterEndDate}</label>
+                                        <input type="date" class="form-control" id="inputEndDate" name="endDate" placeholder="End date">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputStatus">${filterStatus}</label>
+                                        <select id="inputStatus" class="form-control" name="status">
+                                            <option value="0">${statusNew}</option>
+                                            <option value="1">${statusReviewed}</option>
+                                            <option value="2">${statusRejected}</option>
+                                            <option value="3">${statusAccepted}</option>
+                                            <option value="4">${statusInProcess}</option>
+                                            <option value="5">${statusTerminated}</option>
+                                            <option selected value="null">ANY</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success">${btnFilter}</button>
+                            </form>
 
-                    <table>
-                        <c:forEach items="${requestScope.orders}" var="order">
-                            <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
-                            <tbody class="order">
-                            <tr>
-                                <td>
-                                    <table>
-                                        <tr>
-                                            <th>${registerDate}</th>
-                                            <th>${clientFio}</th>
-                                            <th>${startDate}</th>
-                                            <th>${endDate}</th>
-                                            <th>${status}</th>
-                                            <th></th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <ctg:date-time-parse dateTime="${order.registerDate}"/>
-                                            </td>
-                                            <td>${order.clientName} ${order.clientLastName}</td>
-                                            <td>${order.startDate}</td>
-                                            <td>${order.endDate}</td>
-                                            <td>${order.orderStatus}</td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${order.orderStatus.ordinal() >= 0 && order.orderStatus.ordinal() <= 2}">
-                                                        <a href="${pageContext.request.contextPath}/controller?command=TRAINER_SHOW_UPDATED_ORDER&orderId=${order.id}">${response}</a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_TRAINER&orderId=${order.id}">${detail}</a>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </c:forEach>
-                    </table>
+                            <table>
+                                <c:forEach items="${requestScope.orders}" var="order">
+                                    <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
+                                    <tbody class="order">
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <th>${registerDate}</th>
+                                                    <th>${clientFio}</th>
+                                                    <th>${startDate}</th>
+                                                    <th>${endDate}</th>
+                                                    <th>${status}</th>
+                                                    <th></th>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <ctg:date-time-parse dateTime="${order.registerDate}"/>
+                                                    </td>
+                                                    <td>${order.clientName} ${order.clientLastName}</td>
+                                                    <td>${order.startDate}</td>
+                                                    <td>${order.endDate}</td>
+                                                    <td>${order.orderStatus}</td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${order.orderStatus.ordinal() >= 0 && order.orderStatus.ordinal() <= 2}">
+                                                                <a href="${pageContext.request.contextPath}/controller?command=TRAINER_SHOW_UPDATED_ORDER&orderId=${order.id}">${response}</a>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_TRAINER&orderId=${order.id}">${detail}</a>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </c:forEach>
+                            </table>
+                        </c:when>
+                        <c:otherwise>
+                            <div>
+                                <h2>${emptyList}</h2>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

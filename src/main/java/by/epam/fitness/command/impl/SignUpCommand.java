@@ -80,8 +80,6 @@ public class SignUpCommand implements Command {
                 page = PagePath.SIGN_UP_PATH;
             }
 
-            requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.INCORRECT_INPUT_DATA);
-
         } catch (ServiceException e) {
             page = PagePath.SIGN_UP_PATH;
             requestContent.putAttribute(AttributeName.ERR_MESSAGE, ErrorMessageKey.LOGIN_ALREADY_EXIST);

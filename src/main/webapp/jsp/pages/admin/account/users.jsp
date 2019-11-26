@@ -16,6 +16,7 @@
 <fmt:message key="users.update" bundle="${rb}" var="update"/>
 <fmt:message key="users.delete" bundle="${rb}" var="delete"/>
 <fmt:message key="users.restore" bundle="${rb}" var="restore"/>
+<fmt:message key="users.empty.list" bundle="${rb}" var="emptyList"/>
 
 <fmt:message key="users.filter.show.filter" bundle="${rb}" var="showFilter"/>
 <fmt:message key="users.filter.name" bundle="${rb}" var="filterUserName"/>
@@ -52,73 +53,85 @@
                         <h2>${title}</h2>
                     </div>
 
-                    <button type="button" class="btn btn-info filter-button-show" onclick="clickFilter()">${showFilter}</button>
-                    <form class="filter-form" id="filterButton" action="${pageContext.request.contextPath}/controller" method="POST">
-                        <input type="hidden" name="command" value="FIND_USERS_BY_FILTER">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputUserName">${filterUserName}</label>
-                                <input type="text" class="form-control" id="inputUserName" name="userName" placeholder="Name">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputUserLastName">${filterUserLastName}</label>
-                                <input type="text" class="form-control" id="inputUserLastName" name="userLastName" placeholder="Last name">
-                            </div>
-                        </div>
+                    <c:choose>
+                        <c:when test="${requestScope.users.size() > 0}">
 
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="inputStatus">${filterRole}</label>
-                                <select id="inputStatus" class="form-control" name="userRole">
-                                    <option value="CLIENT">${roleClient}</option>
-                                    <option value="TRAINER">${roleTrainer}</option>
-                                    <option value="" selected>${roleAny}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success">${btnFilter}</button>
-                    </form>
+                            <button type="button" class="btn btn-info filter-button-show" onclick="clickFilter()">${showFilter}</button>
+                            <form class="filter-form" id="filterButton" action="${pageContext.request.contextPath}/controller" method="POST">
+                                <input type="hidden" name="command" value="FIND_USERS_BY_FILTER">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputUserName">${filterUserName}</label>
+                                        <input type="text" class="form-control" id="inputUserName" name="userName" placeholder="Name">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputUserLastName">${filterUserLastName}</label>
+                                        <input type="text" class="form-control" id="inputUserLastName" name="userLastName" placeholder="Last name">
+                                    </div>
+                                </div>
 
-                    <table>
-                        <c:forEach items="${requestScope.users}" var="user">
-                            <jsp:useBean id="user" type="by.epam.fitness.model.user.User"/>
-                            <tbody class="users">
-                            <tr>
-                                <td>
-                                    <table>
-                                        <tr>
-                                            <th>${id}</th>
-                                            <th>${clientName}</th>
-                                            <th>${role}</th>
-                                            <th>${active}</th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                        <tr>
-                                            <td>${user.id}</td>
-                                            <td>${user.name} ${user.lastName}</td>
-                                            <td>${user.role}</td>
-                                            <td>${user.active}</td>
-                                            <td><a href="${pageContext.request.contextPath}/controller?command=FIND_USER_BY_ADMIN&userId=${user.id}&userRole=${user.role}">${detail}</a></td>
-                                            <td><a href="${pageContext.request.contextPath}/controller?command=UPDATE_USER_BY_ADMIN&userId=${user.id}&userRole=${user.role}">${update}</a></td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${user.active}">
-                                                        <a href="${pageContext.request.contextPath}/controller?command=DELETE_USER_BY_ADMIN&userId=${user.id}">${delete}</a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <a href="${pageContext.request.contextPath}/controller?command=RESTORE_USER_BY_ADMIN&userId=${user.id}">${restore}</a>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </c:forEach>
-                    </table>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputStatus">${filterRole}</label>
+                                        <select id="inputStatus" class="form-control" name="userRole">
+                                            <option value="CLIENT">${roleClient}</option>
+                                            <option value="TRAINER">${roleTrainer}</option>
+                                            <option value="" selected>${roleAny}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success">${btnFilter}</button>
+                            </form>
+
+                            <table>
+                                <c:forEach items="${requestScope.users}" var="user">
+                                    <jsp:useBean id="user" type="by.epam.fitness.model.user.User"/>
+                                    <tbody class="users">
+                                    <tr>
+                                        <td>
+                                            <table class="table-element">
+                                                <div class="col-lg-10">
+                                                    <tr>
+                                                        <th>${id}</th>
+                                                        <th>${clientName}</th>
+                                                        <th>${role}</th>
+                                                        <th>${active}</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>${user.id}</td>
+                                                        <td>${user.name} ${user.lastName}</td>
+                                                        <td>${user.role}</td>
+                                                        <td>${user.active}</td>
+                                                        <td><a href="${pageContext.request.contextPath}/controller?command=FIND_USER_BY_ADMIN&userId=${user.id}&userRole=${user.role}">${detail}</a></td>
+                                                        <td><a href="${pageContext.request.contextPath}/controller?command=UPDATE_USER_BY_ADMIN&userId=${user.id}&userRole=${user.role}">${update}</a></td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${user.active}">
+                                                                    <a href="${pageContext.request.contextPath}/controller?command=DELETE_USER_BY_ADMIN&userId=${user.id}">${delete}</a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="${pageContext.request.contextPath}/controller?command=RESTORE_USER_BY_ADMIN&userId=${user.id}">${restore}</a>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                    </tr>
+                                                </div>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </c:forEach>
+                            </table>
+                        </c:when>
+                        <c:otherwise>
+                            <div>
+                                <h2>${emptyList}</h2>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
