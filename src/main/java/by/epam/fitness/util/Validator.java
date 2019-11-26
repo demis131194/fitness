@@ -19,10 +19,6 @@ public class Validator {
         return password.matches(PASSWORD_REGEX);
     }
 
-    public static boolean checkPassword(String password, String repeatedPassword) {
-        return checkPassword(password) && password.equals(repeatedPassword);
-    }
-
     public static boolean checkName(String name) {
         return name.matches(NAME_LAST_NAME_REGEX);
     }

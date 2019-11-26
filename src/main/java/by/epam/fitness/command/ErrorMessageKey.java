@@ -1,4 +1,4 @@
-package by.epam.fitness.util;
+package by.epam.fitness.command;
 
 public class ErrorMessageKey {
     public static final String INVALID_LOGIN_OR_PASSWORD = "invalid.login.or.password";

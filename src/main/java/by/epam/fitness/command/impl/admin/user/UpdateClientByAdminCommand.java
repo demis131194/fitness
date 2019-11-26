@@ -2,15 +2,14 @@ package by.epam.fitness.command.impl.admin.user;
 
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
+import by.epam.fitness.command.ErrorMessageKey;
 import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.user.Client;
-import by.epam.fitness.model.user.User;
 import by.epam.fitness.service.ClientService;
 import by.epam.fitness.service.impl.user.ClientServiceImpl;
-import by.epam.fitness.util.ErrorMessageKey;
 import by.epam.fitness.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

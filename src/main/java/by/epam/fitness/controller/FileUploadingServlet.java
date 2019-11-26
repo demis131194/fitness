@@ -8,7 +8,6 @@ import by.epam.fitness.service.UserService;
 import by.epam.fitness.service.impl.user.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.xml.sax.InputSource;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -17,7 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/upload"})
 @MultipartConfig(fileSizeThreshold = 1024 *  1024,
@@ -76,10 +76,8 @@ public class FileUploadingServlet extends HttpServlet {
 
             request.getRequestDispatcher(page).forward(request, response);
 
-        } catch (IOException e) {
-
-        } catch (ServiceException e) {
-
+        } catch (IOException | ServiceException e) {
+            logger.warn(e);
         }
 
     }

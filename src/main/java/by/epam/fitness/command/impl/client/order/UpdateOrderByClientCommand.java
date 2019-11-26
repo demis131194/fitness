@@ -2,6 +2,7 @@ package by.epam.fitness.command.impl.client.order;
 
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
+import by.epam.fitness.command.ErrorMessageKey;
 import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
@@ -13,7 +14,6 @@ import by.epam.fitness.service.ClientService;
 import by.epam.fitness.service.OrderService;
 import by.epam.fitness.service.impl.OrderServiceImpl;
 import by.epam.fitness.service.impl.user.ClientServiceImpl;
-import by.epam.fitness.util.ErrorMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
