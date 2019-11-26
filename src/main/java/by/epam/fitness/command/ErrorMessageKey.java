@@ -22,11 +22,13 @@ public class ErrorMessageKey {
     public static final String INCORRECT_CARD_NUMBER = "incorrect.card.number";
     public static final String CARD_NOT_EXISTS = "card.not.exists";
     public static final String CARD_NOT_ENOUGH_AMOUNT = "card.not.enough.amount";
-
     public static final String INVALID_USER_NAME = "invalid.user.name";
+    public static final String INVALID_TRAINER_NAME = "invalid.trainer.name";
     public static final String INVALID_USER_LAST_NAME = "invalid.user.last.name";
     public static final String INVALID_USER_PHONE = "invalid.user.phone";
     public static final String ACCOUNT_NOT_ENOUGH_AMOUNT = "account.not.enough.amount";
+    public static final String INVALID_TRAINER_LAST_NAME = "invalid.trainer.last.name";
+
 
     private ErrorMessageKey() {}
 }

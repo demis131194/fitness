@@ -5,6 +5,7 @@
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
+<fmt:setBundle basename="bundle/err" var="err_rb"/>
 
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="orders.title" bundle="${rb}" var="title"/>
@@ -15,6 +16,7 @@
 <fmt:message key="comments.actions" bundle="${rb}" var="actions"/>
 <fmt:message key="comments.id" bundle="${rb}" var="id"/>
 
+<fmt:message key="orders.empty.list" bundle="${rb}" var="emptyList"/>
 <fmt:message key="orders.filter.show.filter" bundle="${rb}" var="showFilter"/>
 <fmt:message key="orders.filter.trainer.name" bundle="${rb}" var="trainerName"/>
 <fmt:message key="orders.filter.client.name" bundle="${rb}" var="clientName"/>
@@ -102,58 +104,74 @@
                                 </select>
                             </div>
                         </div>
+
+                        <c:if test="${requestScope.errMessage != null}">
+                            <div class="alert alert-danger">
+                                <span><fmt:message key="${requestScope.errMessage}" bundle="${err_rb}"/></span>
+                            </div>
+                        </c:if>
+
                         <button type="submit" class="btn btn-success">${btnFilter}</button>
                     </form>
 
-                    <table>
-                        <c:forEach items="${requestScope.comments}" var="comment">
-                            <jsp:useBean id="comment" type="by.epam.fitness.model.Comment"/>
-                            <tbody class="comment">
-                            <tr>
-                                <td>
-                                    <div class="comment-client">
-                                        <p>${comment.clientName} ${comment.clientLastName}</p>
-                                        <p>${writeAbout}</p>
-                                        <span>${comment.trainerName} ${comment.trainerLastName}</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="comment-wrap">
-                                        <div class="comment-date">
-                                            <small>
-                                                <ctg:date-time-parse dateTime="${comment.registerDate}"/>
-                                            </small>
-                                        </div>
-                                        <div class="comment-text">
-                                            <p>${comment.comment}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>${active}</td>
-                                <td>${comment.active}</td>
-                            </tr>
-                            <tr>
-                                <td>${id}</td>
-                                <td>${comment.id}</td>
-                            </tr>
-                            <tr>
-                                <td>${actions}</td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${comment.active}">
-                                            <a href="${pageContext.request.contextPath}/controller?command=DELETE_COMMENT_BY_ADMIN&commentId=${comment.id}">${delete}</a>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <a href="${pageContext.request.contextPath}/controller?command=RESTORE_COMMENT_BY_ADMIN&commentId=${comment.id}">${restore}</a>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </c:forEach>
-                    </table>
+                    <c:choose>
+                        <c:when test="${requestScope.comments.size() > 0}">
+                            <table>
+                                <c:forEach items="${requestScope.comments}" var="comment">
+                                    <jsp:useBean id="comment" type="by.epam.fitness.model.Comment"/>
+                                    <tbody class="comment">
+                                    <tr>
+                                        <td>
+                                            <div class="comment-client">
+                                                <p>${comment.clientName} ${comment.clientLastName}</p>
+                                                <p>${writeAbout}</p>
+                                                <span>${comment.trainerName} ${comment.trainerLastName}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="comment-wrap">
+                                                <div class="comment-date">
+                                                    <small>
+                                                        <ctg:date-time-parse dateTime="${comment.registerDate}"/>
+                                                    </small>
+                                                </div>
+                                                <div class="comment-text">
+                                                    <p>${comment.comment}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>${active}</td>
+                                        <td>${comment.active}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${id}</td>
+                                        <td>${comment.id}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${actions}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${comment.active}">
+                                                    <a href="${pageContext.request.contextPath}/controller?command=DELETE_COMMENT_BY_ADMIN&commentId=${comment.id}">${delete}</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="${pageContext.request.contextPath}/controller?command=RESTORE_COMMENT_BY_ADMIN&commentId=${comment.id}">${restore}</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </c:forEach>
+                            </table>
+                        </c:when>
+                        <c:otherwise>
+                            <div>
+                                <h2>${emptyList}</h2>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

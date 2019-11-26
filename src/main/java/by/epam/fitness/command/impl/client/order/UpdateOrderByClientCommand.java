@@ -29,7 +29,7 @@ public class UpdateOrderByClientCommand implements Command {
         Order order = null;
         try {
             int orderId = Integer.parseInt(requestContent.getParameterByName(AttributeName.ORDER_ID));
-            String comment = requestContent.getParameterByName(AttributeName.COMMENT);
+            String comment = requestContent.getParameterByName(AttributeName.COMMENT).strip();
             int orderStatusOrdinal = Integer.parseInt(requestContent.getParameterByName(AttributeName.STATUS));
             OrderStatus status = OrderStatus.values()[orderStatusOrdinal];
 
