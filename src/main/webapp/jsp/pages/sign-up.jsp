@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <script src="${pageContext.request.contextPath}/js/jquery/jquery-3.4.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.bundle.js"></script>
+    <script src="${pageContext.request.contextPath}/js/validate.js"></script>
 </head>
 <body>
 <c:import url="/jsp/fragment/header.jsp"/>
@@ -47,47 +48,47 @@
                     <div class="main-form-header">
                         <h4><a href="${pageContext.request.contextPath}">${home}</a></h4>
                     </div>
-                    <form name="signUpForm" action="${pageContext.request.contextPath}/controller" method="POST">
+                    <form name="signUpForm" action="${pageContext.request.contextPath}/controller" method="POST" id="form">
                         <input type="hidden" name="command" value="sign_up">
                         <div class="form-group row">
                             <label for="input-login" class="col-lg-2 col-form-label">${formLogin}</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-9">
                                 <input type="text" name="userLogin" class="form-control" id="input-login" placeholder="${loginPlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-name" class="col-lg-2 col-form-label">${formName}</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-9">
                                 <input type="text" name="userName" class="form-control" id="input-name" placeholder="${namePlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-last-name" class="col-lg-2 col-form-label">${formLastName}</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-9">
                                 <input type="text" name="userLastName" class="form-control" id="input-last-name" placeholder="${lastNamePlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-phone" class="col-lg-2 col-form-label">${formPhone}</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-9">
                                 <input type="text" name="userPhone" class="form-control" id="input-phone" placeholder="${phonePlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-mail" class="col-lg-2 col-form-label">${formMail}</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-9">
                                 <input type="email" name="userMail" class="form-control" id="input-mail" placeholder="${mailPlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="input-password" class="col-lg-2 col-form-label">${formPassword}</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-9">
                                 <input type="password" name="userPassword" class="form-control" id="input-password" placeholder="${passwordPlaceholder}">
                             </div>
                         </div>
                         <div class="form-group row in-line">
                             <label for="input-repeat-password" class="col-lg-2 col-form-label">${formPassword}</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-9">
                                 <input type="password" name="repeatPassword" class="form-control" id="input-repeat-password" placeholder="${passwordRepeatPlaceholder}">
                             </div>
                         </div>
@@ -96,7 +97,7 @@
                                 <span><fmt:message key="${requestScope.errMessage}" bundle="${err_rb}"/></span>
                             </div>
                         </c:if>
-                        <button type="submit" class="btn btn-primary">${submit}</button>
+                        <button type="submit" class="btn btn-primary" id="submit" disabled>${submit}</button>
                     </form>
                 </div>
             </div>

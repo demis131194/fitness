@@ -1,13 +1,13 @@
 package by.epam.fitness.util;
 
 public class Validator {
-    private static final String LOGIN_REGEX = "^[\\w_]{3,16}$";
-    private static final String PASSWORD_REGEX = "^[\\w_]{5,18}$";
+    private static final String LOGIN_REGEX = "^[\\w]{3,16}$";
+    private static final String PASSWORD_REGEX = "^[\\w]{5,18}$";
     private static final String NAME_LAST_NAME_REGEX = "^[\\p{IsAlphabetic}\\-]{3,20}$";
     private static final String PHONE_REGEX = "^\\+?\\d{7,20}$";
     private static final String CARD_NUMBER_REGEX = "^\\d{16}$";
     private static final String CASH_AMOUNT_REGEX = "^\\d{1,4}(\\.\\d{2})?$";
-    private static final String EMAIL_REGEX = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,4}$";
+    private static final String EMAIL_REGEX = "^[\\w]+@[a-zA-Z]+\\.[a-zA-Z]{2,4}$";
 
     private Validator(){}
 
