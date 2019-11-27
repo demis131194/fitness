@@ -33,7 +33,7 @@ public class FileUploadingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String applicationDir = request.getServletContext().getRealPath("");
         int userId = (Integer) request.getSession().getAttribute(AttributeName.USER_ID);
-        String uploadFileDir = applicationDir + UPLOAD_DIR + "/" + userId + "/";
+        String uploadFileDir = applicationDir + UPLOAD_DIR + File.separator + userId + File.separator;
         File fileSaveDir = new File(uploadFileDir);
         if(!fileSaveDir.exists()){
             fileSaveDir.mkdirs();
@@ -44,7 +44,7 @@ public class FileUploadingServlet extends HttpServlet {
             for(Part part : request.getParts()) {
                 if (part.getSubmittedFileName() != null) {
                     part.write(uploadFileDir + part.getSubmittedFileName());
-                    imgPath = request.getServletContext().getContextPath() + "/" + UPLOAD_DIR + "/" + userId + "/" + part.getSubmittedFileName();
+                    imgPath = request.getServletContext().getContextPath() + File.separator + UPLOAD_DIR + File.separator + userId + File.separator + part.getSubmittedFileName();
                 }
             }
 

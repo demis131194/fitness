@@ -182,6 +182,10 @@
 .table-element {
   border: 1px solid black;
 }
+.error-image {
+  width: 70%;
+  height: 700px;
+}
 .info {
   text-align: left;
   padding: 5px;

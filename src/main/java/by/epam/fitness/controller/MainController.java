@@ -44,7 +44,7 @@ public class MainController extends HttpServlet {
             content.insertAttributes(req);
             req.getRequestDispatcher(page).forward(req, resp);
         } catch (CommandException e) {
-            req.setAttribute("error", e);
+            req.setAttribute(AttributeName.ERROR, e);
             req.getRequestDispatcher(PagePath.ERROR_PATH).forward(req, resp);
         }
     }

@@ -3,7 +3,6 @@ package by.epam.fitness.command.impl.trainer.order;
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.PagePath;
-import by.epam.fitness.command.impl.client.order.UpdateOrderByClientCommand;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
@@ -23,9 +22,9 @@ public class UpdateOrderByTrainerCommand implements Command {
     public String execute(SessionRequestContent requestContent) throws CommandException {
         String page;
         try {
-            Integer orderId = Integer.parseInt(requestContent.getParameterByName(AttributeName.ORDER_ID));
-            String exercises = requestContent.getParameterByName(AttributeName.EXERCISES);
-            String nutrition = requestContent.getParameterByName(AttributeName.NUTRITION);
+            int orderId = Integer.parseInt(requestContent.getParameterByName(AttributeName.ORDER_ID));
+            String exercises = requestContent.getParameterByName(AttributeName.EXERCISES).strip().replaceAll("<script>", "").replaceAll("</script>", "");
+            String nutrition = requestContent.getParameterByName(AttributeName.NUTRITION).strip().replaceAll("<script>", "").replaceAll("</script>", "");;
             OrderStatus status = OrderStatus.REVIEWED;
 
             Order order = new Order();

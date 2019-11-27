@@ -25,7 +25,7 @@ public class UpdateProfileByTrainerCommand implements Command {
         boolean isValidParameters = true;
 
         try {
-            Integer clientId = Integer.parseInt(requestContent.getParameterByName(AttributeName.USER_ID));
+            int clientId = Integer.parseInt(requestContent.getParameterByName(AttributeName.USER_ID));
             String userName = requestContent.getParameterByName(AttributeName.USER_NAME).strip();
             String userLastName = requestContent.getParameterByName(AttributeName.USER_LAST_NAME).strip();
             String userPhone = requestContent.getParameterByName(AttributeName.USER_PHONE).strip();

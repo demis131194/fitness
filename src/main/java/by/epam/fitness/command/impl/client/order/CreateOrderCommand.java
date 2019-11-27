@@ -30,7 +30,7 @@ public class CreateOrderCommand implements Command {
             int clientId = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID);
             int discount = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_DISCOUNT);
             int trainerId = Integer.parseInt(requestContent.getParameterByName(AttributeName.TRAINER_ID));
-            String clientComment = requestContent.getParameterByName(AttributeName.COMMENT);
+            String clientComment = requestContent.getParameterByName(AttributeName.COMMENT).strip().replaceAll("<script>", "").replaceAll("</script>", "");;
             String date = requestContent.getParameterByName(AttributeName.START_DATE);
             LocalDate startDate = LocalDate.parse(date);
             String duration = requestContent.getParameterByName(AttributeName.DURATION);

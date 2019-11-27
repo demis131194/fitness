@@ -42,11 +42,11 @@
                         <input type="hidden" name="command" value="login">
                         <div class="form-group">
                             <label for="input-login">${formLogin}</label>
-                            <input type="text" name="Login" class="form-control" id="input-login" placeholder="${loginPlaceholder}">
+                            <input type="text" name="userLogin" class="form-control" id="input-login" placeholder="${loginPlaceholder}">
                         </div>
                         <div class="form-group">
                             <label for="input-password">${formPassword}</label>
-                            <input type="password" name="Password" class="form-control" id="input-password" placeholder="${passwordPlaceholder}">
+                            <input type="password" name="userPassword" class="form-control" id="input-password" placeholder="${passwordPlaceholder}">
                         </div>
                         <c:if test="${requestScope.errMessage != null}">
                         <div class="alert alert-danger">

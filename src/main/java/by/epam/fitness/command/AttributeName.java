@@ -59,6 +59,7 @@ public class AttributeName {
     public static final String REGISTER_DATE = "registerDate";
     public static final String CARD_NUMBER = "cardNumber";
     public static final String CASH_AMOUNT = "cashAmount";
+    public static final String ERROR = "error";
 
 
     private AttributeName() {}

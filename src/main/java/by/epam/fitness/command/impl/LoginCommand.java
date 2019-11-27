@@ -26,9 +26,6 @@ import org.apache.logging.log4j.Logger;
 public class LoginCommand implements Command {
     private static Logger logger = LogManager.getLogger(LoginCommand.class);
 
-    private static final String PARAM_NAME_LOGIN = "Login";
-    private static final String PARAM_NAME_PASSWORD = "Password";
-
     private UserService userService = UserServiceImpl.getInstance();
     private AdminService adminService = AdminServiceImpl.getInstance();
     private TrainerService trainerService = TrainerServiceImpl.getInstance();
@@ -36,8 +33,8 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {
-        String login = requestContent.getParameterByName(PARAM_NAME_LOGIN);
-        String password = requestContent.getParameterByName(PARAM_NAME_PASSWORD);
+        String login = requestContent.getParameterByName(AttributeName.USER_LOGIN);
+        String password = requestContent.getParameterByName(AttributeName.USER_PASSWORD);
 
         User user;
         String page;

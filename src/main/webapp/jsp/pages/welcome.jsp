@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <script src="${pageContext.request.contextPath}/js/jquery/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.bundle.js"></script>
     <meta http-equiv="refresh" content="6;${pageContext.request.contextPath}/index.jsp">
 </head>
 <body>

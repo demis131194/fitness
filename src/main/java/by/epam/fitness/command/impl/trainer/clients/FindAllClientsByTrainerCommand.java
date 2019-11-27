@@ -3,7 +3,6 @@ package by.epam.fitness.command.impl.trainer.clients;
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.PagePath;
-import by.epam.fitness.command.impl.admin.user.FindAllUsersByAdminCommand;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
@@ -12,15 +11,12 @@ import by.epam.fitness.model.OrderStatus;
 import by.epam.fitness.model.user.User;
 import by.epam.fitness.service.ClientService;
 import by.epam.fitness.service.OrderService;
-import by.epam.fitness.service.TrainerService;
 import by.epam.fitness.service.impl.OrderServiceImpl;
 import by.epam.fitness.service.impl.user.ClientServiceImpl;
-import by.epam.fitness.service.impl.user.TrainerServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,8 +45,6 @@ public class FindAllClientsByTrainerCommand implements Command {
                 User user = clientService.find(id);
                 users.add(user);
             }
-
-
 
             page = PagePath.TRAINER_CLIENTS_PATH;
             requestContent.putAttribute(AttributeName.USERS, users);

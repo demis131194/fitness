@@ -7,18 +7,18 @@
 
     <display-name>fitness</display-name>
 
-<!--    <error-page>-->
-<!--        <error-code>404</error-code>-->
-<!--        <location>/jsp/pages/err/error404.jsp</location>-->
-<!--    </error-page>-->
-<!--    <error-page>-->
-<!--        <error-code>500</error-code>-->
-<!--        <location>/jsp/pages/err/error500.jsp</location>-->
-<!--    </error-page>-->
-<!--    <error-page>-->
-<!--        <exception-type>java.lang.Exception</exception-type>-->
-<!--        <location>/jsp/pages/err/error.jsp</location>-->
-<!--    </error-page>-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/jsp/pages/err/error404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/jsp/pages/err/error500.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/jsp/pages/err/error.jsp</location>
+    </error-page>
 
     <jsp-config>
         <taglib>

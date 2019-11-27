@@ -23,7 +23,7 @@ public class CreateCommentCommand implements Command {
         try {
             int clientId = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID);
             int trainerId = Integer.parseInt(requestContent.getParameterByName(AttributeName.TRAINER_ID));
-            String clientComment = requestContent.getParameterByName(AttributeName.COMMENT);
+            String clientComment = requestContent.getParameterByName(AttributeName.COMMENT).strip().replaceAll("<script>", "").replaceAll("</script>", "");;
 
             Comment comment = new Comment();
             comment.setClientId(clientId);
