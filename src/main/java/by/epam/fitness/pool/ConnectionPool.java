@@ -19,13 +19,14 @@ public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static final int DEFAULT_NUMBER_OF_CONNECTION = 5;
     private static final String PROPERTY_PATH = "db/mysql.properties";
+    private static final String URL_PROPERTY_KEY = "url";
     private static AtomicBoolean isCreated = new AtomicBoolean(false);
     private static ConnectionPool instance;
 
     private int numberOfConnections;
 
     private BlockingQueue<ProxyConnection> awaitingConnections;
-    private List<ProxyConnection>  occupiedConnections = new ArrayList<>();
+    private List<ProxyConnection> occupiedConnections = new ArrayList<>();
     private Driver driver;
 
 
@@ -45,7 +46,7 @@ public class ConnectionPool {
             driver = new com.mysql.cj.jdbc.Driver();
             DriverManager.registerDriver(driver);
             for (int i = 0; i < numberOfConnections; i++) {
-                ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(property.getProperty("url"), property));
+                ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(property.getProperty(URL_PROPERTY_KEY), property));
                 awaitingConnections.offer(connection);
             }
 
@@ -56,7 +57,7 @@ public class ConnectionPool {
 
     }
 
-    public static ConnectionPool getInstance() {                    // FIXME: 29.10.2019 need synchronization???
+    public static ConnectionPool getInstance() {
         if (!isCreated.get()) {
             initPool();
             logger.debug("Connection pool created, number of connections - {}", instance.numberOfConnections);
@@ -64,7 +65,7 @@ public class ConnectionPool {
         return instance;
     }
 
-    public static void initPool() {                 // FIXME: 29.10.2019 how is it?
+    public static void initPool() {
         if (!isCreated.getAndSet(true)) {
             instance = new ConnectionPool();
         }

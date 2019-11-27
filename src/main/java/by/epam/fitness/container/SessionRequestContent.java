@@ -16,9 +16,7 @@ public class SessionRequestContent {
     public SessionRequestContent(HttpServletRequest request) {
         Enumeration<String> attributeNames = request.getAttributeNames();
         Collections.list(attributeNames).forEach(attr -> requestAttributes.put(attr, request.getAttribute(attr)));
-
-        requestParameters = new HashMap<>(request.getParameterMap());                   // FIXME: 22.10.2019 putAll??
-
+        requestParameters = new HashMap<>(request.getParameterMap());
         HttpSession session = request.getSession(false);
         if (Objects.nonNull(session)) {
             Enumeration<String> sessionAttributesNames = session.getAttributeNames();
@@ -27,14 +25,12 @@ public class SessionRequestContent {
 
     }
 
-    public void insertAttributes(HttpServletRequest request) {                          // FIXME: 22.10.2019 SetParameters ???
+    public void insertAttributes(HttpServletRequest request) {
         requestAttributes.forEach(request::setAttribute);
-
         HttpSession session = request.getSession(false);
         if (Objects.nonNull(session)) {
             sessionAttributes.forEach(session::setAttribute);
         }
-
         if (invalidateSession) {
             request.getSession().invalidate();
         }
@@ -48,13 +44,13 @@ public class SessionRequestContent {
         return requestAttributes.put(attributeName, object);
     }
 
-    public String[] getRequestParametersByName(String parameterName) {                          // FIXME: 22.10.2019 need setter  ???
+    public String[] getRequestParametersByName(String parameterName) {
         return requestParameters.get(parameterName);
     }
 
     public String getParameterByName(String parameterName) {
         String[] parameters = requestParameters.get(parameterName);
-        return parameters.length != 0 ? parameters[0] : null;                   // FIXME: 24.10.2019 null ???
+        return parameters.length != 0 ? parameters[0] : null;
     }
 
     public Object getSessionAttributeByName(String sessionAttributeName) {
