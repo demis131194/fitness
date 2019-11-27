@@ -34,8 +34,6 @@ public class FindCommentsByFilterByAdmin implements Command {
             String regDate = requestContent.getParameterByName(AttributeName.REGISTER_DATE);
             String active = requestContent.getParameterByName(AttributeName.ACTIVE);
 
-            //todo VALIDATION
-
             if (!Validator.checkName(trainerName)) {
                 if (trainerName.isBlank()) {
                     trainerName = null;

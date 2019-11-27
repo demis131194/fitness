@@ -3,9 +3,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="ctg" uri="customtags"%>
 
-
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="bundle/message" var="rb"/>
+<fmt:setBundle basename="bundle/err" var="err_rb"/>
 
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="orders.title" bundle="${rb}" var="title"/>
@@ -70,8 +70,6 @@
                         <h2>${title}</h2>
                     </div>
 
-                    <c:choose>
-                        <c:when test="${requestScope.orders.size() > 0}">
                             <button type="button" class="btn btn-info filter-button-show" onclick="clickFilter()">${showFilter}</button>
                             <form class="filter-form" id="filterButton" action="${pageContext.request.contextPath}/controller" method="POST">
                                 <input type="hidden" name="command" value="FIND_ORDERS_BY_FILTER_BY_ADMIN">
@@ -127,9 +125,18 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <c:if test="${requestScope.errMessage != null}">
+                                    <div class="alert alert-danger">
+                                        <span><fmt:message key="${requestScope.errMessage}" bundle="${err_rb}"/></span>
+                                    </div>
+                                </c:if>
+
                                 <button type="submit" class="btn btn-success">${btnFilter}</button>
                             </form>
 
+                    <c:choose>
+                        <c:when test="${requestScope.orders.size() > 0}">
                             <table>
                                 <c:forEach items="${requestScope.orders}" var="order">
                                     <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
@@ -179,13 +186,10 @@
                                 </c:forEach>
                             </table>
                         </c:when>
-
                         <c:otherwise>
-                            <c:otherwise>
                                 <div>
                                     <h2>${emptyList}</h2>
                                 </div>
-                            </c:otherwise>
                         </c:otherwise>
                     </c:choose>
                 </div>
