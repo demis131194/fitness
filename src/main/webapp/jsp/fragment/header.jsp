@@ -26,7 +26,7 @@
         <div class="col-lg-2">
             <div class="dropdown header-locale">
                 <button class="btn dropdown-toggle btn-sm header-locale-button btn-light" type="button" id="dropdown-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="${pageContext.request.contextPath}/images/icons/icon-locale.png" alt="Locale">
+                    <img src="${pageContext.request.contextPath}/image/icons/icon-locale.png" alt="Locale">
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdown-menu">
                     <a class="dropdown-item btn-sm" href="${pageContext.request.contextPath}/controller?command=change_locale&locale=en_EN">EN</a>

@@ -30,7 +30,7 @@ CREATE TABLE users
     login	 	 VARBINARY(50) 				        NOT NULL,
     password 	 VARCHAR(50) 				        NOT NULL,
     role 	     ENUM('ADMIN', 'TRAINER', 'CLIENT') NOT NULL DEFAULT 'CLIENT',
-    profileImage VARCHAR(255) 					    DEFAULT '/fitness/images/user/default/avatar.png',
+    profileImage VARCHAR(255) 					    DEFAULT '/fitness/image/user/default/avatar.png',
     verification BOOLEAN 					        NOT NULL DEFAULT false,
     active 	     BOOLEAN                            NOT NULL DEFAULT false,
     PRIMARY KEY (id),

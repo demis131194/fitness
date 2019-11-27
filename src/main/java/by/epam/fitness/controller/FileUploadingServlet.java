@@ -26,7 +26,7 @@ import java.io.IOException;
 public class FileUploadingServlet extends HttpServlet {
     private static Logger logger = LogManager.getLogger(FileUploadingServlet.class);
 
-    private static final String UPLOAD_DIR = "images/user";
+    private static final String UPLOAD_DIR = "image/user";
     private static UserService userService = UserServiceImpl.getInstance();
 
     @Override
