@@ -3,6 +3,7 @@ package by.epam.fitness.command;
 import by.epam.fitness.command.impl.*;
 import by.epam.fitness.command.impl.admin.CreateTrainerCommand;
 import by.epam.fitness.command.impl.admin.EditPasswordByAdminCommand;
+import by.epam.fitness.command.impl.admin.LoadProfileImageByAdminCommand;
 import by.epam.fitness.command.impl.admin.UpdateProfileByAdminCommand;
 import by.epam.fitness.command.impl.admin.comment.DeleteCommentByAdmin;
 import by.epam.fitness.command.impl.admin.comment.FindAllCommentsByAdmin;
@@ -16,6 +17,7 @@ import by.epam.fitness.command.impl.client.comment.CreateCommentCommand;
 import by.epam.fitness.command.impl.client.order.*;
 import by.epam.fitness.command.impl.locale.LocaleCommand;
 import by.epam.fitness.command.impl.trainer.EditPasswordByTrainerCommand;
+import by.epam.fitness.command.impl.trainer.LoadProfileImageByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.ShowUpdatedOrderTrainerCommand;
 import by.epam.fitness.command.impl.trainer.UpdateProfileByTrainerCommand;
 import by.epam.fitness.command.impl.trainer.clients.FindAllClientsByTrainerCommand;
@@ -70,6 +72,9 @@ public enum CommandType {
     EDIT_PASSWORD_BY_ADMIN(new EditPasswordByAdminCommand()),
     FIND_ALL_CLIENTS_BY_TRAINER(new FindAllClientsByTrainerCommand()),
     VERIFICATION(new VerificationCommand()),
+    LOAD_PROFILE_IMAGE_BY_ADMIN(new LoadProfileImageByAdminCommand()),
+    LOAD_PROFILE_IMAGE_BY_TRAINER(new LoadProfileImageByTrainerCommand()),
+    LOAD_PROFILE_IMAGE_BY_CLIENT(new LoadProfileImageByClientCommand()),
     CHANGE_LOCALE(new LocaleCommand());
 
     CommandType(Command command) {

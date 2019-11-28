@@ -8,7 +8,7 @@
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
 <fmt:message key="project.contacts" bundle="${rb}" var="projectContacts"/>
 <fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
-<fmt:message key="comment.user.write.about.trainer" bundle="${rb}" var="writeAbout"/>
+<fmt:message key="comment.user.trainer" bundle="${rb}" var="trainer"/>
 
 <html>
 <head>
@@ -32,9 +32,14 @@
                     <tr>
                         <td>
                             <div class="comment-client">
-                                <p>${comment.clientName} ${comment.clientLastName}</p>
-                                <p>${writeAbout}</p>
-                                <span>${comment.trainerName} ${comment.trainerLastName}</span>
+                                <div class="comment-client-image">
+                                    <img src="${comment.clientProfileImagePath}" alt="Avatar image">
+                                    <p>${comment.clientName} ${comment.clientLastName}</p>
+                                </div>
+                                <div class="comment-client-trainer">
+                                    <span>${trainer}</span>
+                                    <span>${comment.trainerName} ${comment.trainerLastName}</span>
+                                </div>
                             </div>
                         </td>
                         <td>

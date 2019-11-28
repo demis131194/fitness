@@ -81,6 +81,7 @@
                         <div>
                             <form method="post" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data" class="upload-form">
                                 <div class="form-group">
+                                    <input type="hidden" name="command" value="load_profile_image_by_client">
                                     <label class="col-form-label col-lg-3">Load your own img</label>
                                     <div class="col-lg-4">
                                         <input type="file" name="multiPartServlet" id="file" onchange="checkUpload()" accept="image/jpeg,image/png,image/gif"/>

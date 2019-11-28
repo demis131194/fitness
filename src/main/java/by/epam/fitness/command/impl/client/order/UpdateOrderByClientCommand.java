@@ -10,6 +10,7 @@ import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.FitnessCard;
 import by.epam.fitness.model.Order;
 import by.epam.fitness.model.OrderStatus;
+import by.epam.fitness.model.user.Client;
 import by.epam.fitness.service.ClientService;
 import by.epam.fitness.service.OrderService;
 import by.epam.fitness.service.impl.OrderServiceImpl;
@@ -38,6 +39,8 @@ public class UpdateOrderByClientCommand implements Command {
             if (status == OrderStatus.ACCEPTED) {
                 int userId = (Integer) requestContent.getSessionAttributeByName(AttributeName.USER_ID);
                 clientService.withdrawCash(userId, order.getPrice(), FitnessCard.FITNESS_CARD);
+                Client client = clientService.find(userId);
+                requestContent.putSessionAttribute(AttributeName.USER_CASH, client.getCash());
             }
 
             order.setId(orderId);

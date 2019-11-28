@@ -77,13 +77,24 @@
   vertical-align: top;
 }
 .comment-client {
-  line-height: 1.4;
+  line-height: 1;
   display: inline-block;
   top: 5%;
   text-align: center;
   font-size: 14pt;
   min-width: 200px;
   max-width: 250px;
+}
+.comment-client-image {
+  border-bottom: 1px solid black;
+}
+.comment-client-image img {
+  height: 100px;
+  width: 110px;
+  border: 1px solid black;
+}
+.comment-client-trainer {
+  padding: 15px 5px 15px 5px;
 }
 .comment-wrap {
   height: 100%;

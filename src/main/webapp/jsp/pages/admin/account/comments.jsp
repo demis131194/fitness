@@ -36,7 +36,7 @@
 <fmt:message key="orders.filter.status.terminated" bundle="${rb}" var="statusTerminated"/>
 <fmt:message key="orders.filter.btn.filter" bundle="${rb}" var="btnFilter"/>
 
-<fmt:message key="comment.user.write.about.trainer" bundle="${rb}" var="writeAbout"/>
+<fmt:message key="comment.user.trainer" bundle="${rb}" var="writeAbout"/>
 
 
 <html>

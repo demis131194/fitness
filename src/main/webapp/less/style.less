@@ -33,6 +33,7 @@
         margin-left: 5px;
         display: block;
         width: 52px;
+        height: 52px;
       }
     }
   }
@@ -88,13 +89,26 @@
   }
 
   &-client {
-    line-height: 1.4;
+    line-height: 1;
     display: inline-block;
     top: 5%;
     text-align: center;
     font-size: 14pt;
     min-width: 200px;
     max-width: 250px;
+
+    &-image {
+      border-bottom: 1px solid black;
+      img {
+        height: 100px;
+        width: 110px;
+        border: 1px solid black;
+      }
+    }
+
+    &-trainer {
+      padding: 15px 5px 15px 5px;
+    }
   }
 
   &-wrap {
@@ -156,10 +170,6 @@
     &-td-key {
       font-weight: 900;
     }
-
-    &-td-value {
-
-    }
   }
 }
 
@@ -176,10 +186,6 @@
 
     &-td-key {
       font-weight: 900;
-    }
-
-    &-td-value {
-
     }
   }
 }
@@ -240,8 +246,6 @@
   width: 70%;
   height: 700px;
 }
-
-
 
 
 .info {

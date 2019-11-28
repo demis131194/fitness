@@ -7,6 +7,7 @@ public class Comment extends AbstractBaseEntity {
     private Integer clientId;
     private String clientName;
     private String clientLastName;
+    private String clientProfileImagePath;
     private Integer trainerId;
     private String trainerName;
     private String trainerLastName;
@@ -54,6 +55,14 @@ public class Comment extends AbstractBaseEntity {
         this.trainerName = trainerName;
     }
 
+    public String getClientProfileImagePath() {
+        return clientProfileImagePath;
+    }
+
+    public void setClientProfileImagePath(String clientProfileImagePath) {
+        this.clientProfileImagePath = clientProfileImagePath;
+    }
+
     public String getTrainerLastName() {
         return trainerLastName;
     }
@@ -85,6 +94,7 @@ public class Comment extends AbstractBaseEntity {
     public void setActive(Boolean active) {
         this.active = active;
     }
+
 
     @Override
     public boolean equals(Object o) {

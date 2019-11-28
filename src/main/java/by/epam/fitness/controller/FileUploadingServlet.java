@@ -1,11 +1,6 @@
 package by.epam.fitness.controller;
 
 import by.epam.fitness.command.AttributeName;
-import by.epam.fitness.command.PagePath;
-import by.epam.fitness.exception.ServiceException;
-import by.epam.fitness.model.user.User;
-import by.epam.fitness.service.UserService;
-import by.epam.fitness.service.impl.user.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,8 +21,7 @@ import java.io.IOException;
 public class FileUploadingServlet extends HttpServlet {
     private static Logger logger = LogManager.getLogger(FileUploadingServlet.class);
 
-    private static final String UPLOAD_DIR = "image/user";
-    private static UserService userService = UserServiceImpl.getInstance();
+    private static final String UPLOAD_DIR = "image" + File.separator + "user";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,47 +32,44 @@ public class FileUploadingServlet extends HttpServlet {
         if(!fileSaveDir.exists()){
             fileSaveDir.mkdirs();
         }
-        String imgPath = null;
+        String imagePath = null;
 
-        try {
-            for(Part part : request.getParts()) {
-                if (part.getSubmittedFileName() != null) {
-                    part.write(uploadFileDir + part.getSubmittedFileName());
-                    imgPath = request.getServletContext().getContextPath() + File.separator + UPLOAD_DIR + File.separator + userId + File.separator + part.getSubmittedFileName();
-                }
+        for(Part part : request.getParts()) {
+            if (part.getSubmittedFileName() != null && part.getContentType().contains("image")) {
+                part.write(uploadFileDir + part.getSubmittedFileName());
+                imagePath = request.getServletContext().getContextPath() + File.separator + UPLOAD_DIR + File.separator + userId + File.separator + part.getSubmittedFileName();            // FIXME: 28.11.2019 Parts and name ask
             }
-
-            User user;
-            if (imgPath != null) {
-                user = new User();
-                user.setId(userId);
-                user.setProfileImagePath(imgPath);
-                userService.updateUserProfileImg(user);
-            }
-
-            user = userService.find(userId);
-            request.getSession().setAttribute(AttributeName.USER_PROFILE_IMG_PATH, user.getProfileImagePath());
-
-            String page;
-            switch (user.getRole()) {
-                case CLIENT:
-                    page = PagePath.CLIENT_PROFILE_PATH;
-                    break;
-                case TRAINER:
-                    page = PagePath.TRAINER_PROFILE_PATH;
-                    break;
-                case ADMIN:
-                    page = PagePath.ADMIN_PROFILE_PATH;
-                    break;
-                default:
-                    throw new RuntimeException();
-            }
-
-            request.getRequestDispatcher(page).forward(request, response);
-
-        } catch (IOException | ServiceException e) {
-            logger.warn(e);
         }
+
+        request.setAttribute(AttributeName.USER_PROFILE_IMG_PATH, imagePath);
+
+//            User user;
+//            if (imagePath != null) {
+//                user = new User();
+//                user.setId(userId);
+//                user.setProfileImagePath(imagePath);
+//                userService.updateUserProfileImg(user);
+//            }
+//
+//            user = userService.find(userId);
+//            request.getSession().setAttribute(AttributeName.USER_PROFILE_IMG_PATH, user.getProfileImagePath());
+//
+//            String page;
+//            switch (user.getRole()) {
+//                case CLIENT:
+//                    page = PagePath.CLIENT_PROFILE_PATH;
+//                    break;
+//                case TRAINER:
+//                    page = PagePath.TRAINER_PROFILE_PATH;
+//                    break;
+//                case ADMIN:
+//                    page = PagePath.ADMIN_PROFILE_PATH;
+//                    break;
+//                default:
+//                    throw new RuntimeException();
+//            }
+
+        request.getRequestDispatcher("/controller").forward(request, response);
 
     }
 }

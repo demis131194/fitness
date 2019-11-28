@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class CommentDaoImpl implements CommentDao {
     private static Logger logger = LogManager.getLogger(CommentDaoImpl.class);
@@ -22,22 +21,27 @@ public class CommentDaoImpl implements CommentDao {
     private static final String FIND_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "LEFT JOIN users u ON comments.trainerId = u.id " +
             "WHERE comments.id = ?";
-    private static final String FIND_ALL_BY_FILTER_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+    private static final String FIND_ALL_BY_FILTER_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, u.profileImage AS clientProfileImage, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "LEFT JOIN users u ON comments.clientId = u.id " +
             "WHERE c.name = IFNULL(?, c.name) AND c.lastName = IFNULL(?, c.lastName) AND t.name = IFNULL(?, t.name) AND t.lastName = IFNULL(?, t.lastName) AND CAST(comments.registerDate AS DATE) = IFNULL(?, CAST(comments.registerDate AS DATE)) AND comments.active = IFNULL(?, comments.active)";
-    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+    private static final String FIND_ALL_ACTIVE_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, u.profileImage AS clientProfileImage, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "LEFT JOIN users u ON comments.clientId = u.id " +
             "WHERE comments.active = true";
-    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, u.profileImage AS clientProfileImage, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "LEFT JOIN users u ON comments.clientId = u.id " +
             "WHERE t.trainerId = ?";
-    private static final String FIND_ALL_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+    private static final String FIND_ALL_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, u.profileImage AS clientProfileImage, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
             "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
-            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId";
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId\n" +
+            "LEFT JOIN users u ON comments.clientId = u.id ";
 
     private static CommentDao commentDao = new CommentDaoImpl();
 
@@ -266,6 +270,7 @@ public class CommentDaoImpl implements CommentDao {
         comment.setClientId(resultSet.getInt(TableColumnName.COMMENT_CLIENT_ID));
         comment.setClientName(resultSet.getString(TableColumnName.COMMENT_CLIENT_NAME));
         comment.setClientLastName(resultSet.getString(TableColumnName.COMMENT_CLIENT_LAST_NAME));
+        comment.setClientProfileImagePath(resultSet.getString(TableColumnName.COMMENT_CLIENT_PROFILE_IMAGE));
         comment.setTrainerId(resultSet.getInt(TableColumnName.COMMENT_TRAINER_ID));
         comment.setTrainerName(resultSet.getString(TableColumnName.COMMENT_TRAINER_NAME));
         comment.setTrainerLastName(resultSet.getString(TableColumnName.COMMENT_TRAINER_LAST_NAME));

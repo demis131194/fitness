@@ -1,7 +1,5 @@
 package by.epam.fitness.dao;
 
-import javax.print.DocFlavor;
-
 public class TableColumnName {
 
     public static final String USERS_ID = "id";
@@ -63,6 +61,7 @@ public class TableColumnName {
     public static final String COMMENT_REGISTER_DATE = "registerDate";
     public static final String COMMENT_COMMENT = "comment";
     public static final String COMMENT_ACTIVE = "active";
+    public static final String COMMENT_CLIENT_PROFILE_IMAGE = "clientProfileImage";
 
 
     private TableColumnName(){}
