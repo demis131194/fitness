@@ -24,11 +24,13 @@
     <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.bundle.js"></script>
 </head>
 <body>
-<%-- Header--%>
+<%-- Footer--%>
 <div class="footer">
-    <div class="row">
+    <div class="h-auto">
         <div class="col-lg-12">
-
+            <div class="footer-copyrights">
+                <span class="footer-copyrights-text">ООО "******" © Все права защищены 2016-2019</span>
+            </div>
         </div>
     </div>
 </div>

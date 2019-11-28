@@ -36,7 +36,7 @@
 <fmt:message key="orders.filter.status.terminated" bundle="${rb}" var="statusTerminated"/>
 <fmt:message key="orders.filter.btn.filter" bundle="${rb}" var="btnFilter"/>
 
-<fmt:message key="comment.user.trainer" bundle="${rb}" var="writeAbout"/>
+<fmt:message key="comment.user.trainer" bundle="${rb}" var="trainer"/>
 
 
 <html>
@@ -123,9 +123,14 @@
                                     <tr>
                                         <td>
                                             <div class="comment-client">
-                                                <p>${comment.clientName} ${comment.clientLastName}</p>
-                                                <p>${writeAbout}</p>
-                                                <span>${comment.trainerName} ${comment.trainerLastName}</span>
+                                                <div class="comment-client-image">
+                                                    <img src="${comment.clientProfileImagePath}" alt="Avatar image">
+                                                    <p>${comment.clientName} ${comment.clientLastName}</p>
+                                                </div>
+                                                <div class="comment-client-trainer">
+                                                    <span>${trainer}</span>
+                                                    <span>${comment.trainerName} ${comment.trainerLastName}</span>
+                                                </div>
                                             </div>
                                         </td>
                                         <td>

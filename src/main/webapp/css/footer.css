@@ -1,5 +1,13 @@
 .footer {
   background-color: #129ef4;
+  padding-top: 30px;
   min-height: 100px;
+  max-height: 120px;
+}
+.footer-copyrights {
+  text-align: center;
+  color: #d7eb0a;
+}
+.footer-copyrights-text {
   vertical-align: center;
 }

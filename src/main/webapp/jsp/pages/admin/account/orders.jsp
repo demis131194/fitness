@@ -143,7 +143,7 @@
                                     <tbody class="order">
                                     <tr>
                                         <td>
-                                            <table class="table-element">
+                                            <table>
                                                 <tr>
                                                     <th>${id}</th>
                                                     <th>${registerDate}</th>

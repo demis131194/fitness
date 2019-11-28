@@ -61,7 +61,7 @@
                                 <label for="input-start-date">${formStartDate}</label>
                                 <input type="date" name="startDate" class="form-control create-order-form-date" id="input-start-date">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="training">
                                 <label for="duration">${formDuration}</label>
                                 <select id="duration" class="form-control" name="duration">
                                         <option value="0">${trainingDurationDay}</option>

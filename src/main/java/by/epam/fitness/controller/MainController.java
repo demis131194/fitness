@@ -7,6 +7,8 @@ import by.epam.fitness.command.PagePath;
 import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.pool.ConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,6 +20,8 @@ import java.io.IOException;
 
 @WebServlet("/controller")
 public class MainController extends HttpServlet {
+    private static Logger logger = LogManager.getLogger(MainController.class);
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -44,6 +48,7 @@ public class MainController extends HttpServlet {
             content.insertAttributes(req);
             req.getRequestDispatcher(page).forward(req, resp);
         } catch (CommandException e) {
+            logger.error(e);
             req.setAttribute(AttributeName.ERROR, e);
             req.getRequestDispatcher(PagePath.ERROR_PATH).forward(req, resp);
         }

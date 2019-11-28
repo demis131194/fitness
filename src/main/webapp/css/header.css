@@ -27,3 +27,12 @@
   font-style: italic;
   color: #d7eb0a;
 }
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: #383838 2px 2px;
+  font-style: italic;
+  color: #d7eb0a;
+}

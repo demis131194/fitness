@@ -201,24 +201,29 @@ INSERT INTO admins(adminId, name, lastName, mail)
 VALUES (1, 'Денис', 'Кацук', 'admin@gmail.com');
 
 INSERT INTO trainers(trainerId, name, lastName, registerDate, phone, mail)
-VALUES (2, 'Павел', 'Бегун', '2014-08-01 20:01:17', '2223322', 'trainer1@gmail.com'),
-       (3, 'Oliver', 'Might', '2014-08-01 20:16:43', '2224477', 'trainer2@gmail.com');
+VALUES (2, 'Павел', 'Бегун', '2019-07-01 20:01:17', '2223322', 'trainer1@gmail.com'),
+       (3, 'Oliver', 'Might', '2019-07-01 20:16:43', '2224477', 'trainer2@gmail.com');
 
 INSERT INTO clients(clientId, name, lastName, registerDate, discount, phone, mail, active)
-VALUES (4, 'Vasya', 'Vasiliy', '2015-08-01 14:16:43', 10, '1111111', 'client1@gmail.com', true),
-       (5, 'Ghost', 'Ghostman', '2015-10-04 15:20:41', default, default, 'client2@gmail.com', true),
-       (6, 'Pasha', 'Pavel', '2016-02-21 10:28:02', 5, '3333333', 'client3@gmail.com', true),
-       (7, 'Dima', 'Dmitry', '2016-05-27 09:51:22', 0, '4444444', 'client4@gmail.com', true);
+VALUES (4, 'Vasya', 'Vasiliy', '2019-07-17 14:16:43', 10, '1111111', 'client1@gmail.com', true),
+       (5, 'Ghost', 'Ghostman', '2019-08-04 15:20:41', default, default, 'client2@gmail.com', true),
+       (6, 'Pasha', 'Pavel', '2019-10-21 10:28:02', 0, '3333333', 'client3@gmail.com', true),
+       (7, 'Dima', 'Dmitry', '2019-11-27 09:51:22', 0, '4444444', 'client4@gmail.com', true);
 
 INSERT INTO orders(clientId, trainerId, registerDate, exercises, nutrition, startDate, endDate, price, clientComment, status, active)
-VALUES (4, 2, '2015-08-21 10:16:43', 'Training-1! cl-tr : 4-2', 'Nutrition-1', '2015-08-21', '2016-08-21', 100, 'Comment-1', 0, 1),
-       (6, 3, '2016-03-21 10:28:02', 'Training-2! cl-tr : 6-3', 'Nutrition-2', '2016-03-21', '2017-03-21', 250, 'Comment-2', 1, 1),
-       (7, 3, '2016-06-01 09:51:22', 'Training-3! cl-tr : 7-3', 'Nutrition-3', '2016-06-01', '2017-06-01', 150, 'Comment-3', 2, 1);
+VALUES (4, 2, '2019-07-19 10:16:43', 'Тренировки: №1 ...', 'Питание: ...', '2019-07-21', '2019-08-21', 135, 'Желаю кардио нагрузки', 5, 1),
+       (4, 2, '2019-08-22 13:17:20', 'Тренировки: №2 ...', 'Питание: ...', '2019-08-24', '2019-08-25', 9, 'Хочу руки базуки!', 5, 1),
+       (4, 2, '2019-08-30 12:16:43', 'Тренировки: №1 ...', 'Питание: ...', '2019-09-01', '2019-01-01', 135, 'Хочу руки базуки!', 5, 1),
+       (4, 2, '2019-09-30 10:16:43', 'Тренировки: №3 ...', 'Питание: ...', '2019-10-01', '2019-12-31', 135, 'Comment-4', 4, 1),
+       (6, 3, '2019-11-03 10:28:02', 'Тренировки: №2 ...', 'Питание: ...', '2019-11-05', '2019-12-05', 150, 'Хочу тренероваться', 4, 1),
+       (7, 3, '2019-11-27 09:51:22', 'Тренировки: №3 ...', 'Питание: ...', '2019-12-20', '2020-01-20', 150, 'Comment-3', 3, 1),
+       (7, 3, '2019-11-29 09:51:22', 'Тренировки: №5 ...', 'Питание: ...', '2020-01-21', '2020-07-21', 499.99, 'Хочу кубики!', 3, 1);
 
 INSERT INTO comments(clientId, trainerId, registerDate, comment)
-VALUES (4, 2, '2015-09-22 10:16:43', 'BEST!'),
-       (6, 3, '2016-04-24 10:16:43', 'NORM!'),
-       (7, 3, '2016-07-04 14:18:43', 'BAD!');
+VALUES (4, 2, '2019-09-01 10:16:43', 'BEST!'),
+       (6, 3, '2019-10-01 10:16:43', 'NORM!'),
+       (6, 3, '2019-10-02 17:16:43', 'Пойду ЕЩЕ!'),
+       (7, 3, '2019-11-27 14:18:43', 'BAD!');
 
 INSERT INTO cards(cardNumber, account)
 VALUES ('1111222233334444', 1500.25),
