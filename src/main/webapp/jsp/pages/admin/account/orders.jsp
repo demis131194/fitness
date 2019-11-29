@@ -42,6 +42,8 @@
 <fmt:message key="orders.filter.status.accepted" bundle="${rb}" var="statusAccepted"/>
 <fmt:message key="orders.filter.status.process" bundle="${rb}" var="statusInProcess"/>
 <fmt:message key="orders.filter.status.terminated" bundle="${rb}" var="statusTerminated"/>
+<fmt:message key="form.name.placeholder" bundle="${rb}" var="namePlaceholder"/>
+<fmt:message key="form.last.name.placeholder" bundle="${rb}" var="lastNamePlaceholder"/>
 <fmt:message key="orders.filter.btn.filter" bundle="${rb}" var="btnFilter"/>
 
 
@@ -76,22 +78,22 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputTrainerName">${trainerName}</label>
-                                        <input type="text" class="form-control" id="inputTrainerName" name="trainerName" placeholder="Name">
+                                        <input type="text" class="form-control" id="inputTrainerName" name="trainerName" placeholder="${namePlaceholder}" pattern="^[\wа-яА-Я]{3,20}$">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputTrainerLastName">${trainerLastName}</label>
-                                        <input type="text" class="form-control" id="inputTrainerLastName" name="trainerLastName" placeholder="Last name">
+                                        <input type="text" class="form-control" id="inputTrainerLastName" name="trainerLastName" placeholder="${lastNamePlaceholder}" pattern="^[\wа-яА-Я]{3,20}$">
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputClientName">${clientName}</label>
-                                        <input type="text" class="form-control" id="inputClientName" name="clientName" placeholder="Name">
+                                        <input type="text" class="form-control" id="inputClientName" name="clientName" placeholder="${namePlaceholder}" pattern="^[\wа-яА-Я]{3,20}$">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputClientLastName">${clientLastName}</label>
-                                        <input type="text" class="form-control" id="inputClientLastName" name="clientLastName" placeholder="Last name">
+                                        <input type="text" class="form-control" id="inputClientLastName" name="clientLastName" placeholder="${lastNamePlaceholder}" pattern="^[\wа-яА-Я]{3,20}$">
                                     </div>
                                 </div>
 

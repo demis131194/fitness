@@ -18,7 +18,7 @@
 <fmt:message key="form.login.placeholder" bundle="${rb}" var="loginPlaceholder"/>
 <fmt:message key="form.name.placeholder" bundle="${rb}" var="namePlaceholder"/>
 <fmt:message key="form.last.name.placeholder" bundle="${rb}" var="lastNamePlaceholder"/>
-<fmt:message key="form.phone" bundle="${rb}" var="phonePlaceholder"/>
+<fmt:message key="form.trainer.phone.placeholder" bundle="${rb}" var="phonePlaceholder"/>
 <fmt:message key="form.mail.placeholder" bundle="${rb}" var="mailPlaceholder"/>
 <fmt:message key="form.password" bundle="${rb}" var="formPassword"/>
 <fmt:message key="form.password.placeholder" bundle="${rb}" var="passwordPlaceholder"/>
@@ -54,43 +54,43 @@
                             <div class="form-group row">
                                 <label for="input-login" class="col-lg-2 col-form-label">${formLogin}</label>
                                 <div class="col-lg-5">
-                                    <input type="text" name="userLogin" class="form-control" id="input-login" placeholder="${loginPlaceholder}">
+                                    <input type="text" name="userLogin" class="form-control" id="input-login" placeholder="${loginPlaceholder}" pattern="^[\w]{3,16}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-name" class="col-lg-2 col-form-label">${formName}</label>
                                 <div class="col-lg-5">
-                                    <input type="text" name="userName" class="form-control" id="input-name" placeholder="${namePlaceholder}">
+                                    <input type="text" name="userName" class="form-control" id="input-name" placeholder="${namePlaceholder}" pattern="^[\wа-яА-Я]{3,20}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-last-name" class="col-lg-2 col-form-label">${formLastName}</label>
                                 <div class="col-lg-5">
-                                    <input type="text" name="userLastName" class="form-control" id="input-last-name" placeholder="${lastNamePlaceholder}">
+                                    <input type="text" name="userLastName" class="form-control" id="input-last-name" placeholder="${lastNamePlaceholder}" pattern="^[\wа-яА-Я]{3,20}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-phone" class="col-lg-2 col-form-label">${formPhone}</label>
                                 <div class="col-lg-5">
-                                    <input type="text" name="userPhone" class="form-control" id="input-phone" placeholder="${phonePlaceholder}">
+                                    <input type="text" name="userPhone" class="form-control" id="input-phone" placeholder="${phonePlaceholder}" pattern="^\+?\d{7,20}$" >
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-client-email" class="col-lg-2 col-form-label">${userEmail}</label>
                                 <div class="col-lg-5">
-                                    <input type="email" name="userMail" class="form-control" id="input-client-email" placeholder="${mailPlaceholder}">
+                                    <input type="email" name="userMail" class="form-control" id="input-client-email" placeholder="${mailPlaceholder}" pattern="^[\w]+@[a-zA-Z]+\.[a-zA-Z]{2,4}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-password" class="col-lg-2 col-form-label">${formPassword}</label>
                                 <div class="col-lg-5">
-                                    <input type="password" name="userPassword" class="form-control" id="input-password" placeholder="${passwordPlaceholder}">
+                                    <input type="password" name="userPassword" class="form-control" id="input-password" placeholder="${passwordPlaceholder}" pattern="^[\w]{5,18}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-repeat-password" class="col-lg-2 col-form-label">${formPassword}</label>
                                 <div class="col-lg-5">
-                                    <input type="password" name="repeatPassword" class="form-control" id="input-repeat-password" placeholder="${passwordRepeatPlaceholder}">
+                                    <input type="password" name="repeatPassword" class="form-control" id="input-repeat-password" placeholder="${passwordRepeatPlaceholder}" pattern="^[\w]{5,18}$">
                                 </div>
                             </div>
                             <c:if test="${requestScope.errMessage != null}">

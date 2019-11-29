@@ -20,7 +20,7 @@
         <h1><a href="${pageContext.request.contextPath}/index.jsp">${home}</a></h1>
     </div>
     <div>
-        <img src="${pageContext.request.contextPath}/images/image/404.jpg" alt="404 error image" class="error-image">
+        <img src="${pageContext.request.contextPath}/image/error/404.jpg" alt="404 error image" class="error-image">
     </div>
 </div>
 <c:import url="/jsp/fragment/footer.jsp"/>

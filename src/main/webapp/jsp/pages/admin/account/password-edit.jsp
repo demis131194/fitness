@@ -45,19 +45,19 @@
                             <div class="form-group row">
                                 <label for="input-current-password" class="col-lg-2 col-form-label">${currentPassword}</label>
                                 <div class="col-lg-4">
-                                    <input type="password" name="currentPassword" class="form-control" id="input-current-password">
+                                    <input type="password" name="currentPassword" class="form-control" id="input-current-password" pattern="^[\w]{5,18}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-new-password" class="col-lg-2 col-form-label">${newPassword}</label>
                                 <div class="col-lg-4">
-                                    <input type="password" name="newPassword" class="form-control" id="input-new-password">
+                                    <input type="password" name="newPassword" class="form-control" id="input-new-password" pattern="^[\w]{5,18}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-repeat-password" class="col-lg-2 col-form-label">${repeatPassword}</label>
                                 <div class="col-lg-4">
-                                    <input type="password" name="repeatPassword" class="form-control" id="input-repeat-password">
+                                    <input type="password" name="repeatPassword" class="form-control" id="input-repeat-password" pattern="^[\w]{5,18}$">
                                 </div>
                             </div>
                             <c:if test="${requestScope.errMessage != null}">

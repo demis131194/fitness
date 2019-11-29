@@ -56,25 +56,25 @@
                                     <div class="form-group row">
                                         <label for="input-trainer-name" class="col-lg-2 col-form-label">${trainerName}</label>
                                         <div class="col-lg-4">
-                                            <input name="userName" class="form-control" id="input-trainer-name" value="${trainer.name}"/>
+                                            <input name="userName" class="form-control" id="input-trainer-name" value="${trainer.name}" pattern="^[\wа-яА-Я]{3,20}$"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="input-trainer-last-name" class="col-lg-2 col-form-label">${trainerLastName}</label>
                                         <div class="col-lg-4">
-                                            <input name="userLastName" class="form-control" id="input-trainer-last-name" value="${trainer.lastName}"/>
+                                            <input name="userLastName" class="form-control" id="input-trainer-last-name" value="${trainer.lastName}" pattern="^[\wа-яА-Я]{3,20}$"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="input-trainer-phone" class="col-lg-2 col-form-label">${phone}</label>
                                         <div class="col-lg-4">
-                                            <input name="userPhone" class="form-control" id="input-trainer-phone" value="${trainer.phone}"/>
+                                            <input name="userPhone" class="form-control" id="input-trainer-phone" value="${trainer.phone}" pattern="^\+?\d{7,20}$"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="input-email" class="col-lg-2 col-form-label">${userEmail}</label>
                                         <div class="col-lg-4">
-                                            <input type="email" name="userMail" class="form-control" id="input-email" value="${trainer.mail}">
+                                            <input type="email" name="userMail" class="form-control" id="input-email" value="${trainer.mail}" pattern="^[\w]+@[a-zA-Z]+\.[a-zA-Z]{2,4}$">
                                         </div>
                                     </div>
                                     <c:if test="${requestScope.errMessage != null}">
@@ -98,28 +98,28 @@
                                     <div class="form-group row">
                                         <label for="input-client-name" class="col-lg-2 col-form-label">${clientName}</label>
                                         <div class="col-lg-4">
-                                            <input name="userName" class="form-control" id="input-client-name" value="${client.name}"/>
+                                            <input name="userName" class="form-control" id="input-client-name" value="${client.name}" pattern="^[\wа-яА-Я]{3,20}$"/>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="input-client-last-name" class="col-lg-2 col-form-label">${clientLastName}</label>
                                         <div class="col-lg-4">
-                                            <input name="userLastName" class="form-control" id="input-client-last-name" value="${client.lastName}"/>
+                                            <input name="userLastName" class="form-control" id="input-client-last-name" value="${client.lastName}" pattern="^[\wа-яА-Я]{3,20}$"/>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="input-client-phone" class="col-lg-2 col-form-label">${phone}</label>
                                         <div class="col-lg-4">
-                                            <input name="userPhone" class="form-control" id="input-client-phone" value="${client.phone}"/>
+                                            <input name="userPhone" class="form-control" id="input-client-phone" value="${client.phone}" pattern="^\+?\d{7,20}$"/>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="input-client-email" class="col-lg-2 col-form-label">${userEmail}</label>
                                         <div class="col-lg-4">
-                                            <input type="email" name="userMail" class="form-control" id="input-client-email" value="${client.mail}">
+                                            <input type="email" name="userMail" class="form-control" id="input-client-email" value="${client.mail}" pattern="^[\w]+@[a-zA-Z]+\.[a-zA-Z]{2,4}$">
                                         </div>
                                     </div>
 
