@@ -6,6 +6,7 @@
 
 <fmt:message key="header.header" bundle="${rb}" var="header"/>
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
+<fmt:message key="project.copyright" bundle="${rb}" var="copyright"/>
 <fmt:message key="header.locale" bundle="${rb}" var="locale"/>
 <fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>
@@ -29,7 +30,7 @@
     <div class="h-auto">
         <div class="col-lg-12">
             <div class="footer-copyrights">
-                <span class="footer-copyrights-text">ООО "******" © Все права защищены 2016-2019</span>
+                <span class="footer-copyrights-text">${copyright}</span>
             </div>
         </div>
     </div>
