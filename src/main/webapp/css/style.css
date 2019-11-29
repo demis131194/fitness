@@ -85,10 +85,10 @@
   min-width: 200px;
   max-width: 250px;
 }
-.comment-client-image {
+.comment-client-avatar {
   border-bottom: 1px solid black;
 }
-.comment-client-image img {
+.comment-client-image {
   height: 100px;
   width: 110px;
   border: 1px solid black;

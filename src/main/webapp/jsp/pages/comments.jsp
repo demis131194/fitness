@@ -34,8 +34,8 @@
                     <tr>
                         <td>
                             <div class="comment-client">
-                                <div class="comment-client-image">
-                                    <img src="${comment.clientProfileImagePath}" alt="Avatar image">
+                                <div class="comment-client-avatar">
+                                    <img src="${comment.clientProfileImagePath}" alt="Avatar image" class="comment-client-image">
                                     <p>${comment.clientName} ${comment.clientLastName}</p>
                                 </div>
                                 <div class="comment-client-trainer">
