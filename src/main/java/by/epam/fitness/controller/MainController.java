@@ -4,13 +4,12 @@ import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.CommandType;
 import by.epam.fitness.command.PagePath;
-import by.epam.fitness.container.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
+import by.epam.fitness.model.FitnessCard;
 import by.epam.fitness.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,15 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/controller")
+@WebServlet(value = "/controller")
 public class MainController extends HttpServlet {
     private static Logger logger = LogManager.getLogger(MainController.class);
 
-
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
+        super.init();
         ConnectionPool.initPool();
+        FitnessCard.init();
+        if (FitnessCard.FITNESS_CARD.getCardNumber() == null) {
+            throw new ServletException("Fitness card missing!");
+        }
+
     }
 
     @Override

@@ -46,25 +46,25 @@
                             <div class="form-group row">
                                 <label for="input-name" class="col-lg-2 col-form-label">${userName}</label>
                                 <div class="col-lg-4">
-                                    <input type="text" name="userName" class="form-control" id="input-name" value="${sessionScope.userName}">
+                                    <input type="text" name="userName" class="form-control" id="input-name" value="${sessionScope.userName}" pattern="^[\wа-яА-Я]{3,20}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-last-name" class="col-lg-2 col-form-label">${userLastName}</label>
                                 <div class="col-lg-4">
-                                    <input type="text" name="userLastName" class="form-control" id="input-last-name" value="${sessionScope.userLastName}">
+                                    <input type="text" name="userLastName" class="form-control" id="input-last-name" value="${sessionScope.userLastName}" pattern="^[\wа-яА-Я]{3,20}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-phone" class="col-lg-2 col-form-label">${userPhone}</label>
                                 <div class="col-lg-4">
-                                    <input type="text" name="userPhone" class="form-control" id="input-phone" value="${sessionScope.userPhone}">
+                                    <input type="text" name="userPhone" class="form-control" id="input-phone" value="${sessionScope.userPhone}" pattern="^\+?\d{7,20}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="input-email" class="col-lg-2 col-form-label">${userEmail}</label>
                                 <div class="col-lg-4">
-                                    <input type="email" name="userMail" class="form-control" id="input-email" value="${sessionScope.userMail}">
+                                    <input type="email" name="userMail" class="form-control" id="input-email" value="${sessionScope.userMail}" pattern="^[\w]+@[a-zA-Z]+\.[a-zA-Z]{2,4}$">
                                 </div>
                             </div>
                             <c:if test="${requestScope.errMessage != null}">

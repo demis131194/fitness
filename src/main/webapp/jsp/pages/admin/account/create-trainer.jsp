@@ -9,18 +9,18 @@
 
 <fmt:message key="project.name" bundle="${rb}" var="title"/>
 <fmt:message key="create.trainer.form.title" bundle="${rb}" var="formTitle"/>
-<fmt:message key="create.trainer.form.name" bundle="${rb}" var="formName"/>
-<fmt:message key="create.trainer.form.last.name" bundle="${rb}" var="formLastName"/>
+<fmt:message key="account.profile.name" bundle="${rb}" var="formName"/>
+<fmt:message key="account.profile.last.name" bundle="${rb}" var="formLastName"/>
 <fmt:message key="create.trainer.form.phone" bundle="${rb}" var="formPhone"/>
 <fmt:message key="create.trainer.form.submit" bundle="${rb}" var="formSubmit"/>
-<fmt:message key="form.login" bundle="${rb}" var="formLogin"/>
+<fmt:message key="login.login" bundle="${rb}" var="formLogin"/>
 <fmt:message key="form.mail" bundle="${rb}" var="userEmail"/>
 <fmt:message key="form.login.placeholder" bundle="${rb}" var="loginPlaceholder"/>
 <fmt:message key="form.name.placeholder" bundle="${rb}" var="namePlaceholder"/>
 <fmt:message key="form.last.name.placeholder" bundle="${rb}" var="lastNamePlaceholder"/>
 <fmt:message key="form.trainer.phone.placeholder" bundle="${rb}" var="phonePlaceholder"/>
 <fmt:message key="form.mail.placeholder" bundle="${rb}" var="mailPlaceholder"/>
-<fmt:message key="form.password" bundle="${rb}" var="formPassword"/>
+<fmt:message key="login.password" bundle="${rb}" var="formPassword"/>
 <fmt:message key="form.password.placeholder" bundle="${rb}" var="passwordPlaceholder"/>
 <fmt:message key="form.repeat.password.placeholder" bundle="${rb}" var="passwordRepeatPlaceholder"/>
 
@@ -52,43 +52,43 @@
                         <form name="createTrainerForm" action="${pageContext.request.contextPath}/controller" method="POST">
                             <input type="hidden" name="command" value="CREATE_NEW_TRAINER">
                             <div class="form-group row">
-                                <label for="input-login" class="col-lg-2 col-form-label">${formLogin}</label>
+                                <label for="input-login" class="col-lg-2 col-form-label">${formLogin} <span class="text-danger">*</span></label>
                                 <div class="col-lg-5">
                                     <input type="text" name="userLogin" class="form-control" id="input-login" placeholder="${loginPlaceholder}" pattern="^[\w]{3,16}$">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="input-name" class="col-lg-2 col-form-label">${formName}</label>
+                                <label for="input-name" class="col-lg-2 col-form-label">${formName} <span class="text-danger">*</span></label>
                                 <div class="col-lg-5">
                                     <input type="text" name="userName" class="form-control" id="input-name" placeholder="${namePlaceholder}" pattern="^[\wа-яА-Я]{3,20}$">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="input-last-name" class="col-lg-2 col-form-label">${formLastName}</label>
+                                <label for="input-last-name" class="col-lg-2 col-form-label">${formLastName} <span class="text-danger">*</span></label>
                                 <div class="col-lg-5">
                                     <input type="text" name="userLastName" class="form-control" id="input-last-name" placeholder="${lastNamePlaceholder}" pattern="^[\wа-яА-Я]{3,20}$">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="input-phone" class="col-lg-2 col-form-label">${formPhone}</label>
+                                <label for="input-phone" class="col-lg-2 col-form-label">${formPhone} <span class="text-danger">*</span></label>
                                 <div class="col-lg-5">
                                     <input type="text" name="userPhone" class="form-control" id="input-phone" placeholder="${phonePlaceholder}" pattern="^\+?\d{7,20}$" >
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="input-client-email" class="col-lg-2 col-form-label">${userEmail}</label>
+                                <label for="input-client-email" class="col-lg-2 col-form-label">${userEmail} <span class="text-danger">*</span></label>
                                 <div class="col-lg-5">
                                     <input type="email" name="userMail" class="form-control" id="input-client-email" placeholder="${mailPlaceholder}" pattern="^[\w]+@[a-zA-Z]+\.[a-zA-Z]{2,4}$">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="input-password" class="col-lg-2 col-form-label">${formPassword}</label>
+                                <label for="input-password" class="col-lg-2 col-form-label">${formPassword} <span class="text-danger">*</span></label>
                                 <div class="col-lg-5">
                                     <input type="password" name="userPassword" class="form-control" id="input-password" placeholder="${passwordPlaceholder}" pattern="^[\w]{5,18}$">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="input-repeat-password" class="col-lg-2 col-form-label">${formPassword}</label>
+                                <label for="input-repeat-password" class="col-lg-2 col-form-label">${formPassword} <span class="text-danger">*</span></label>
                                 <div class="col-lg-5">
                                     <input type="password" name="repeatPassword" class="form-control" id="input-repeat-password" placeholder="${passwordRepeatPlaceholder}" pattern="^[\w]{5,18}$">
                                 </div>

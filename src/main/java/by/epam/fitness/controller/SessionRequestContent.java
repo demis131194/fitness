@@ -1,4 +1,4 @@
-package by.epam.fitness.container;
+package by.epam.fitness.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

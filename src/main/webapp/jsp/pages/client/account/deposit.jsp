@@ -43,13 +43,13 @@
                             <div class="form-group row">
                                 <label for="inputCardNumber" class="col-form-label col-lg-2">${formCard}</label>
                                 <div class="col-lg-3">
-                                    <input type="text" id="inputCardNumber" name="cardNumber" class="form-control">
+                                    <input type="text" id="inputCardNumber" name="cardNumber" class="form-control" pattern="^\d{16}$">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputAmount" class="col-form-label col-lg-2">${formAmount}</label>
                                 <div class="col-lg-3">
-                                    <input type="number" id="inputAmount" name="cashAmount" class="form-control" step=".01">
+                                    <input type="number" id="inputAmount" name="cashAmount" class="form-control" step=".01" min="0" max="9999.99">
                                 </div>
                             </div>
                             <c:if test="${requestScope.errMessage != null}">

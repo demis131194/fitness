@@ -7,14 +7,13 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-public class MailService {
-    private static Logger logger = LogManager.getLogger(MailService.class);
+public class MailSender {
+    private static Logger logger = LogManager.getLogger(MailSender.class);
 
     private static final String PROPERTY_PATH = "mail/mail.properties";
 

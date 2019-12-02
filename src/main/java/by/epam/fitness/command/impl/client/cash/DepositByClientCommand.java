@@ -4,7 +4,7 @@ import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
 import by.epam.fitness.command.ErrorMessageKey;
 import by.epam.fitness.command.PagePath;
-import by.epam.fitness.container.SessionRequestContent;
+import by.epam.fitness.controller.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 import by.epam.fitness.exception.ServiceException;
 import by.epam.fitness.model.Card;

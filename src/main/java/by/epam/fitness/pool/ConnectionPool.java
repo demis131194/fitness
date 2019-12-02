@@ -17,9 +17,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
+
     private static final int DEFAULT_NUMBER_OF_CONNECTION = 5;
     private static final String PROPERTY_PATH = "db/mysql.properties";
     private static final String URL_PROPERTY_KEY = "url";
+    private static final String NUMBER_OF_CONNECTIONS_KEY = "number.of.connections";
+
     private static AtomicBoolean isCreated = new AtomicBoolean(false);
     private static ConnectionPool instance;
 
@@ -34,11 +37,10 @@ public class ConnectionPool {
         try {
             Properties property = PropertyLoader.loadProperty(PROPERTY_PATH);
             try {
-                numberOfConnections = Integer.parseInt(property.getProperty("number.of.connections"));
-                logger.debug("Number of connections in property = {}", numberOfConnections);
+                numberOfConnections = Integer.parseInt(property.getProperty(NUMBER_OF_CONNECTIONS_KEY));
             } catch (NumberFormatException e) {
                 numberOfConnections = DEFAULT_NUMBER_OF_CONNECTION;
-                logger.debug("Incorrect number of connections, set default = {}", numberOfConnections);
+                logger.warn("Incorrect number of connections, set default = {}", numberOfConnections);
             }
 
             this.awaitingConnections = new ArrayBlockingQueue<>(numberOfConnections);
@@ -51,7 +53,7 @@ public class ConnectionPool {
             }
 
         } catch (SQLException e ) {
-            logger.error("Missing or incorrect db configuration file.", e);
+            logger.fatal("Missing or incorrect db configuration file.", e);
             throw new RuntimeException(e);
         }
 
@@ -60,13 +62,14 @@ public class ConnectionPool {
     public static ConnectionPool getInstance() {
         if (!isCreated.get()) {
             initPool();
+            isCreated.set(true);
             logger.debug("Connection pool created, number of connections - {}", instance.numberOfConnections);
         }
         return instance;
     }
 
     public static void initPool() {
-        if (!isCreated.getAndSet(true)) {
+        if (!isCreated.get()) {
             instance = new ConnectionPool();
         }
     }
@@ -77,9 +80,13 @@ public class ConnectionPool {
             connection = awaitingConnections.take();
             occupiedConnections.add(connection);
         } catch (InterruptedException e) {
-            logger.error("In ConnPoll takeConnection interrupted.");
+            logger.error("In ConnectionPoll takeConnection interrupted.");
         }
         return connection;
+    }
+
+    public int size() {
+        return instance.numberOfConnections;
     }
 
     void releaseConnection(ProxyConnection connection) {

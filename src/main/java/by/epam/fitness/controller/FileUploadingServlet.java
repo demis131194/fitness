@@ -42,33 +42,6 @@ public class FileUploadingServlet extends HttpServlet {
         }
 
         request.setAttribute(AttributeName.USER_PROFILE_IMG_PATH, imagePath);
-
-//            User user;
-//            if (imagePath != null) {
-//                user = new User();
-//                user.setId(userId);
-//                user.setProfileImagePath(imagePath);
-//                userService.updateUserProfileImg(user);
-//            }
-//
-//            user = userService.find(userId);
-//            request.getSession().setAttribute(AttributeName.USER_PROFILE_IMG_PATH, user.getProfileImagePath());
-//
-//            String page;
-//            switch (user.getRole()) {
-//                case CLIENT:
-//                    page = PagePath.CLIENT_PROFILE_PATH;
-//                    break;
-//                case TRAINER:
-//                    page = PagePath.TRAINER_PROFILE_PATH;
-//                    break;
-//                case ADMIN:
-//                    page = PagePath.ADMIN_PROFILE_PATH;
-//                    break;
-//                default:
-//                    throw new RuntimeException();
-//            }
-
         request.getRequestDispatcher("/controller").forward(request, response);
 
     }

@@ -2,7 +2,7 @@ package by.epam.fitness.command.impl.locale;
 
 import by.epam.fitness.command.AttributeName;
 import by.epam.fitness.command.Command;
-import by.epam.fitness.container.SessionRequestContent;
+import by.epam.fitness.controller.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 
 public class LocaleCommand implements Command {
