@@ -59,10 +59,10 @@
                 </c:forEach>
             </table>
 
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
                     <c:choose>
-                        <c:when test="${requestScope.currentPage > 1}">
+                        <c:when test="${requestScope.currentNumberPage > 1}">
                             <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/controller?command=find_all_comments&page=${requestScope.currentPage - 1}">${pagingPrevious}</a></li>
                         </c:when>
                         <c:otherwise>
@@ -71,7 +71,7 @@
                     </c:choose>
                     <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
                         <c:choose>
-                            <c:when test="${requestScope.currentPage eq i}">
+                            <c:when test="${requestScope.currentNumberPage eq i}">
                                 <li class="page-item"><a class="page-link page-focus" href="${pageContext.request.contextPath}/controller?command=find_all_comments&page=${i}">${i}</a></li>
                             </c:when>
                             <c:otherwise>
@@ -80,8 +80,8 @@
                         </c:choose>
                     </c:forEach>
                     <c:choose>
-                        <c:when test="${requestScope.currentPage < requestScope.numberOfPages}">
-                            <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/controller?command=find_all_comments&page=${requestScope.currentPage + 1}">${pagingNext}</a></li>
+                        <c:when test="${requestScope.currentNumberPage < requestScope.numberOfPages}">
+                            <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/controller?command=find_all_comments&page=${requestScope.currentNumberPage + 1}">${pagingNext}</a></li>
 
                         </c:when>
                         <c:otherwise>

@@ -27,15 +27,14 @@ public class FindAllCommentsCommand implements Command {
         String page;
         List<Comment> comments;
         try {
-            int pageNumber = Integer.parseInt(requestContent.getParameterByName("page"));
+            int pageNumber = Integer.parseInt(requestContent.getParameterByName(AttributeName.PAGE));
 
-//            comments = commentService.findAllActive();
-            int count = commentService.countAll(true);
+            int numberOfComments = commentService.countAll(true);
             comments = commentService.findAllActiveLimit(pageNumber);
 
-            int numberOfPages = new BigDecimal(count).divide(new BigDecimal(5), MathContext.DECIMAL32).setScale(0, RoundingMode.UP).intValue();
-            requestContent.putAttribute("numberOfPages", numberOfPages);
-            requestContent.putAttribute("currentPage", pageNumber);
+            int numberOfPages = new BigDecimal(numberOfComments).divide(new BigDecimal(5), MathContext.DECIMAL32).setScale(0, RoundingMode.UP).intValue();
+            requestContent.putAttribute(AttributeName.NUMBER_OF_PAGES, numberOfPages);
+            requestContent.putAttribute(AttributeName.CURRENT_NUMBER_PAGE, pageNumber);
             requestContent.putAttribute(AttributeName.COMMENTS, comments);
             page = PagePath.COMMENTS_PATH;
 

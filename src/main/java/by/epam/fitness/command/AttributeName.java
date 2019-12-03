@@ -60,6 +60,9 @@ public class AttributeName {
     public static final String CARD_NUMBER = "cardNumber";
     public static final String CASH_AMOUNT = "cashAmount";
     public static final String ERROR = "error";
+    public static final String NUMBER_OF_PAGES = "numberOfPages";
+    public static final String CURRENT_NUMBER_PAGE = "currentNumberPage";
+    public static final String PAGE = "page";
 
 
     private AttributeName() {}
