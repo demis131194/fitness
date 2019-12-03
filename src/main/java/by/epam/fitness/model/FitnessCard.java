@@ -23,5 +23,4 @@ public class FitnessCard {
             logger.fatal("Fitness card name missing!");
         }
     }
-
 }

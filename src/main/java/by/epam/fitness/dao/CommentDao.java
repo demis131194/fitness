@@ -14,4 +14,10 @@ public interface CommentDao {
     List<Comment> findAllByFilter(Comment comment) throws DaoException;
     List<Comment> findAllActiveByTrainer(int trainerId) throws DaoException;
     List<Comment> findAll() throws DaoException;
+
+//    List<Comment> findAllActiveLimit() throws DaoException;
+//    List<Comment> findAllByFilterLimit(Comment comment) throws DaoException;
+//    List<Comment> findAllActiveByTrainerLimit(int trainerId) throws DaoException;
+//    List<Comment> findAllLimit() throws DaoException;
+
 }
