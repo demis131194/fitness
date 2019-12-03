@@ -33,7 +33,7 @@
   height: 52px;
 }
 .main-section {
-  padding: 20px auto;
+  padding: 20px;
   margin-top: 40px;
   min-height: 600px;
   border: 2px solid #75b3c8;
@@ -46,7 +46,7 @@
   display: block;
 }
 .main-section-text {
-  padding: 20px auto;
+  padding: 20px;
   font-size: 20px;
 }
 .login-form {
@@ -191,9 +191,18 @@
 .upload-form {
   border: 1px solid black;
 }
+.table-element {
+  border: 1px solid black;
+}
 .error-image {
   width: 70%;
   height: 700px;
+}
+.page-focus {
+  z-index: 2;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 .info {
   text-align: left;

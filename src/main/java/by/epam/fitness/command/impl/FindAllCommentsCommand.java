@@ -12,6 +12,9 @@ import by.epam.fitness.service.impl.CommentServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.List;
 
 
@@ -24,9 +27,18 @@ public class FindAllCommentsCommand implements Command {
         String page;
         List<Comment> comments;
         try {
-            comments = commentService.findAllActive();
+            int pageNumber = Integer.parseInt(requestContent.getParameterByName("page"));
+
+//            comments = commentService.findAllActive();
+            int count = commentService.countAll(true);
+            comments = commentService.findAllActiveLimit(pageNumber);
+
+            int numberOfPages = new BigDecimal(count).divide(new BigDecimal(5), MathContext.DECIMAL32).setScale(0, RoundingMode.UP).intValue();
+            requestContent.putAttribute("numberOfPages", numberOfPages);
+            requestContent.putAttribute("currentPage", pageNumber);
             requestContent.putAttribute(AttributeName.COMMENTS, comments);
             page = PagePath.COMMENTS_PATH;
+
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

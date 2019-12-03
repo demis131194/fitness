@@ -119,4 +119,73 @@ public class CommentServiceImpl implements CommentService {
         }
         return comments;
     }
+
+
+    @Override
+    public List<Comment> findAllActiveLimit(int page) throws ServiceException {
+        logger.trace("In service method findAllActiveLimit.");
+        int from = 5 * (page - 1);
+        int numberOfLimits = 5;
+        List<Comment> comments;
+        try {
+            comments = commentDao.findAllActiveLimit(from, numberOfLimits);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public List<Comment> findAllByFilterLimit(Comment filter, int page) throws ServiceException {
+        logger.trace("In service method findAllByFilterLimit.");
+        int from = 5 * (page - 1);
+        int numberOfLimits = 5;
+        List<Comment> comments;
+        try {
+            comments = commentDao.findAllByFilterLimit(filter, from, numberOfLimits);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public List<Comment> findAllActiveByTrainerLimit(int trainerId, int page) throws ServiceException {
+        logger.trace("In service method findAllActiveByTrainerLimit comments.");
+        int from = 5 * (page - 1);
+        int numberOfLimits = 5;
+        List<Comment> comments;
+        try {
+            comments = commentDao.findAllActiveByTrainerLimit(trainerId, from, numberOfLimits);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public List<Comment> findAllLimit(int page) throws ServiceException {
+        logger.trace("In service method findAllLimit comments.");
+        int from = 5 * (page - 1);
+        int numberOfLimits = 5;
+        List<Comment> comments;
+        try {
+            comments = commentDao.findAllLimit(from, numberOfLimits);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public int countAll(Boolean active) throws ServiceException {
+        logger.trace("In service method countAll comments.");
+        int count;
+        try {
+            count = commentDao.countAll(active);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return count;
+    }
 }

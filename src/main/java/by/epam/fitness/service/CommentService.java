@@ -15,4 +15,10 @@ public interface CommentService {
     List<Comment> findAllActive() throws ServiceException;
     List<Comment> findAllActiveByTrainer(int trainerId) throws ServiceException;
     List<Comment> findAll() throws ServiceException;
+
+    List<Comment> findAllActiveLimit(int page) throws ServiceException;
+    List<Comment> findAllByFilterLimit(Comment filter, int page) throws ServiceException;
+    List<Comment> findAllActiveByTrainerLimit(int trainerId, int page) throws ServiceException;
+    List<Comment> findAllLimit(int page) throws ServiceException;
+    int countAll(Boolean active) throws ServiceException;
 }

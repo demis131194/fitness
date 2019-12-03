@@ -43,6 +43,31 @@ public class CommentDaoImpl implements CommentDao {
             "LEFT JOIN trainers t ON comments.trainerId = t.trainerId\n" +
             "LEFT JOIN users u ON comments.clientId = u.id ";
 
+    private static final String FIND_ALL_ACTIVE_LIMIT_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, u.profileImage AS clientProfileImage, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "LEFT JOIN users u ON comments.clientId = u.id " +
+            "WHERE comments.active = true " +
+            "LIMIT ?, ?";
+    private static final String FIND_ALL_BY_FILTER_LIMIT_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, u.profileImage AS clientProfileImage, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "LEFT JOIN users u ON comments.clientId = u.id " +
+            "WHERE c.name = IFNULL(?, c.name) AND c.lastName = IFNULL(?, c.lastName) AND t.name = IFNULL(?, t.name) AND t.lastName = IFNULL(?, t.lastName) AND CAST(comments.registerDate AS DATE) = IFNULL(?, CAST(comments.registerDate AS DATE)) AND comments.active = IFNULL(?, comments.active) " +
+            "LIMIT ?, ?";
+    private static final String FIND_ALL_ACTIVE_BY_TRAINER_LIMIT_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, u.profileImage AS clientProfileImage, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId " +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId " +
+            "LEFT JOIN users u ON comments.clientId = u.id " +
+            "WHERE t.trainerId = ? " +
+            "LIMIT ?, ?";
+    private static final String FIND_ALL_LIMIT_QUERY = "SELECT comments.id, comments.clientId, c.name AS clientName, c.lastName AS clientLastName, u.profileImage AS clientProfileImage, comments.trainerId, t.name AS trainerName, t.lastName AS trainerLastName, comments.registerDate, comments.comment, comments.active  FROM comments \n" +
+            "LEFT JOIN clients c on comments.clientId = c.clientId\n" +
+            "LEFT JOIN trainers t ON comments.trainerId = t.trainerId\n" +
+            "LEFT JOIN users u ON comments.clientId = u.id " +
+            "LIMIT ?, ?";
+    private static final String COUNT_ALL_QUERY = "SELECT COUNT(comments.id) FROM comments WHERE active = IFNULL(?, active)";
+
     private static CommentDao commentDao = new CommentDaoImpl();
 
     private CommentDaoImpl() {
@@ -262,6 +287,148 @@ public class CommentDaoImpl implements CommentDao {
             throw new DaoException(e);
         }
         return comments;
+    }
+
+    @Override
+    public List<Comment> findAllActiveLimit(int from, int numberOfLines) throws DaoException {
+        List<Comment> comments = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_LIMIT_QUERY)) {
+            statement.setInt(1, from);
+            statement.setInt(2, numberOfLines);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Comment comment = getCommentFromResultSet(resultSet);
+                comments.add(comment);
+            }
+            logger.debug("FindAllActiveLimit limit - {}, {}. Comments - {}", from, numberOfLines, comments);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public List<Comment> findAllByFilterLimit(Comment filter, int from, int numberOfLines) throws DaoException {
+        List<Comment> comments = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_FILTER_LIMIT_QUERY)) {
+            if (filter.getClientName() != null) {
+                statement.setString(1, filter.getClientName());
+            } else {
+                statement.setNull(1, Types.VARCHAR);
+            }
+            if (filter.getClientLastName() != null) {
+                statement.setString(2, filter.getClientLastName());
+            } else {
+                statement.setNull(2, Types.VARCHAR);
+            }
+            if (filter.getTrainerName() != null) {
+                statement.setString(3, filter.getTrainerName());
+            } else {
+                statement.setNull(3, Types.VARCHAR);
+            }
+            if (filter.getTrainerLastName() != null) {
+                statement.setString(4, filter.getTrainerLastName());
+            } else {
+                statement.setNull(4, Types.VARCHAR);
+            }
+            if (filter.getRegisterDate() != null) {
+                statement.setDate(5, Date.valueOf(filter.getRegisterDate().toLocalDate()));
+            } else {
+                statement.setNull(5, Types.DATE);
+            }
+            if (filter.getActive() != null) {
+                statement.setBoolean(6, filter.getActive());
+            } else {
+                statement.setNull(6, Types.INTEGER);
+            }
+            statement.setInt(7, from);
+            statement.setInt(8, numberOfLines);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Comment comment = getCommentFromResultSet(resultSet);
+                comments.add(comment);
+            }
+            logger.debug("FindAllActiveLimit limit - {}, {}. Comments - {}", from, numberOfLines, comments);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public List<Comment> findAllActiveByTrainerLimit(int trainerId, int from, int numberOfLines) throws DaoException {
+        List<Comment> comments = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ACTIVE_BY_TRAINER_LIMIT_QUERY)) {
+            statement.setInt(1, trainerId);
+            statement.setInt(2, from);
+            statement.setInt(3, numberOfLines);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Comment comment = getCommentFromResultSet(resultSet);
+                comments.add(comment);
+            }
+            logger.debug("FindAllActiveByTrainerLimit limit - {}, {}. Comments - {}", from, numberOfLines, comments);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public List<Comment> findAllLimit(int from, int numberOfLines) throws DaoException {
+        List<Comment> comments = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_LIMIT_QUERY)) {
+
+            statement.setInt(1, from);
+            statement.setInt(2, numberOfLines);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Comment comment = getCommentFromResultSet(resultSet);
+                comments.add(comment);
+            }
+            logger.debug("FindAllActiveLimit limit - {}, {}. Comments - {}", from, numberOfLines, comments);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return comments;
+    }
+
+    @Override
+    public int countAll(Boolean active) throws DaoException {
+        int count = 0;
+
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connection.prepareStatement(COUNT_ALL_QUERY)) {
+
+            if (active != null) {
+                statement.setBoolean(1, active);
+            } else {
+                statement.setNull(1, Types.BOOLEAN);
+            }
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.first()) {
+                count = resultSet.getInt(1);
+                logger.debug("CountAll limit active - {}, count - {}", active, count);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return count;
     }
 
     private Comment getCommentFromResultSet(ResultSet resultSet) throws SQLException {

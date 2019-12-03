@@ -45,7 +45,8 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/about.jsp">${about}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=find_all_comments">${coments}</a>
+<%--                    <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=find_all_comments">${coments}</a>--%>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=find_all_comments&page=1">${coments}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/jsp/pages/price.jsp">${price}</a>
