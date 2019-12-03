@@ -12,6 +12,9 @@ import by.epam.fitness.service.impl.user.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Load profile image by client command.
+ */
 public class LoadProfileImageByClientCommand implements Command {
     private static Logger logger = LogManager.getLogger(LoadProfileImageByClientCommand.class);
 

@@ -12,6 +12,9 @@ import by.epam.fitness.service.impl.CommentServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Restore comment by admin.
+ */
 public class RestoreCommentByAdmin implements Command {
     private static Logger logger = LogManager.getLogger(RestoreCommentByAdmin.class);
 

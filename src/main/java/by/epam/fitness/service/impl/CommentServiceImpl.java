@@ -11,6 +11,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The type Comment service.
+ */
 public class CommentServiceImpl implements CommentService {
     private static Logger logger = LogManager.getLogger(CommentServiceImpl.class);
     private static CommentService commentService = new CommentServiceImpl();
@@ -20,6 +23,11 @@ public class CommentServiceImpl implements CommentService {
     private CommentServiceImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CommentService getInstance() {
         return commentService;
     }
@@ -97,18 +105,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findAllActiveByTrainer(int trainerId) throws ServiceException {
-        logger.trace("In service method findAllActiveByTrainer comments.");
-        List<Comment> comments;
-        try {
-            comments = commentDao.findAllActiveByTrainer(trainerId);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return comments;
-    }
-
-    @Override
     public List<Comment> findAll() throws ServiceException {
         logger.trace("In service method findAll comments.");
         List<Comment> comments;
@@ -129,48 +125,6 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments;
         try {
             comments = commentDao.findAllActiveLimit(from, numberOfLimits);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return comments;
-    }
-
-    @Override
-    public List<Comment> findAllByFilterLimit(Comment filter, int page) throws ServiceException {
-        logger.trace("In service method findAllByFilterLimit.");
-        int from = 5 * (page - 1);
-        int numberOfLimits = 5;
-        List<Comment> comments;
-        try {
-            comments = commentDao.findAllByFilterLimit(filter, from, numberOfLimits);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return comments;
-    }
-
-    @Override
-    public List<Comment> findAllActiveByTrainerLimit(int trainerId, int page) throws ServiceException {
-        logger.trace("In service method findAllActiveByTrainerLimit comments.");
-        int from = 5 * (page - 1);
-        int numberOfLimits = 5;
-        List<Comment> comments;
-        try {
-            comments = commentDao.findAllActiveByTrainerLimit(trainerId, from, numberOfLimits);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return comments;
-    }
-
-    @Override
-    public List<Comment> findAllLimit(int page) throws ServiceException {
-        logger.trace("In service method findAllLimit comments.");
-        int from = 5 * (page - 1);
-        int numberOfLimits = 5;
-        List<Comment> comments;
-        try {
-            comments = commentDao.findAllLimit(from, numberOfLimits);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

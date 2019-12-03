@@ -11,6 +11,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The type Admin service.
+ */
 public class AdminServiceImpl implements AdminService {
 
     private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
@@ -21,6 +24,11 @@ public class AdminServiceImpl implements AdminService {
     private AdminServiceImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static AdminService getInstance() {
         return adminService;
     }
@@ -30,17 +38,6 @@ public class AdminServiceImpl implements AdminService {
         boolean isUpdated;
         try {
             adminDao.update(admin);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean updateAdminPassword(int adminId, String password) throws ServiceException {
-        boolean isUpdated;
-        try {
-            adminDao.updateAdminPassword(adminId, password);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

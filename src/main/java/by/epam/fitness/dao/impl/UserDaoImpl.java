@@ -14,6 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type User dao.
+ */
 public class UserDaoImpl implements UserDao {
     private static Logger logger = LogManager.getLogger(TrainerDaiImpl.class);
     private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT id, login, password, role, profileImage FROM users WHERE login = ? AND password = ? AND active = true";
@@ -28,6 +31,11 @@ public class UserDaoImpl implements UserDao {
     private UserDaoImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static UserDao getInstance() {
         return userDao;
     }

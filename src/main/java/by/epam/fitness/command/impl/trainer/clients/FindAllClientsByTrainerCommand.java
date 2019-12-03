@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * The type Find all clients by trainer command.
+ */
 public class FindAllClientsByTrainerCommand implements Command {
     private static Logger logger = LogManager.getLogger(FindAllClientsByTrainerCommand.class);
 

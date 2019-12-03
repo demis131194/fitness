@@ -15,6 +15,9 @@ import by.epam.fitness.service.impl.user.TrainerServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Update user by admin command.
+ */
 public class UpdateUserByAdminCommand implements Command {
     private static Logger logger = LogManager.getLogger(UpdateUserByAdminCommand.class);
 

@@ -14,6 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The type Show create comment page command.
+ */
 public class ShowCreateCommentPageCommand implements Command {
     private static Logger logger = LogManager.getLogger(ShowCreateCommentPageCommand.class);
 

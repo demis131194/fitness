@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Order dao.
+ */
 public class OrderDaoImpl implements OrderDao {
     private static Logger logger = LogManager.getLogger(OrderDaoImpl.class);
     private static final String INSERT_QUERY = "INSERT INTO orders (clientId, trainerId, clientComment, startDate, endDate, price) VALUES (?, ?, ?, ?, ?, ?)";
@@ -49,6 +52,11 @@ public class OrderDaoImpl implements OrderDao {
     private OrderDaoImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static OrderDao getInstance() {
         return orderDao;
     }

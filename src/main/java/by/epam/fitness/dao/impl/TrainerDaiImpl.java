@@ -13,6 +13,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Trainer dai.
+ */
 public class TrainerDaiImpl implements TrainerDao {
     private static Logger logger = LogManager.getLogger(TrainerDaiImpl.class);
 
@@ -29,6 +32,11 @@ public class TrainerDaiImpl implements TrainerDao {
     private TrainerDaiImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static TrainerDao getInstance() {
         return adminDao;
     }

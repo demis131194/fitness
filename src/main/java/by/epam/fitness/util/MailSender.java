@@ -12,17 +12,25 @@ import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
+/**
+ * The type Mail sender.
+ */
 public class MailSender {
     private static Logger logger = LogManager.getLogger(MailSender.class);
 
     private static final String PROPERTY_PATH = "mail/mail.properties";
-
     private static Properties properties;
 
     static {
         properties = PropertyLoader.loadProperty(PROPERTY_PATH);
     }
 
+    /**
+     * Send verification message.
+     *
+     * @param recipientMail the recipient mail
+     * @param clientId      the client id
+     */
     public static void sendVerificationMessage(String recipientMail, int clientId) {
         Session session = Session.getDefaultInstance(properties);
         MimeMessage message = new MimeMessage(session);

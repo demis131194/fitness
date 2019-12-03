@@ -15,6 +15,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * The type Connection pool.
+ */
 public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
 
@@ -59,6 +62,11 @@ public class ConnectionPool {
 
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static ConnectionPool getInstance() {
         if (!isCreated.get()) {
             initPool();
@@ -68,12 +76,20 @@ public class ConnectionPool {
         return instance;
     }
 
+    /**
+     * Init pool.
+     */
     public static void initPool() {
         if (!isCreated.get()) {
             instance = new ConnectionPool();
         }
     }
 
+    /**
+     * Take connection connection.
+     *
+     * @return the connection
+     */
     public Connection takeConnection() {
         ProxyConnection connection = null;
         try {
@@ -85,14 +101,27 @@ public class ConnectionPool {
         return connection;
     }
 
+    /**
+     * Size int.
+     *
+     * @return the int
+     */
     public int size() {
         return instance.numberOfConnections;
     }
 
+    /**
+     * Release connection.
+     *
+     * @param connection the connection
+     */
     void releaseConnection(ProxyConnection connection) {
         awaitingConnections.offer(connection);
     }
 
+    /**
+     * Close all connections.
+     */
     public void closeAllConnections() {
         for (int i = 0; i < numberOfConnections; i++) {
             try {

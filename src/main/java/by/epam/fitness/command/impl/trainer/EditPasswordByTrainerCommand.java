@@ -15,6 +15,9 @@ import by.epam.fitness.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Edit password by trainer command.
+ */
 public class EditPasswordByTrainerCommand implements Command {
     private static Logger logger = LogManager.getLogger(EditPasswordByTrainerCommand.class);
 

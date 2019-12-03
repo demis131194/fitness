@@ -11,6 +11,9 @@ import by.epam.fitness.service.impl.user.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Restore user by admin command.
+ */
 public class RestoreUserByAdminCommand implements Command {
     private static Logger logger = LogManager.getLogger(RestoreUserByAdminCommand.class);
 

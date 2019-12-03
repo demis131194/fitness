@@ -18,6 +18,9 @@ import java.math.RoundingMode;
 import java.util.List;
 
 
+/**
+ * The type Find all comments command.
+ */
 public class FindAllCommentsCommand implements Command {
     private static Logger logger = LogManager.getLogger(FindAllCommentsCommand.class);
 

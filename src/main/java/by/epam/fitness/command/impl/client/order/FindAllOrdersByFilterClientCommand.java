@@ -16,6 +16,9 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * The type Find all orders by filter client command.
+ */
 public class FindAllOrdersByFilterClientCommand implements Command {
     private static Logger logger = LogManager.getLogger(FindAllOrdersByClientCommand.class);
 

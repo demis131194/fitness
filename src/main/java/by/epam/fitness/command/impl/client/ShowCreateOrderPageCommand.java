@@ -14,6 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The type Show create order page command.
+ */
 public class ShowCreateOrderPageCommand implements Command {
     private static Logger logger = LogManager.getLogger(ShowCreateOrderPageCommand.class);
 

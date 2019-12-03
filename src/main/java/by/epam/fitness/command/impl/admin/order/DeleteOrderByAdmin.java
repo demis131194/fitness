@@ -11,6 +11,9 @@ import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Delete order by admin.
+ */
 public class DeleteOrderByAdmin implements Command {
     private static Logger logger = LogManager.getLogger(DeleteOrderByAdmin.class);
 

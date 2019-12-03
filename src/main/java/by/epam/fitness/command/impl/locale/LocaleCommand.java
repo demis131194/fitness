@@ -5,6 +5,9 @@ import by.epam.fitness.command.Command;
 import by.epam.fitness.controller.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 
+/**
+ * The type Locale command.
+ */
 public class LocaleCommand implements Command {
 
     @Override

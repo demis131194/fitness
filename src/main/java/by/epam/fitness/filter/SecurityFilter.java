@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * The type Security filter.
+ */
 @WebFilter(urlPatterns = { "/jsp/pages/admin/*",
         "/jsp/pages/client/*",
         "/jsp/pages/trainer/*"

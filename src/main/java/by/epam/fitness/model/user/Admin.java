@@ -2,36 +2,72 @@ package by.epam.fitness.model.user;
 
 import java.util.Objects;
 
+/**
+ * The type Admin.
+ */
 public class Admin extends User {
 
     private String name;
     private String lastName;
     private String mail;
 
+    /**
+     * Instantiates a new Admin.
+     */
     public Admin() {
         role = UserRole.ADMIN;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets last name.
+     *
+     * @return the last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Sets last name.
+     *
+     * @param lastName the last name
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Gets mail.
+     *
+     * @return the mail
+     */
     public String getMail() {
         return mail;
     }
 
+    /**
+     * Sets mail.
+     *
+     * @param mail the mail
+     */
     public void setMail(String mail) {
         this.mail = mail;
     }

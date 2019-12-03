@@ -1,13 +1,12 @@
 package by.epam.fitness.dao.impl;
 
-import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.dao.ClientDao;
+import by.epam.fitness.dao.TableColumnName;
 import by.epam.fitness.exception.DaoException;
 import by.epam.fitness.model.Card;
 import by.epam.fitness.model.user.Client;
 import by.epam.fitness.model.user.UserRole;
 import by.epam.fitness.pool.ConnectionPool;
-;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,6 +15,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+;
+
+/**
+ * The type Client dao.
+ */
 public class ClientDaoImpl implements ClientDao {
     private static Logger logger = LogManager.getLogger(ClientDaoImpl.class);
 
@@ -35,6 +39,11 @@ public class ClientDaoImpl implements ClientDao {
     private ClientDaoImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static ClientDao getInstance() {
         return clientDao;
     }

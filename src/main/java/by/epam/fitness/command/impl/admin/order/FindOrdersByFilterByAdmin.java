@@ -18,6 +18,9 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * The type Find orders by filter by admin.
+ */
 public class FindOrdersByFilterByAdmin implements Command {
     private static Logger logger = LogManager.getLogger(FindOrdersByFilterByAdmin.class);
 

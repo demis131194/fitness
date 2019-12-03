@@ -5,6 +5,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * The type Locale filter.
+ */
 @WebFilter(urlPatterns = {"/jsp/*"}, dispatcherTypes = {
         DispatcherType.FORWARD,
         DispatcherType.INCLUDE,

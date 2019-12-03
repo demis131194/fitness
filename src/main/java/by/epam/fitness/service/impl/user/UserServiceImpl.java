@@ -10,6 +10,9 @@ import by.epam.fitness.util.PasswordEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type User service.
+ */
 public class UserServiceImpl implements UserService {
 
     private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
@@ -20,6 +23,11 @@ public class UserServiceImpl implements UserService {
     private UserServiceImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static UserService getInstance() {
         return userService;
     }

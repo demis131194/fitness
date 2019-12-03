@@ -12,6 +12,9 @@ import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Show updated order trainer command.
+ */
 public class ShowUpdatedOrderTrainerCommand implements Command {
     private static Logger logger = LogManager.getLogger(ShowUpdatedOrderTrainerCommand.class);
 

@@ -13,6 +13,9 @@ import by.epam.fitness.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Update order by trainer command.
+ */
 public class UpdateOrderByTrainerCommand implements Command {
     private static Logger logger = LogManager.getLogger(UpdateOrderByTrainerCommand.class);
 

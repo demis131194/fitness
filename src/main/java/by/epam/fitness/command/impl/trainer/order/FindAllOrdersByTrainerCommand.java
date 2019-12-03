@@ -14,6 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The type Find all orders by trainer command.
+ */
 public class FindAllOrdersByTrainerCommand implements Command {
     private static Logger logger = LogManager.getLogger(FindAllOrdersByTrainerCommand.class);
 

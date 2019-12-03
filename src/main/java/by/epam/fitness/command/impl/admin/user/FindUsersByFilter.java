@@ -18,6 +18,9 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Find users by filter.
+ */
 public class FindUsersByFilter implements Command {
     private static Logger logger = LogManager.getLogger(FindUsersByFilter.class);
 

@@ -18,6 +18,9 @@ import java.math.MathContext;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * The type Create order command.
+ */
 public class CreateOrderCommand implements Command {
     private static Logger logger = LogManager.getLogger(CreateOrderCommand.class);
 

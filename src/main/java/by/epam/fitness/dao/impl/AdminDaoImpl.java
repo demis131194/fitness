@@ -12,6 +12,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Admin dao.
+ */
 public class AdminDaoImpl implements AdminDao {
     private static Logger logger = LogManager.getLogger(AdminDaoImpl.class);
     private static final String USERS_UPDATE_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE id = ?";
@@ -24,6 +27,11 @@ public class AdminDaoImpl implements AdminDao {
     private AdminDaoImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static AdminDao getInstance() {
         return adminDao;
     }
@@ -51,21 +59,6 @@ public class AdminDaoImpl implements AdminDao {
             statement.setInt(4, admin.getId());
             isUpdated = statement.executeUpdate() == 1;
             logger.debug("UpdateAdmin, admin - {}", admin);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return isUpdated;
-    }
-
-    @Override
-    public boolean updateAdminPassword(int adminId, String password) throws DaoException {
-        boolean isUpdated;
-        try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(USERS_UPDATE_PASSWORD_QUERY)) {
-            statement.setString(1, password);
-            statement.setInt(2, adminId);
-            isUpdated = statement.executeUpdate() == 1;
-            logger.debug("UpdateAdmin, idAdmin - {}", adminId);
         } catch (SQLException e) {
             throw new DaoException(e);
         }

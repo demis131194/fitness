@@ -5,6 +5,9 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The type Character encoding filter.
+ */
 @WebFilter(urlPatterns = "/*", dispatcherTypes = {
         DispatcherType.FORWARD,
         DispatcherType.REQUEST

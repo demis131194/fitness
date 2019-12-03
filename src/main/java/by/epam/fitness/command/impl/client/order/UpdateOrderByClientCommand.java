@@ -18,6 +18,9 @@ import by.epam.fitness.service.impl.user.ClientServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Update order by client command.
+ */
 public class UpdateOrderByClientCommand implements Command {
     private static Logger logger = LogManager.getLogger(UpdateOrderByClientCommand.class);
 

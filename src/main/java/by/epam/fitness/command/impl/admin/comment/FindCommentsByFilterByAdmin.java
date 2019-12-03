@@ -17,6 +17,9 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * The type Find comments by filter by admin.
+ */
 public class FindCommentsByFilterByAdmin implements Command {
     private static Logger logger = LogManager.getLogger(FindCommentsByFilterByAdmin.class);
 

@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * The type Client.
+ */
 public class Client extends User {
 
     private String name;
@@ -15,70 +18,153 @@ public class Client extends User {
     private String mail;
     private BigDecimal cash;
 
+    /**
+     * Instantiates a new Client.
+     */
     public Client() {
         role = UserRole.CLIENT;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets last name.
+     *
+     * @return the last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Sets last name.
+     *
+     * @param lastName the last name
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Gets register date time.
+     *
+     * @return the register date time
+     */
     public LocalDateTime getRegisterDateTime() {
         return registerDateTime;
     }
 
+    /**
+     * Sets register date time.
+     *
+     * @param registerDateTime the register date time
+     */
     public void setRegisterDateTime(LocalDateTime registerDateTime) {
         this.registerDateTime = registerDateTime;
     }
 
+    /**
+     * Gets discount.
+     *
+     * @return the discount
+     */
     public Integer getDiscount() {
         return discount;
     }
 
+    /**
+     * Sets discount.
+     *
+     * @param discount the discount
+     */
     public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 
+    /**
+     * Gets phone.
+     *
+     * @return the phone
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * Sets phone.
+     *
+     * @param phone the phone
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     * Gets cash.
+     *
+     * @return the cash
+     */
     public BigDecimal getCash() {
         return cash;
     }
 
+    /**
+     * Sets cash.
+     *
+     * @param cash the cash
+     */
     public void setCash(BigDecimal cash) {
         this.cash = cash;
     }
 
+    /**
+     * Gets discount level.
+     *
+     * @return the discount level
+     */
     public Integer getDiscountLevel() {
         return discountLevel;
     }
 
+    /**
+     * Sets discount level.
+     *
+     * @param discountLevel the discount level
+     */
     public void setDiscountLevel(Integer discountLevel) {
         this.discountLevel = discountLevel;
     }
 
+    /**
+     * Gets mail.
+     *
+     * @return the mail
+     */
     public String getMail() {
         return mail;
     }
 
+    /**
+     * Sets mail.
+     *
+     * @param mail the mail
+     */
     public void setMail(String mail) {
         this.mail = mail;
     }

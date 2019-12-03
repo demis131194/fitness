@@ -6,6 +6,9 @@ import by.epam.fitness.command.PagePath;
 import by.epam.fitness.controller.SessionRequestContent;
 import by.epam.fitness.exception.CommandException;
 
+/**
+ * The type Logout command.
+ */
 public class LogoutCommand implements Command {
     @Override
     public String execute(SessionRequestContent requestContent) throws CommandException {

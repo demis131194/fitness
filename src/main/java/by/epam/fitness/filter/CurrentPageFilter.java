@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * The type Current page filter.
+ */
 @WebFilter(urlPatterns = {"/*"})
 public class CurrentPageFilter implements Filter {
 

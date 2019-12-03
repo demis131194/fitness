@@ -11,6 +11,9 @@ import by.epam.fitness.service.impl.CommentServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Delete comment by admin.
+ */
 public class DeleteCommentByAdmin implements Command {
     private static Logger logger = LogManager.getLogger(DeleteCommentByAdmin.class);
 

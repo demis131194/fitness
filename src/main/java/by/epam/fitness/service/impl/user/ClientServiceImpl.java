@@ -15,6 +15,9 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * The type Client service.
+ */
 public class ClientServiceImpl implements ClientService {
     private static Logger logger = LogManager.getLogger(ClientServiceImpl.class);
     private static ClientService trainerService = new ClientServiceImpl();
@@ -24,6 +27,11 @@ public class ClientServiceImpl implements ClientService {
     private ClientServiceImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static ClientService getInstance() {
         return trainerService;
     }

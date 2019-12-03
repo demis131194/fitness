@@ -14,6 +14,9 @@ import by.epam.fitness.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Update profile by admin command.
+ */
 public class UpdateProfileByAdminCommand implements Command {
     private static Logger logger = LogManager.getLogger(UpdateProfileByAdminCommand.class);
 

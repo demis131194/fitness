@@ -18,6 +18,9 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+/**
+ * The type Deposit by client command.
+ */
 public class DepositByClientCommand implements Command {
     private static Logger logger = LogManager.getLogger(DepositByClientCommand.class);
 

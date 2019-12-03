@@ -17,6 +17,9 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Find all users by admin command.
+ */
 public class FindAllUsersByAdminCommand implements Command {
     private static Logger logger = LogManager.getLogger(FindAllUsersByAdminCommand.class);
 
