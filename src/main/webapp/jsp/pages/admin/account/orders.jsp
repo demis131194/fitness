@@ -68,7 +68,7 @@
 
             <div class="col-lg-10">
                 <div class="main-section">
-                    <div class="orders-title">
+                    <div class="orders-title text-center">
                         <h2>${title}</h2>
                     </div>
 
@@ -142,7 +142,7 @@
                             <table>
                                 <c:forEach items="${requestScope.orders}" var="order">
                                     <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
-                                    <tbody class="order">
+                                    <tbody class="order table-element">
                                     <tr>
                                         <td>
                                             <table>
@@ -155,8 +155,6 @@
                                                     <th>${endDate}</th>
                                                     <th>${status}</th>
                                                     <th>${active}</th>
-                                                    <th></th>
-                                                    <th></th>
                                                 </tr>
                                                 <tr>
                                                     <td>${order.id}</td>
@@ -169,19 +167,21 @@
                                                     <td>${order.endDate}</td>
                                                     <td>${order.orderStatus}</td>
                                                     <td>${order.active}</td>
-                                                    <td><a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_ADMIN&orderId=${order.id}">${detail}</a></td>
-                                                    <td>
-                                                        <c:choose>
-                                                            <c:when test="${order.active}">
-                                                                <a href="${pageContext.request.contextPath}/controller?command=DELETE_ORDER_BY_ADMIN&orderId=${order.id}">${delete}</a>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <a href="${pageContext.request.contextPath}/controller?command=RESTORE_ORDER_BY_ADMIN&orderId=${order.id}">${restore}</a>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </td>
                                                 </tr>
                                             </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_ADMIN&orderId=${order.id}">${detail}</a>
+                                            <c:choose>
+                                                <c:when test="${order.active}">
+                                                    <a href="${pageContext.request.contextPath}/controller?command=DELETE_ORDER_BY_ADMIN&orderId=${order.id}">${delete}</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="${pageContext.request.contextPath}/controller?command=RESTORE_ORDER_BY_ADMIN&orderId=${order.id}">${restore}</a>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td>
                                     </tr>
                                     </tbody>

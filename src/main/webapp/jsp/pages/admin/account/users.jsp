@@ -49,7 +49,7 @@
 
             <div class="col-lg-10">
                 <div class="main-section">
-                    <div class="users-title">
+                    <div class="users-title text-center">
                         <h2>${title}</h2>
                     </div>
 
@@ -86,40 +86,39 @@
                             <table>
                                 <c:forEach items="${requestScope.users}" var="user">
                                     <jsp:useBean id="user" type="by.epam.fitness.model.user.User"/>
-                                    <tbody class="users">
+                                    <tbody class="table-element">
                                     <tr>
                                         <td>
-                                            <table class="table-element">
+                                            <table>
                                                 <div class="col-lg-10">
                                                     <tr>
                                                         <th>${id}</th>
                                                         <th>${clientName}</th>
                                                         <th>${role}</th>
                                                         <th>${active}</th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
                                                     </tr>
                                                     <tr>
                                                         <td>${user.id}</td>
                                                         <td>${user.name} ${user.lastName}</td>
                                                         <td>${user.role}</td>
                                                         <td>${user.active}</td>
-                                                        <td><a href="${pageContext.request.contextPath}/controller?command=FIND_USER_BY_ADMIN&userId=${user.id}&userRole=${user.role}">${detail}</a></td>
-                                                        <td><a href="${pageContext.request.contextPath}/controller?command=UPDATE_USER_BY_ADMIN&userId=${user.id}&userRole=${user.role}">${update}</a></td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${user.active}">
-                                                                    <a href="${pageContext.request.contextPath}/controller?command=DELETE_USER_BY_ADMIN&userId=${user.id}">${delete}</a>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <a href="${pageContext.request.contextPath}/controller?command=RESTORE_USER_BY_ADMIN&userId=${user.id}">${restore}</a>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </td>
+
                                                     </tr>
                                                 </div>
                                             </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="${pageContext.request.contextPath}/controller?command=FIND_USER_BY_ADMIN&userId=${user.id}&userRole=${user.role}">${detail}</a>
+                                            <a href="${pageContext.request.contextPath}/controller?command=UPDATE_USER_BY_ADMIN&userId=${user.id}&userRole=${user.role}">${update}</a>
+                                            <c:choose>
+                                                <c:when test="${user.active}">
+                                                    <a href="${pageContext.request.contextPath}/controller?command=DELETE_USER_BY_ADMIN&userId=${user.id}">${delete}</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="${pageContext.request.contextPath}/controller?command=RESTORE_USER_BY_ADMIN&userId=${user.id}">${restore}</a>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td>
                                     </tr>
                                     </tbody>

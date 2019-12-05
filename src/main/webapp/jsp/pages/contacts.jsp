@@ -30,9 +30,9 @@
                         <h2>${projectContacts}</h2>
                     </div>
                     <div>
-                        <p>contact - 23234242</p>
-                        <p>contact - 23234242</p>
-                        <p>contact - 23234242</p>
+                        <span class="d-block">contact - 23234242</span>
+                        <span class="d-block">contact - 23234242</span>
+                        <span class="d-block">contact - 23234242</span>
                     </div>
                 </div>
             </div>

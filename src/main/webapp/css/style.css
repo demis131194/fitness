@@ -1,7 +1,7 @@
 .main {
   background-color: #ffffff;
   padding: 50px;
-  min-height: 700px;
+  min-height: 710px;
 }
 .main-navigation {
   border: 2px solid #75b3c8;
@@ -192,7 +192,15 @@
   border: 1px solid black;
 }
 .table-element {
-  border: 1px solid black;
+  background-color: #f7ffef;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #75b3c8;
+  display: block;
+  min-width: 400px;
+}
+.table-element td {
+  padding: 5px;
 }
 .error-image {
   width: 70%;
