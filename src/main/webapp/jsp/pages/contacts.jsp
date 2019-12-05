@@ -8,6 +8,10 @@
 <fmt:message key="project.contacts" bundle="${rb}" var="projectContacts"/>
 <fmt:message key="user.box.fio" bundle="${rb}" var="fio"/>
 <fmt:message key="last.name" bundle="${rb}" var="lastName"/>
+<fmt:message key="phone" bundle="${rb}" var="phone"/>
+<fmt:message key="project.place" bundle="${rb}" var="place"/>
+<fmt:message key="project.place.first" bundle="${rb}" var="place1"/>
+<fmt:message key="project.place.second" bundle="${rb}" var="place2"/>
 
 <html>
 <head>
@@ -30,9 +34,18 @@
                         <h2>${projectContacts}</h2>
                     </div>
                     <div>
-                        <span class="d-block">contact - 23234242</span>
-                        <span class="d-block">contact - 23234242</span>
-                        <span class="d-block">contact - 23234242</span>
+                        <span>
+                            ${place}
+                        </span>
+                        <ul>
+                            <li>${place1}</li>
+                            <li>${place2}</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="d-block">${phone} - 23234242</span>
+                        <span class="d-block">${phone} - 23234242</span>
+                        <span class="d-block">${phone} - 23234242</span>
                     </div>
                 </div>
             </div>

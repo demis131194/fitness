@@ -6,7 +6,7 @@
 <fmt:setBundle basename="bundle/message" var="rb"/>
 
 <fmt:message key="project.name" bundle="${rb}" var="projectName"/>
-<fmt:message key="users.title" bundle="${rb}" var="title"/>
+<fmt:message key="trainer.clients.title" bundle="${rb}" var="title"/>
 <fmt:message key="users.id" bundle="${rb}" var="id"/>
 <fmt:message key="orders.filter.client.name" bundle="${rb}" var="clientName"/>
 <fmt:message key="orders.filter.client.last.name" bundle="${rb}" var="clientLastNameName"/>
@@ -37,14 +37,14 @@
 
             <div class="col-lg-10">
                 <div class="main-section">
-                    <div class="users-title">
+                    <div class="users-title text-center">
                         <h2>${title}</h2>
                     </div>
 
                     <table>
                         <c:forEach items="${requestScope.users}" var="user">
                             <jsp:useBean id="user" type="by.epam.fitness.model.user.User"/>
-                            <tbody class="users">
+                            <tbody class="users table-element">
                             <tr>
                                 <td>
                                     <table>

@@ -63,7 +63,7 @@
 
             <div class="col-lg-10">
                 <div class="main-section">
-                    <div class="orders-title">
+                    <div class="orders-title text-center">
                         <h2>${title}</h2>
                     </div>
                     <c:choose>
@@ -110,7 +110,7 @@
                             <table>
                                 <c:forEach items="${requestScope.orders}" var="order">
                                     <jsp:useBean id="order" type="by.epam.fitness.model.Order"/>
-                                    <tbody class="order">
+                                    <tbody class="order table-element">
                                     <tr>
                                         <td>
                                             <table>
@@ -120,7 +120,6 @@
                                                     <th>${startDate}</th>
                                                     <th>${endDate}</th>
                                                     <th>${status}</th>
-                                                    <th></th>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -130,21 +129,23 @@
                                                     <td>${order.startDate}</td>
                                                     <td>${order.endDate}</td>
                                                     <td>${order.orderStatus}</td>
-                                                    <td>
-                                                        <c:choose>
-                                                            <c:when test="${order.orderStatus.ordinal() == 1}">
-                                                                <a href="${pageContext.request.contextPath}/controller?command=CLIENT_SHOW_UPDATED_ORDER&orderId=${order.id}">${response}</a>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_CLIENT&orderId=${order.id}">${detail}</a>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                        <c:if test="${order.orderStatus.ordinal() <= 2}">
-                                                            <a href="${pageContext.request.contextPath}/controller?command=DELETE_ORDER_BY_CLIENT&orderId=${order.id}">${delete}</a>
-                                                        </c:if>
-                                                    </td>
                                                 </tr>
                                             </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${order.orderStatus.ordinal() == 1}">
+                                                    <a href="${pageContext.request.contextPath}/controller?command=CLIENT_SHOW_UPDATED_ORDER&orderId=${order.id}">${response}</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="${pageContext.request.contextPath}/controller?command=FIND_ORDER_BY_CLIENT&orderId=${order.id}">${detail}</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:if test="${order.orderStatus.ordinal() <= 2}">
+                                                <a href="${pageContext.request.contextPath}/controller?command=DELETE_ORDER_BY_CLIENT&orderId=${order.id}">${delete}</a>
+                                            </c:if>
                                         </td>
                                     </tr>
                                     </tbody>
