@@ -48,7 +48,7 @@ public class MainController extends HttpServlet {
     private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SessionRequestContent content = new SessionRequestContent(req);
         Command command = CommandType.valueOf(req.getParameter(AttributeName.COMMAND).toUpperCase()).getCommand();
-        String page = null;
+        String page;
         try {
             page = command.execute(content);
             content.insertAttributes(req);
