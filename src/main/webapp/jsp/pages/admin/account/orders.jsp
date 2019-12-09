@@ -36,6 +36,7 @@
 <fmt:message key="orders.filter.start.date" bundle="${rb}" var="filterSartDate"/>
 <fmt:message key="orders.filter.end.date" bundle="${rb}" var="filterEndDate"/>
 <fmt:message key="orders.filter.status" bundle="${rb}" var="filterStatus"/>
+<fmt:message key="orders.filter.active" bundle="${rb}" var="filterActive"/>
 <fmt:message key="orders.filter.status.new" bundle="${rb}" var="statusNew"/>
 <fmt:message key="orders.filter.status.reviewed" bundle="${rb}" var="statusReviewed"/>
 <fmt:message key="orders.filter.status.rejected" bundle="${rb}" var="statusRejected"/>
@@ -119,7 +120,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label for="inputActive">${filterStatus}</label>
+                                        <label for="inputActive">${filterActive}</label>
                                         <select id="inputActive" class="form-control" name="active">
                                             <option value="true">${active}</option>
                                             <option value="false">${unactive}</option>

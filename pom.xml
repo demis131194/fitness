@@ -74,7 +74,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.17</version>
         </dependency>
-
+        <!--Mail-->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>smtp</artifactId>

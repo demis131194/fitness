@@ -32,7 +32,7 @@
 
 <div class="row align-items-center">
     <%--            Navigation--%>
-    <div class="col-lg-6">
+    <div class="col-lg-7">
         <div class="main-navigation">
             <ul class="nav">
                 <li class="nav-item">
@@ -69,7 +69,7 @@
         </div>
     </div>
     <%--            User windows --%>
-    <div class="col-lg-4 offset-lg-2">
+    <div class="col-lg-4 offset-lg-1">
         <div class="main-box">
             <c:choose >
                 <c:when test="${sessionScope.authorization}">
