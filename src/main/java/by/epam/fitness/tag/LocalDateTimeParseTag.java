@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class LocalDateTimeParseTag extends TagSupport {
     private LocalDateTime dateTime;
+    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * Sets date time.
@@ -26,12 +27,14 @@ public class LocalDateTimeParseTag extends TagSupport {
     public int doStartTag() throws JspException {
         try {
             JspWriter out = pageContext.getOut();
-            out.write(dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            out.write(dateTime.format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)));
         } catch (IOException e) {
             throw new JspException(e);
         }
         return SKIP_BODY;
     }
+
+
 
     @Override
     public int doEndTag() throws JspException {
