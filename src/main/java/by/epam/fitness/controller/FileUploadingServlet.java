@@ -1,6 +1,7 @@
 package by.epam.fitness.controller;
 
 import by.epam.fitness.command.AttributeName;
+import by.epam.fitness.command.PagePath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +25,9 @@ import java.io.IOException;
 public class FileUploadingServlet extends HttpServlet {
     private static Logger logger = LogManager.getLogger(FileUploadingServlet.class);
 
-    private static final String UPLOAD_DIR = "image" + File.separator + "user";
+    private static final String IMAGE_NAME_DIR = "image";
+    private static final String USER_NAME_DIR = "user";
+    private static final String UPLOAD_DIR = IMAGE_NAME_DIR + File.separator + USER_NAME_DIR;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,12 +43,10 @@ public class FileUploadingServlet extends HttpServlet {
         for(Part part : request.getParts()) {
             if (part.getSubmittedFileName() != null && part.getContentType().contains("image")) {
                 part.write(uploadFileDir + part.getSubmittedFileName());
-                imagePath = request.getServletContext().getContextPath() + File.separator + UPLOAD_DIR + File.separator + userId + File.separator + part.getSubmittedFileName();            // FIXME: 28.11.2019 Parts and name ask
+                imagePath = request.getServletContext().getContextPath() + File.separator + UPLOAD_DIR + File.separator + userId + File.separator + part.getSubmittedFileName();
             }
         }
-
         request.setAttribute(AttributeName.USER_PROFILE_IMG_PATH, imagePath);
-        request.getRequestDispatcher("/controller").forward(request, response);
-
+        request.getRequestDispatcher(PagePath.MAIN_CONTROLLER_PATH).forward(request, response);
     }
 }

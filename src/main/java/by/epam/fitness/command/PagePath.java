@@ -236,6 +236,10 @@ public class PagePath {
      * The constant COMMENTS_PATH.
      */
     public static final String COMMENTS_PATH = "jsp/pages/comments.jsp";
+    /**
+     * The constant MAIN_CONTROLLER_PATH.
+     */
+    public static final String MAIN_CONTROLLER_PATH = "/controller";
 
 
     private PagePath(){}
