@@ -19,6 +19,8 @@ public class MailSender {
     private static Logger logger = LogManager.getLogger(MailSender.class);
 
     private static final String PROPERTY_PATH = "mail/mail.properties";
+    private static final String SUBJECT_MAIL = "Verification";
+    private static final String TEXT_MAIL = "Head to this link for activation your account: <a href='http://localhost:8080/fitness/controller?command=verification&userId=%d'>verification</a>";
     private static Properties properties;
 
     static {
@@ -39,13 +41,13 @@ public class MailSender {
             message.setFrom(new InternetAddress(properties.getProperty("mail.smtp.user")));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientMail));
 
-            message.setSubject("Verification");
-            message.setText(String.format("Head to this link for activation your account: <a href='http://localhost:8080/fitness/controller?command=verification&userId=%d'>verification</a>", clientId), StandardCharsets.UTF_8.displayName(), "html");
+            message.setSubject(SUBJECT_MAIL);
+            message.setText(String.format(TEXT_MAIL, clientId), StandardCharsets.UTF_8.displayName(), "html");
 
-            Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", properties.getProperty("mail.smtp.user"), properties.getProperty("mail.smtp.password"));
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
+            try (Transport transport = session.getTransport("smtp")) {
+                transport.connect("smtp.gmail.com", properties.getProperty("mail.smtp.user"), properties.getProperty("mail.smtp.password"));
+                transport.sendMessage(message, message.getAllRecipients());
+            }
 
         } catch (MessagingException e) {
             logger.error(e);
