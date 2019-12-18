@@ -93,7 +93,7 @@
                 </c:when>
                 <c:otherwise>
                     <div>
-                        <strong>${role} : Guest</strong>
+                        <strong>${role} Guest</strong>
                     </div>
                     <div>
                         <strong>
