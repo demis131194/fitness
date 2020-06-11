@@ -1,7 +1,7 @@
 <h1>EPAM EXTERNAL JAVA TRAINING. FINAL TASK. WEB PROJECT.</h1>
 
 ## <h2>Final Task. Web Project.</h2>
-- Приложение реализовать применяя технологии Servlet и JSP.<br>
+- Приложение реализовать применяя технологии Servlet и JSP.
 - Архитектура приложения должна соответствовать шаблонам Layered architecture и MVC.Controller может быть только двух видов: контроллер роли или контроллер приложения.
 
 ## <h2>Требования к БД:</h2>
